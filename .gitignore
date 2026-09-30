@@ -1,0 +1,51 @@
+# Tauri / 前端
+node_modules/
+/src-tauri/target/
+/src-tauri/gen/android/.gradle/
+/src-tauri/gen/android/.kotlin/
+/src-tauri/gen/android/.tauri/
+/src-tauri/gen/android/local.properties
+/src-tauri/gen/android/app/tauri.build.gradle.kts
+/src-tauri/gen/android/build/
+/src-tauri/gen/android/app/build/
+
+# 构建临时目录（放工具链缓存，不能删）
+build/
+
+# 发布产物：只锚定仓库根的 release/，不要写成裸 `release/`
+# ——那会连 src-tauri/target/release、gen/android/**/release 一起忽略。
+# 用 `/release/*` 忽略内容而保留父目录，才能用 `!` 把 release/README.md 纳回版本管理。
+/release/*
+!/release/README.md
+!/release/web/.gitkeep
+
+# 苹果端产物（本机不构建，保留生成物无意义）
+/src-tauri/icons/ios/
+/src-tauri/gen/apple/
+
+# 图标源图（中间产物）
+/icon-src.png
+/_mkicon.py
+/.tmp-icon/
+
+# 本地 Android 签名（绝不入库）
+*.jks
+*.keystore
+keystore.properties
+key.properties
+.env.local
+.env.*.local
+
+# 编辑器 / 系统
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# 本地 agent 工作区
+/.workbuddy/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/

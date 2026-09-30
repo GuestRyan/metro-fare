@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>全国城市轨道交通票价对比（按里程计价）· 2026版</title>
+<style>
+  :root{
+    --bg:#f7f3ed; --card:#ffffff; --ink:#2c2118; --ink2:#5b4a3c; --muted:#8d7d6d;
+    --orange:#e2701a; --orange-d:#a83c10; --orange-l:#f8b34a; --green:#0f9d58;
+    --line:#ece2d6; --line2:#f6efe6; --blue:#2a6fb0;
+    --shadow:0 1px 2px rgba(120,80,40,.06), 0 8px 24px rgba(120,80,40,.07);
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:"PingFang SC","Microsoft YaHei","Hiragino Sans GB","Source Han Sans SC",system-ui,-apple-system,"Segoe UI",sans-serif;
+    -webkit-font-smoothing:antialiased; line-height:1.6;
+  }
+  .wrap{max-width:1180px;margin:0 auto;padding:0 18px 70px}
+  .wrap.tight{padding-bottom:0}
+  .wrap-wide{padding:0 18px}
+
+  /* ---------- banner ---------- */
+  .banner{
+    background:linear-gradient(120deg,#8e2f08 0%,var(--orange-d) 22%,var(--orange) 58%,var(--orange-l) 100%);
+    color:#fff; padding:34px 0 30px; margin-bottom:-2px; position:relative; overflow:hidden;
+  }
+  .banner:after{
+    content:""; position:absolute; inset:0;
+    background:radial-gradient(circle at 88% 12%, rgba(255,255,255,.22), transparent 42%);
+    pointer-events:none;
+  }
+  .banner .wrap{padding-bottom:0}
+  .banner h1{margin:0;font-size:33px;letter-spacing:1px;font-weight:800;text-shadow:0 2px 10px rgba(80,30,0,.28)}
+  .banner .chips{margin-top:16px;display:flex;flex-wrap:wrap;gap:8px}
+  .chip{background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.34);border-radius:999px;padding:4px 12px;font-size:12.5px;backdrop-filter:blur(2px)}
+
+  /* ---------- card ---------- */
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:18px 20px;margin-top:20px}
+  h2.sec{font-size:18px;margin:26px 0 10px;display:flex;align-items:center;gap:9px}
+  h2.sec:before{content:"";width:5px;height:19px;border-radius:3px;background:linear-gradient(180deg,var(--orange),var(--orange-l))}
+  h3.sub{font-size:15px;margin:20px 0 8px;color:var(--ink)}
+  p,li{font-size:14px;color:var(--ink2)}
+  a{color:var(--blue);text-decoration:none}
+  a:hover{text-decoration:underline}
+
+  /* ---------- toolbar ---------- */
+  .toolbar{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-top:18px}
+  .toolbar label{font-size:13px;color:var(--ink2);display:flex;align-items:center;gap:6px}
+  .toolbar .hint{font-size:12.5px;color:var(--muted)}
+  select,input[type=search],input[type=number]{
+    font:inherit;font-size:13px;color:var(--ink);background:#fff;border:1px solid var(--line);
+    border-radius:9px;padding:7px 10px;outline:none;transition:.15s;
+  }
+  select:focus,input[type=search]:focus,input[type=number]:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(226,112,26,.14)}
+  input[type=search]{width:170px}
+  input[type=number]{width:72px;text-align:center;font-weight:700;font-variant-numeric:tabular-nums}
+  .switch{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--ink2);cursor:pointer;user-select:none}
+  .switch input{accent-color:var(--orange);width:15px;height:15px}
+
+  /* ---------- legend ---------- */
+  .legend{display:flex;flex-wrap:wrap;gap:16px;align-items:center;background:#fffaf4;border:1px dashed #f0d9bd;border-radius:12px;padding:11px 14px;margin-top:16px;font-size:13px;color:var(--ink2)}
+  .legend .kv{display:flex;align-items:center;gap:7px}
+
+  /* ---------- table ---------- */
+  .tbl-scroll{overflow-x:auto;margin-top:14px;border:1px solid var(--line);border-radius:12px}
+  table.fare{border-collapse:separate;border-spacing:0;width:100%;min-width:1000px;background:#fff}
+  table.fare th,table.fare td{border-bottom:1px solid var(--line2);border-right:1px solid var(--line2);padding:3px 8px;text-align:center;white-space:nowrap}
+  table.fare thead th{
+    position:sticky;top:0;z-index:3;background:linear-gradient(180deg,var(--orange),#d6620f);color:#fff;
+    font-size:13px;font-weight:700;letter-spacing:.4px;border-right-color:rgba(255,255,255,.22);border-bottom:1px solid #c9560a;
+  }
+  table.fare thead th.price{cursor:pointer;user-select:none}
+  table.fare thead th.price:hover{background:linear-gradient(180deg,#ef7d22,#c2530a)}
+  table.fare thead th .arr{font-size:10px;margin-left:2px;opacity:.95}
+  table.fare thead th span.y{font-size:11px;opacity:.9;font-weight:500;display:block;margin-top:-2px}
+  table.fare td.city{
+    position:sticky;left:0;z-index:2;background:#fff;text-align:left;font-weight:700;font-size:14px;
+    padding-left:14px;min-width:132px;border-right:1px solid var(--line);
+  }
+  table.fare thead th.city-h{position:sticky;left:0;z-index:4;text-align:left;padding-left:14px;min-width:132px}
+  table.fare tbody tr:nth-child(even) td{background:#fdfbf8}
+  table.fare tbody tr:nth-child(even) td.city{background:#fdf9f4}
+  table.fare tbody tr:hover td{background:#fff6ec}
+  table.fare tbody tr:hover td.city{background:#ffefdd}
+  table.fare tbody tr td.best{background:#fff3d6}
+  table.fare tbody tr td.best .km{color:#8a4b00}
+  table.fare tbody tr:hover td.best{background:#ffe9bf}
+  .km{font-size:16.5px;font-weight:800;color:var(--orange-d);letter-spacing:-.2px}
+  .unit{font-size:10.5px;color:var(--muted);margin-left:1px;font-weight:500}
+  sup.inc{color:var(--green);font-size:11px;font-weight:700;margin-left:2px;letter-spacing:-.2px}
+  sup.cap{color:var(--muted);font-size:10.5px;font-weight:700;margin-left:2px}
+  td.na{color:#cdc3b7;font-size:15px}
+  /* 最高票价列（该城市线网实际最高票价档，统一格式） */
+  table.fare th.mfh,table.fare td.mf{min-width:84px}
+  td.mf .mfv{font-size:14.5px;font-weight:800;color:var(--ink);letter-spacing:-.2px}
+  td.start{background:#fff4e6 !important;position:relative}
+  td.start .km{color:#a83c10}
+  td.start:after{content:"★";position:absolute;top:3px;left:5px;font-size:9px;color:var(--orange-l)}
+  .tag{display:inline-block;font-size:10.5px;line-height:1.5;padding:1px 6px;border-radius:6px;margin-left:6px;vertical-align:1px;font-weight:600}
+  .tag.warn{background:#fdefe0;color:#a85812;border:1px solid #f2d8bb}
+  .tag.note{background:#eef6ef;color:#0f7a45;border:1px solid #cfe8d8}
+  /* 政策性封顶（官方设最高票价上限，非网络最远 OD 的自然最高）：紫色系 */
+  .tag.cap{background:#f2ecfc;color:#6a35c8;border:1px solid #ddd0f5}
+  td.city .capname{color:#6a35c8}
+  td.rule{text-align:left;font-size:12px;color:var(--muted);white-space:normal;line-height:1.5}
+
+  /* ---------- src table ---------- */
+  table.src{border-collapse:collapse;width:100%;font-size:12.5px}
+  table.src th{background:#fbf5ee;color:var(--ink);font-weight:700;text-align:left;padding:8px 10px;border-bottom:1px solid var(--line)}
+  table.src td{padding:8px 10px;border-bottom:1px solid var(--line2);vertical-align:top;color:var(--ink2)}
+  table.src tr:last-child td{border-bottom:none}
+  table.src td.c{font-weight:700;color:var(--ink);white-space:nowrap}
+  .type{display:inline-block;font-size:11px;padding:1px 7px;border-radius:999px;font-weight:700;white-space:nowrap}
+  .type.g{background:#eaf5ee;color:#0f7a45;border:1px solid #cfe8d8}
+  .type.y{background:#fdf1e2;color:#a85812;border:1px solid #f2d8bb}
+  .type.b{background:#eef3fa;color:#2a6fb0;border:1px solid #d7e4f4}
+  .type.r{background:#fdeeee;color:#b03030;border:1px solid #f3d6d6}
+  .conf{font-size:11px;color:var(--muted)}
+  .ins{background:#fffaf3;border-left:3px solid var(--orange-l);border-radius:0 8px 8px 0;padding:10px 14px;margin:10px 0}
+  .ins b{color:var(--orange-d)}
+  @media (max-width:820px){.banner h1{font-size:24px}}
+  .warnbox{background:#fdf3e8;border:1px solid #f3ddc2;border-radius:10px;padding:12px 15px;font-size:13px;color:#8a5216;margin-top:14px}
+  @media print{
+    body{background:#fff} .banner{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    table.fare thead th{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    .toolbar{display:none} .tbl-scroll{overflow:visible}
+  }
+</style>
+</head>
+<body>
+
+<div class="banner">
+  <div class="wrap">
+    <h1>全国城市轨道交通票价对比</h1>
+    <div class="chips" id="chips"></div>
+  </div>
+</div>
+
+<div class="wrap tight">
+
+  <div class="legend">
+    <div class="kv"><span class="km">112</span><span class="unit">km</span><sup class="inc">+20</sup><span>该票价可乘的累计里程上限</span></div>
+    <div class="kv"><sup class="inc">+20</sup><span>= 再花 1 元可多乘的公里数</span></div>
+    <div class="kv"><span style="color:#cdc3b7">–</span><span>该档票价不存在</span></div>
+    <div class="kv"><span style="color:var(--orange-l)">★</span><span>最低票价（起步价）档</span></div>
+    <div class="kv"><sup class="cap">封顶</sup><span>该城市线网票价到此封顶，更高档位不予售票</span></div>
+  </div>
+
+  <div class="toolbar">
+    <span class="hint">点表头可排序：城市（拼音）/ 各价格档 / 最高票价，再次点击反向</span>
+    <label>基准票价
+      <input type="number" id="baseSel" min="2" max="20" step="1" value="10" inputmode="numeric"
+             title="请输入 2–20 的整数"> 元
+    </label>
+    <label><input type="checkbox" id="mergeView"> 合并显示（同规则城市）</label>
+    <label><input type="checkbox" id="hideNonMile"> 隐藏非里程票制城市</label>
+    <label>搜索 <input type="search" id="q" placeholder="城市名，如 青岛"></label>
+  </div>
+</div>
+
+<!-- 主表格：全宽，突破 .wrap 的 1180px 居中列，随窗口宽度伸展 -->
+<div class="wrap-wide">
+  <div class="tbl-scroll">
+    <table class="fare" id="tbl">
+      <thead>
+        <tr id="thead-row"></tr>
+      </thead>
+      <tbody id="tbody"></tbody>
+    </table>
+  </div>
+</div>
+
+<div class="wrap">
+  <p style="font-size:12.5px;color:var(--muted);margin:10px 0 0">
+    说明：表中数值为「该票价档对应的里程上限」，按各城市官方公布的「每增加 1 元可乘 N 公里」规则累加得出。
+    标 <sup class="inc">+N</sup> 为下一档的里程跨度，标 <sup class="cap">封顶</sup> 的为该城市线网的最高票价档；
+    超出该线网最高票价、实际并不售票的档位不再推算，统一显示为 <span style="color:#cdc3b7">–</span>。
+    广州/佛山（广佛同城）、杭州/绍兴（杭绍联网）默认合并为一行；勾选「合并显示」可将其余计价规则完全一致的城市也合并（标注「N城同规则」）。
+    标 <span style="background:#fff3d6;padding:0 5px;border-radius:4px;color:#8a4b00;font-weight:700">金色底</span> 的单元格，是该价格档下可乘里程最长的城市（按当前可见行计算，多个城市并列最长时一并高亮）。
+    最右「最高票价」列为该城市线网实际售票的最高票价档——超过它的档位一律不再推算。
+    城市名标 <span style="color:#6a35c8;font-weight:800">紫色</span> 并带「N 元封顶」标签的（<b>沈阳 7 元、天津 5 元</b>），其最高票价是官方设定的<strong>政策性上限</strong>（明细列为「票价优惠政策」「便民让利」），而<u>不是</u>按网络最远 OD 算出来的自然最高——按计价规则它们本可继续加价。
+  </p>
+
+  <h2 class="sec">关键发现</h2>
+  <div class="card">
+    <div class="ins"><b>1. 同样 10 元，里程差近 3 倍。</b>青岛 10 元可乘约 <b>118 km</b>（单位成本约 0.085 元/km），温州 S 线 10 元仅约 <b>40 km</b>（0.25 元/km）——相差约 <b>2.95 倍</b>。差异根源是「递远递减」的陡峭程度：青岛、北京、重庆、厦门在长距离段做到「每 1 元可乘 20 公里」，而温州、金华、台州等市域铁路在 4–28 公里段「每 1 元仅 4 公里」。</div>
+    <div class="ins"><b>2. 起步价基本固化在 2 元。</b>45 城中仅 <b>北京、上海</b>为 3 元起步（且无 1、2 元档），其余 43 城为 2 元起步（其中天津市区线网按站数计价）；2 元能乘的最长里程为 <b>合肥、芜湖、金华、台州 8 km</b>，最短为广州、深圳、成都、武汉、重庆、杭州、南京、厦门、兰州、贵阳、佛山、绍兴、东莞、温州的 <b>4 km</b>。</div>
+    <div class="ins"><b>3. 起步价 3 元的北京/上海并不「贵」，长距离反而更便宜。</b>北京 10 元可乘 112 km、上海 76 km，均高于 2 元起步城市的中位水平；北京 32 km 以上「每元 20 公里」的阶梯是全国最陡的之一。</div>
+    <div class="ins"><b>4. 近半数城市的线网票价已在 10 元以下封顶。</b>45 城中有 <b>23 城</b>的线网最高票价低于 10 元（沈阳、南昌、洛阳等即是），其更高档位实际并不售票，在本表中统一显示为「–」；天津市区线网至今仍按<b>站数</b>而非里程计价（≤5 站 2 元、17 站及以上为该线网最高档），是全国唯一以站数票制为主体的主要城市，因此无法换算里程档。</div>
+    <div class="ins"><b>5. 2024–2026 年确实调过价的城市：</b>重庆（2025-07-30 起细分 12–24 公里段）、昆明（2025-04-15 起跳档里程由 5/7/9/11/13 改为 4/5/6/7/8/9）、太原（2024-12 起执行新票价）。其余城市本轮复核未见基本票价调整，多数仍沿用 2014–2019 年的票制文件。</div>
+    <div class="ins"><b>6. 跨市同网同价的两个样本：</b>佛山 2/3 号线与广州完全同价（4 km 起步 2 元、24 km 后每元 8 公里）；绍兴与杭州地铁联网分段计价（跨市在姑娘桥站后台结账后重新计费）。</div>
+  </div>
+
+  <h2 class="sec">逐城规则与数据来源</h2>
+  <div class="card">
+    <p style="margin-top:0">每一行的票制规则都取自该城市运营公司官网的票务规则页，或当地发改委／交通委的票价批复公告；「来源类型」标注了取证优先级，可点击链接核对原文。合并行的各城市来源请见其独立条目（本表逐城列出以保证可追溯）。</p>
+    <div class="tbl-scroll">
+      <table class="src" id="srcTbl">
+        <thead>
+          <tr><th>城市</th><th>规则要点（官方原文概括）</th><th>规则生效</th><th>来源类型</th><th>来源链接</th></tr>
+        </thead>
+        <tbody id="srcBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <h2 class="sec">口径与免责说明</h2>
+  <div class="card">
+    <ul style="margin:0;padding-left:20px">
+      <li><b>城市范围：</b>中国内地已开通城市轨道交通的城市（含地铁、轻轨、跨座式单轨、市域铁路）。中国香港（港铁）、中国澳门、中国台湾地区的轨道交通采用不同票制体系，未纳入本次里程口径对比。</li>
+      <li><b>排除项：</b>机场专线（北京首都机场线/大兴机场线、上海机场联络线、长沙磁浮、福州滨海快线等）、单独计价的有轨电车与 APM、跨市城际铁路（杭海城际、郑许市域铁路等）均不计入「普通地铁」口径，在各城市备注中注明。</li>
+      <li><b>换算方式：</b>官方规则多以「起步 X 元可乘 A 公里，之后每增加 1 元可乘 B 公里」表述，本表按此逐档累加；各城市线网最高票价及以下的档位为实际可售价档，超出该线网最高票价的部分不再推算，统一显示为「–」。各城市线网最高票价同时汇总于主表最右「最高票价」列，并完整列示在随附的 CSV / XLSX 数据表中。</li>
+      <li><b>计价细节：</b>绝大多数城市按「最短路径」里程计价，换乘不重复计费；同站进出、超时（多为 120–240 分钟）另有规定，不影响本表里程对比。</li>
+      <li><b>数据时效：</b>核价截止 <b>2026-09-21</b>。票价政策会随新线开通与听证调整，如需用于正式引用请以各城市运营公司官网当日公示为准。</li>
+    </ul>
+    <div class="warnbox">本表为按官方规则换算的<strong>理论上限里程</strong>，实际单程票价取决于具体出行 OD 的最短路径里程，表中数值不等于「任意两站间都能坐这么远」。</div>
+  </div>
+
+</div>
+
+<script>
+const DATA = {"meta":{"title":"全国城市轨道交通票价对比（按里程计价）","as_of":"2026-09-21","scope":"中国内地已开通城市轨道交通（地铁/轻轨/单轨/市域铁路）城市的普通票制票价；不含机场专线、磁悬浮、城际铁路、有轨电车、APM 等单独计价系统。","unit":"公里（km）","lead":"单元格 = 该票价可乘坐的累计里程上限；右上角小字 +N = 再花 1 元可多乘的公里数。"},"cities":[{"city":"北京","short":"北京","region":"华北","scope":"普通地铁线网（不含首都机场线、大兴机场线）","fare_rule":"6公里(含)内3元；6–12公里4元；12–22公里5元；22–32公里6元；32公里以上每增加1元可多乘20公里。","min_fare":3,"boundaries":{"1":null,"2":null,"3":6,"4":12,"5":22,"6":32,"7":52,"8":72,"9":92,"10":112},"max_fare":10,"beyond":20,"note":"无1元、2元票档。首都机场线（26.7元/人次）、大兴机场线（36.5元/人次）单独计价，已排除；有轨电车不适用本规则。","as_of":"2014-12 起执行（京发改〔2014〕2526号），2026-09 复核未见调整","srcType":"官网","sources":["https://www.bjsubway.com/support/ccgd/"],"confidence":"high"},{"city":"上海","short":"上海","region":"华东","scope":"市区地铁线网（不含2024年起开通的市域线）","fare_rule":"0–6公里3元；6公里以上每10公里增加1元。","min_fare":3,"boundaries":{"1":null,"2":null,"3":6,"4":16,"5":26,"6":36,"7":46,"8":56,"9":66,"10":76},"max_fare":15,"beyond":10,"note":"无1元、2元票档。机场联络线、嘉闵线、崇明线等市域线按「起乘4元＋0.45元/公里」单独计价（沪发改价调〔2024〕54号），已排除在普通地铁口径外。","as_of":"市区线沿用 2005 年批复（沪交财〔2005〕527号），2024-2026 未调整","srcType":"官网","sources":["https://m.shmetro.com/workspace/shmetrotest/viewcpxz.aspx?catalogId=1299&did=4053"],"confidence":"high"},{"city":"广州","short":"广州","region":"华南","scope":"普通地铁线网（不含 APM 线）","fare_rule":"4公里以内2元；4–12公里每递增4公里加1元；12–24公里每递增6公里加1元；24公里以后每递增8公里加1元。","min_fare":2,"boundaries":{"1":null,"2":4,"3":8,"4":12,"5":18,"6":24,"7":32,"8":40,"9":48,"10":56},"max_fare":20,"beyond":8,"note":"APM 线（珠江新城旅客自动输送系统）为 2 元单一票制，单独计价已排除。2023-09 起仅调整累额优惠，基本计价规则未变。","as_of":"分段计价规则多年未变，2026-09 复核仍为现行","srcType":"官网","sources":["https://cs.gzmtr.com/ckfw/pwzy_202001/202011/t20201117_69746.html"],"confidence":"high"},{"city":"深圳","short":"深圳","region":"华南","scope":"普通车厢（不含商务车厢、有轨电车、云巴）","fare_rule":"起步4公里2元；4–12公里每1元可乘4公里；12–24公里每1元可乘6公里；24公里以上每1元可乘8公里。","min_fare":2,"boundaries":{"1":null,"2":4,"3":8,"4":12,"5":18,"6":24,"7":32,"8":40,"9":48,"10":56},"max_fare":15,"beyond":8,"note":"商务车厢票价不高于普通车厢 3 倍、单程 6–36 元，单独计价已排除；龙华有轨电车（2元一票制）、坪山云巴同样排除。","as_of":"同网同价里程分段计价，2024-2026 未调整","srcType":"官网","sources":["https://www.szmcob.com/pwxx.html"],"confidence":"high"},{"city":"成都","short":"成都","region":"西南","scope":"普通地铁线网（不含有轨电车）","fare_rule":"起价2元可乘4公里；4–12公里每4公里加1元；12–24公里每6公里加1元；24–40公里每8公里加1元；40–50公里每10公里加1元；50公里以上每20公里加1元。","min_fare":2,"boundaries":{"1":null,"2":4,"3":8,"4":12,"5":18,"6":24,"7":32,"8":40,"9":50,"10":70},"max_fare":12,"beyond":20,"note":"有轨电车蓉2号线为 2 元一票制单独计价，已排除；18号线（天府机场）纳入线网里程计价。","as_of":"2017-06-02 起（成交发〔2017〕46号），2024-2026 未调整","srcType":"官网","sources":["https://www.chengdurail.com/xccxjgy.jsp?urltype=tree.TreeTempUrl&wbtreeid=2142"],"confidence":"high"},{"city":"武汉","short":"武汉","region":"华中","scope":"全部地铁线路统一按里程计价","fare_rule":"4公里(含)内2元；4–12公里1元/4公里；12–24公里1元/6公里；24–40公里1元/8公里；40–50公里1元/10公里；50公里以上1元/20公里。","min_fare":2,"boundaries":{"1":null,"2":4,"3":8,"4":12,"5":18,"6":24,"7":32,"8":40,"9":50,"10":70},"max_fare":12,"beyond":20,"note":"无单独计价线路，全线网统一按最短路径里程计价。","as_of":"官方票务规定更新于 2025-10-30，计价标准延续未调整","srcType":"官网","sources":["https://www.wuhanrt.com/news-content.html?id=1485599"],"confidence":"high"},{"city":"重庆","short":"重庆","region":"西南","scope":"普通城市轨道交通（不含江跳线、璧铜线等市郊铁路）","fare_rule":"0–4公里2元；4–8公里3元；8–12公里4元；12–17公里5元；17–23公里6元；23–30公里7元；30–40公里8元；40–55公里9元；55公里以上每20公里加1元。","min_fare":2,"boundaries":{"1":null,"2":4,"3":8,"4":12,"5":17,"6":23,"7":30,"8":40,"9":55,"10":75},"max_fare":10,"beyond":20,"note":"2025-07-30 起执行新分段（原 12–24 公里段拆细为 12–17、17–23 等），属近年调价城市。江跳线、璧铜线单独计价已排除。","as_of":"2025-07-30 起（渝发改规范〔2025〕1号）","srcType":"官网","sources":["https://www.cqmetro.cn/yyfw/pwzc"],"confidence":"high"},{"city":"杭州","short":"杭州","region":"华东","scope":"普通地铁线网（不含杭海城际）","fare_rule":"起步2元可乘4公里；4–12公里每1元可乘4公里；12–24公里每1元可乘6公里；24公里以上每1元可乘8公里。","min_fare":2,"boundaries":{"1":null,"2":4,"3":8,"4":12,"5":18,"6":24,"7":32,"8":40,"9":48,"10":56},"max_fare":16,"beyond":8,"note":"19号线（机场轨道快线）、16号线（原杭临城际）均纳入线网里程计价；杭海城际为跨市独立系统，单独计价已排除。","as_of":"现行票制沿用，2024-2026 未调整","srcType":"官网","sources":["https://www.hzmetro.com/findNews_show.aspx?ID=4856"],"confidence":"high"},{"city":"南京","short":"南京","region":"华东","scope":"线网统一里程计价（S1机场线等市域线并入线网同价）","fare_rule":"起步2元可乘4公里；4公里以上每1元晋级里程依次为5、5、7、7、9、11、13、15公里。","min_fare":2,"boundaries":{"1":null,"2":4,"3":9,"4":14,"5":21,"6":28,"7":37,"8":48,"9":61,"10":76},"max_fare":15,"beyond":15,"note":"2019-03-31 起起步里程由 10 公里缩至 4 公里、晋级里程缩短，是南京首次实质性调价。2024-2026 未再调整。","as_of":"2019-03-31 起（宁发改服价字〔2019〕73号）","srcType":"官网","sources":["https://www.njmetro.com.cn/njdtweb/portal/article-detail.do?rowId=4a8208ae7b6b11e9ac27000c2965e15a&columnId=40288e817180aad0017180ae38a40001&tag=infoopen3"],"confidence":"high"},{"city":"西安","short":"西安","region":"西北","scope":"普通地铁线网（不含西户市域铁路）","fare_rule":"起步2元可乘6公里；其后每增加1元可乘4、4、6、6、8、8公里；26公里以上每8公里加1元。","min_fare":2,"boundaries":{"1":null,"2":6,"3":10,"4":14,"5":20,"6":26,"7":34,"8":42,"9":50,"10":58},"max_fare":13,"beyond":8,"note":"14号线机场段并入线网同价；西户市域（郊）铁路单独计价已排除。","as_of":"2016 年起（市物发〔2016〕124号），2024-2026 未调整","srcType":"官网","sources":["https://shxgdjt.com/news/info/120"],"confidence":"high"},{"city":"苏州","short":"苏州","region":"华东","scope":"苏州轨道交通线网（1–11号线，无独立机场专线）","fare_rule":"起步2元可乘6公里；6–16公里每1元可乘5公里；16–30公里每1元可乘7公里；30公里以上每1元可乘9公里。","min_fare":2,"boundaries":{"1":null,"2":6,"3":11,"4":16,"5":23,"6":30,"7":39,"8":48,"9":57,"10":66},"max_fare":13,"beyond":9,"note":"票价按最短路径里程计算。2024 年初取消电子计次票（改为多乘多惠折扣），普通里程计价规则未调整。","as_of":"苏价服字〔2013〕122号，基础票价沿用未调整","srcType":"官网","sources":["https://www.sz-mtr.com/service/guide/ticket/202306/F0705BF7.html"],"confidence":"high"},{"city":"天津","short":"天津","region":"华北","scope":"市区线网（1/2/3/4/5/6/10/11号线及9号线市区段）","fare_rule":"按乘坐站数（区间）分段计程：≤5站(4区间)2元；6–10站3元；11–16站4元；17站及以上均为5元。","min_fare":2,"unit":"站","boundaries":{"1":null,"2":5,"3":10,"4":16,"5":16,"6":null,"7":null,"8":null,"9":null,"10":null},"max_fare":5,"beyond":null,"note":"天津市区线网按「站数」而非里程计价（2元可乘5站、3元10站、4元16站，17站及以上为最高档）。表中数字为可乘站数（非里程），故不能与其他城市的里程直接比较。9号线津滨段（中山门—东海路）按里程计程（起步2元、递增1元，天津站—东海路全程9元），与市区段两套票制并存。","as_of":"市区段票制自2005/2012沿用至今未调整","srcType":"发改委","sources":["https://fzgg.tj.gov.cn/sy_47324/gabsycs/kyfwgh/202106/t20210625_5487351.html"],"confidence":"medium"},{"city":"郑州","short":"郑州","region":"华中","scope":"郑州地铁线网（1–8号线及城郊线）","fare_rule":"起步2元（含6公里）；6–13公里3元；13–21公里4元；21公里以上每递增9公里加1元。","min_fare":2,"boundaries":{"1":null,"2":6,"3":13,"4":21,"5":30,"6":39,"7":48,"8":57,"9":66,"10":75},"max_fare":11,"beyond":9,"note":"2024-11 官方批复新开7、8号线执行现行线网票价、保持连续稳定。郑许市域铁路另行计价已排除。","as_of":"线网统一里程计价沿用未调整","srcType":"官网","sources":["https://www.zzmetro.com/page/10"],"confidence":"high"},{"city":"长沙","short":"长沙","region":"华中","scope":"长沙轨道交通线网（不含磁浮快线）","fare_rule":"起步2元可乘6公里；6–16公里每递增5公里加1元；16–30公里每递增7公里加1元；30公里以上每递增9公里加1元。","min_fare":2,"boundaries":{"1":null,"2":6,"3":11,"4":16,"5":23,"6":30,"7":39,"8":48,"9":57,"10":66},"max_fare":9,"beyond":9,"note":"磁浮快线（黄花机场）为独立制式、单独票价，已排除。","as_of":"票务规则沿用未调整","srcType":"官网","sources":["https://www.hncsmtr.com/905/941/index.htm"],"confidence":"high"},{"city":"沈阳","short":"沈阳","region":"东北","scope":"沈阳地铁线网","fare_rule":"起步2元可乘6公里；每增加1元可续乘4、4、7、7、10、10公里。","min_fare":2,"boundaries":{"1":null,"2":6,"3":10,"4":14,"5":21,"6":28,"7":38,"8":null,"9":null,"10":null},"max_fare":7,"beyond":10,"note":"2024-12 将适用范围扩大至全线网及后续新线，基础票价未调整。","as_of":"2019 年起（沈发改发〔2019〕53号）","srcType":"发改委","sources":["https://fgw.shenyang.gov.cn/zwgk/fdzdgknr/yjzj/cayjzj/yjzjwd/?Id=1740"],"confidence":"high"},{"city":"大连","short":"大连","region":"东北","scope":"大连地铁线网（含原快轨3、12、13号线，同网同价）","fare_rule":"6公里以内2元；以1元为增加单位，晋级里程为6、6、8、8、10、10、15、15公里。","min_fare":2,"boundaries":{"1":null,"2":6,"3":12,"4":18,"5":26,"6":34,"7":44,"8":54,"9":69,"10":84},"max_fare":14,"beyond":15,"note":"快轨3/12/13号线为快轨制式，但执行相同里程计价并同网换乘。","as_of":"2015 年开通起沿用，2024-2026 未见调整","srcType":"官网","sources":["https://www.dltransgrp.com/subway/subwayShow.do?newsId=0ed3313608eb4ed4bd23b9ee8cf57478&columnId=serviceCenter3link"],"confidence":"high"},{"city":"青岛","short":"青岛","region":"华东","scope":"普通地铁线网（1–8号线、11/13号线快线）","fare_rule":"起步2元可乘5公里；5–10公里3元；10–17公里4元；17–27公里5元；27–38公里6元；38公里以上每20公里加1元。","min_fare":2,"boundaries":{"1":null,"2":5,"3":10,"4":17,"5":27,"6":38,"7":58,"8":78,"9":98,"10":118},"max_fare":12,"beyond":20,"note":"8号线胶东机场段纳入线网计价，无机场专线加价；38 公里以上的 1 元跨度达 20 公里，为全国最「陡」的递减阶梯之一。","as_of":"2015 年起（青价格〔2015〕47号），2024-2026 未调整","srcType":"官网","sources":["https://qd-metro.com/informationInfo.php?id=1387"],"confidence":"high"},{"city":"宁波","short":"宁波","region":"华东","scope":"普通地铁线网（1–8号线及12号线象山线）","fare_rule":"4公里及以内2元；4–8公里每1元可乘4公里；8–13公里每1元可乘5公里；13–20公里每1元可乘7公里；20公里以上每1元可乘9公里。","min_fare":2,"boundaries":{"1":null,"2":4,"3":8,"4":13,"5":20,"6":29,"7":38,"8":47,"9":56,"10":65},"max_fare":14,"beyond":9,"note":"12号线（象山线，含跨象山港市域铁路段）2026-09-22 开通后仍沿用原票制。","as_of":"2014 年票制沿用，2024-2026 未调整","srcType":"官网","sources":["http://www.nbmetro.com/news_lead.php?info/1647"],"confidence":"high"},{"city":"合肥","short":"合肥","region":"华东","scope":"合肥轨道 1–5 号线","fare_rule":"起步2元可乘8公里；8–14公里3元；14–21公里4元；21–29公里5元；29公里以上每9公里加1元。","min_fare":2,"boundaries":{"1":null,"2":8,"3":14,"4":21,"5":29,"6":38,"7":47,"8":56,"9":65,"10":74},"max_fare":8,"beyond":9,"note":"起步里程 8 公里，为全国最长的一档起步里程（与芜湖单轨并列）。2023-12-26 起继续执行原票价标准。","as_of":"原标准延续，2023-12-26 确认继续执行","srcType":"政府","sources":["https://www.hefei.gov.cn/zwgk/public/156407/108813653.html"],"confidence":"high"},{"city":"昆明","short":"昆明","region":"西南","scope":"昆明地铁线网（含通往长水机场的6号线）","fare_rule":"起步2元可乘4公里；其后跳档里程为4、5、6、7、8、9公里（43公里以后每10公里一档），每跳一档加1元。","min_fare":2,"boundaries":{"1":null,"2":4,"3":8,"4":13,"5":19,"6":26,"7":34,"8":43,"9":53,"10":63},"max_fare":9,"beyond":10,"note":"2025-04-15 起执行新票价，原 2012 年「跳档5/7/9/11/13公里」规则已废止——近年调价城市。6号线按普通地铁计价，无机场专线加价。","as_of":"2025-04-15 起执行","srcType":"发改委","sources":["https://jtys.km.gov.cn/c/2025-04-11/4967417.shtml"],"confidence":"high"},{"city":"南宁","short":"南宁","region":"西南","scope":"南宁轨道交通 1–5 号线","fare_rule":"起步2元可乘6公里；6–12、12–18、18–26、26–34公里各加1元；34公里以上每10公里加1元。","min_fare":2,"boundaries":{"1":null,"2":6,"3":12,"4":18,"5":26,"6":34,"7":44,"8":54,"9":64,"10":74},"max_fare":7,"beyond":10,"note":"线网最高单程票价 7 元；本表 8 元及以上档位不适用。","as_of":"2016 年批复（2021年5号线延续），2024-2026 未见调整","srcType":"官网","sources":["https://www.nngdjt.com/html/service3a/"],"confidence":"high"},{"city":"福州","short":"福州","region":"华东","scope":"普通地铁线网（不含滨海快线 F1）","fare_rule":"起步5公里(含)2元；5–15公里每5公里加1元；15–29公里每7公里加1元；29公里以上每9公里加1元。","min_fare":2,"boundaries":{"1":null,"2":5,"3":10,"4":15,"5":22,"6":29,"7":38,"8":47,"9":56,"10":65},"max_fare":8,"beyond":9,"note":"滨海快线 F1（新区段按 0.3 元/公里固定费率）计价机制不同，已排除。","as_of":"2016 年起（榕发改价格〔2016〕33号），2024-2026 未见调整","srcType":"发改委","sources":["https://fgw.fuzhou.gov.cn/zfxxgkzl/zfxxgkml/ywgz/jgysf/201603/t20160329_1545981.htm"],"confidence":"high"},{"city":"厦门","short":"厦门","region":"华东","scope":"普通地铁线网（含4号线、6号线厦门段）","fare_rule":"起步4公里(含)2元；4–12公里每4公里加1元；12–18公里每6公里加1元；18–28公里每10公里加1元；28–43公里每15公里加1元；43公里以上每20公里加1元。","min_fare":2,"boundaries":{"1":null,"2":4,"3":8,"4":12,"5":18,"6":28,"7":43,"8":63,"9":83,"10":103},"max_fare":8,"beyond":20,"note":"旧资料称「2号线票价区间2–7元」系单线范围，非全网规则；跨设区市段（如6号线角美延伸段）另行定价已排除。","as_of":"2017 年（厦发改价格〔2017〕780号）；2023-01-01 起续期 5 年至 2027-12-31","srcType":"政府","sources":["https://cloud.xm.gov.cn/165/service/2704016.xhtml"],"confidence":"high"},{"city":"济南","short":"济南","region":"华东","scope":"济南轨道交通 1–8 号线","fare_rule":"5公里内2元；5–10公里3元；10–15公里4元；15–22公里5元；22–29公里6元；29公里以上每9公里加1元。","min_fare":2,"boundaries":{"1":null,"2":5,"3":10,"4":15,"5":22,"6":29,"7":38,"8":47,"9":56,"10":65},"max_fare":12,"beyond":9,"note":"2025-12-27 新开4、8号线及6号线东段沿用同一票制；济南云巴为不同制式已排除。","as_of":"原票制，2025-12-27 新线延续","srcType":"官网","sources":["https://www.jngdjt.cn/index.php?m=content&c=index&a=show&catid=108&id=4291"],"confidence":"high"},{"city":"太原","short":"太原","region":"华北","scope":"太原地铁 1、2 号线（同网同价）","fare_rule":"起步2元可乘5公里；其后每增加1元的晋级里程为5、5、6、6、7公里；34公里以上每7公里加1元。","min_fare":2,"boundaries":{"1":null,"2":5,"3":10,"4":15,"5":21,"6":27,"7":34,"8":41,"9":48,"10":55},"max_fare":8,"beyond":7,"note":"2024-12 起执行新票价（并发改收费字〔2024〕135号），取代 2020 年 2 号线旧批复；1号线 2025-02 开通后同网同价。","as_of":"2024-12 起（并发改收费字〔2024〕135号）","srcType":"官网","sources":["https://www.tymetro.ltd/service/info/ticket"],"confidence":"high"},{"city":"石家庄","short":"石家庄","region":"华北","scope":"石家庄地铁 1、2、3 号线","fare_rule":"起步6公里2元；6–20公里每7公里加1元；20–36公里每8公里加1元；36–54公里每9公里加1元；54公里以上每10公里加1元。","min_fare":2,"boundaries":{"1":null,"2":6,"3":13,"4":20,"5":28,"6":36,"7":45,"8":54,"9":64,"10":74},"max_fare":7,"beyond":10,"note":"自动售检票按最短路径计价。","as_of":"2017 年线网开通起沿用，2024-2026 未调整","srcType":"官网","sources":["http://sjzmetro.cn/service/ticket/95.html"],"confidence":"high"},{"city":"兰州","short":"兰州","region":"西北","scope":"兰州轨道交通 1、2 号线","fare_rule":"起步2元可乘4公里；晋级里程为4、4、6、6、8、8公里；40公里以上每8公里加1元。","min_fare":2,"boundaries":{"1":null,"2":4,"3":8,"4":12,"5":18,"6":24,"7":32,"8":40,"9":48,"10":56},"max_fare":7,"beyond":8,"note":"120 分钟内按实际里程计费。","as_of":"2019 年起（兰州市政府令〔2019〕第20号）","srcType":"官网","sources":["https://www.lzgdjt.com/lzgd/detail.jsp?contentId=51457"],"confidence":"high"},{"city":"乌鲁木齐","short":"乌鲁木齐","region":"西北","scope":"乌鲁木齐地铁 1 号线等","fare_rule":"起步2元可乘5公里；5–13公里每1元可乘4公里；13–25公里每1元可乘6公里；25公里以上每1元可乘8公里。","min_fare":2,"boundaries":{"1":null,"2":5,"3":9,"4":13,"5":19,"6":25,"7":33,"8":41,"9":49,"10":57},"max_fare":7,"beyond":8,"note":"进闸后停留时限 120 分钟。","as_of":"2018 年批复（乌发改医价〔2018〕564号）","srcType":"政府","sources":["https://www.wlmq.gov.cn/wlmqs/c119128/202003/40ec35f41f21409b9851a529304682fb.shtml"],"confidence":"high"},{"city":"贵阳","short":"贵阳","region":"西南","scope":"贵阳轨道 1、2、3 号线及延长线","fare_rule":"起步2元可乘4公里；4–8、8–12、12–18、18–24公里各加1元；24公里以上每递增8公里加1元。","min_fare":2,"boundaries":{"1":null,"2":4,"3":8,"4":12,"5":18,"6":24,"7":32,"8":40,"9":48,"10":56},"max_fare":11,"beyond":8,"note":"按最短路径计价，换乘不额外收费。","as_of":"2017 年起（筑发改收费〔2017〕768号）","srcType":"官网","sources":["https://www.gyurt.com/n128/20251121/i25763.html"],"confidence":"high"},{"city":"佛山","short":"佛山","region":"华南","scope":"佛山地铁线网（广佛线、2号线、3号线）","fare_rule":"与广州同网同价，按里程分段计价：4公里以内2元；4–12公里每递增4公里加1元；12–24公里每递增6公里加1元；24公里以后每递增8公里加1元。","min_fare":2,"boundaries":{"1":null,"2":4,"3":8,"4":12,"5":18,"6":24,"7":32,"8":40,"9":48,"10":56},"max_fare":20,"beyond":8,"note":"广佛线由广州地铁运营、按广州规则计价；佛山 2/3 号线票价规则与广州一致。高明有轨电车（2元一票制）已排除。","as_of":"2021 年起与广州同网同价","srcType":"官网(同网)","sources":["https://cs.gzmtr.com/ckfw/pwzy_202001/202011/t20201117_69746.html"],"confidence":"medium"},{"city":"南昌","short":"南昌","region":"华中","scope":"南昌地铁 1、2、3、4 号线及延长线","fare_rule":"起步2元可乘6公里；6–12公里每1元可乘6公里；12–28公里每1元可乘8公里；28公里以上每1元可乘10公里。","min_fare":2,"boundaries":{"1":null,"2":6,"3":12,"4":20,"5":28,"6":38,"7":48,"8":58,"9":68,"10":78},"max_fare":7,"beyond":10,"note":"线网最高单程票价 7 元；本表 8 元及以上档位不适用。","as_of":"2015 年起（洪价经字〔2015〕18号）","srcType":"官网","sources":["https://www.ncmtr.com/yyfw/4443177.html"],"confidence":"high"},{"city":"长春","short":"长春","region":"东北","scope":"地铁与轻轨线网（1、2、3、4、8号线，同网同价）","fare_rule":"起步2元可乘7公里；每增加1元可续乘6、6、8、8、10公里；35公里以上每10公里加1元。","min_fare":2,"boundaries":{"1":null,"2":7,"3":13,"4":19,"5":27,"6":35,"7":45,"8":55,"9":65,"10":75},"max_fare":8,"beyond":10,"note":"2019-05-30 起全网（地铁＋轻轨）统一执行同网同价；付费区可滞留 180 分钟。","as_of":"2019-05-30 起全网统一","srcType":"发改委","sources":["http://drc.changchun.gov.cn/fzgg/jggl/201809/t20180914_1289440.html"],"confidence":"high"},{"city":"哈尔滨","short":"哈尔滨","region":"东北","scope":"哈尔滨地铁 1、2、3 号线","fare_rule":"起步2元可乘6公里，3元10公里、4元14公里、5元21公里、6元28公里；29公里以上每10公里加1元。","min_fare":2,"boundaries":{"1":null,"2":6,"3":10,"4":14,"5":21,"6":28,"7":38,"8":48,"9":58,"10":68},"max_fare":7,"beyond":10,"note":"线网最高单程票价 7 元；本表 8 元及以上档位不适用。","as_of":"2021 年随2号线开通执行线网票价","srcType":"政府","sources":["https://www.songbei.gov.cn/hebsbq/cjwt1/202506/c01_1063609.shtml"],"confidence":"high"},{"city":"无锡","short":"无锡","region":"华东","scope":"无锡地铁线网（含 S1 锡澄线）","fare_rule":"5公里内2元；5–15公里每5公里加1元；15–29公里每7公里加1元；29公里以上每9公里加1元。","min_fare":2,"boundaries":{"1":null,"2":5,"3":10,"4":15,"5":22,"6":29,"7":38,"8":47,"9":56,"10":65},"max_fare":10,"beyond":9,"note":"S1 锡澄线 2024 年开通，执行同一规则。与本地公交非同价体系。","as_of":"2014 年票制（S1线2024年），2024-2026 未见调整","srcType":"官网","sources":["https://www.wxmetro.net/wxmetro/enterMetro?id=ccea0675e2f79831"],"confidence":"high"},{"city":"温州","short":"温州","region":"华东","scope":"市域铁路 S1/S2 线（温州无普通地铁）","fare_rule":"起步2元可乘4公里；4–28公里每1元可乘4公里；28–64公里每1元可乘6公里；64公里以上每1元可乘8公里。","min_fare":2,"boundaries":{"1":null,"2":4,"3":8,"4":12,"5":16,"6":20,"7":24,"8":28,"9":34,"10":40},"max_fare":15,"beyond":8,"note":"温州仅有市域铁路 S1/S2（S3在建），无普通地铁；其「2元4公里、4–28公里每元4公里」的平缓递进使其同价可乘里程全国最短。","as_of":"2018 年批复，2024-2026 未见调整","srcType":"发改委","sources":["https://wzfgw.wenzhou.gov.cn/art/2018/12/17/art_1229125960_590033.html"],"confidence":"high"},{"city":"徐州","short":"徐州","region":"华东","scope":"徐州地铁线网","fare_rule":"起步2元可乘6公里；6–18公里每1元乘6公里；18–34公里每1元乘8公里；34–44公里每1元乘10公里；44–59公里每1元乘15公里；59公里以上每1元乘20公里。","min_fare":2,"boundaries":{"1":null,"2":6,"3":12,"4":18,"5":26,"6":34,"7":44,"8":59,"9":79,"10":99},"max_fare":6,"beyond":20,"note":"递进跨度逐级放大至 20 公里，属递减最明显的阶梯之一。","as_of":"2022 年（徐发改规〔2022〕1号）","srcType":"官网","sources":["https://xzdtyy.xzdtjt.com/article/42/pwgz/3861.html"],"confidence":"high"},{"city":"常州","short":"常州","region":"华东","scope":"常州地铁 1、2 号线","fare_rule":"起步2元可乘5公里；晋级里程5、5、7、7、9公里；29公里以上每9公里加1元。","min_fare":2,"boundaries":{"1":null,"2":5,"3":10,"4":15,"5":22,"6":29,"7":38,"8":47,"9":56,"10":65},"max_fare":7,"beyond":9,"note":"与公交有换乘优惠，但票价体系独立。","as_of":"2019 年票制，2024-2026 未见调整","srcType":"政府","sources":["https://www.changzhou.gov.cn/ns_news/494176837581243"],"confidence":"high"},{"city":"南通","short":"南通","region":"华东","scope":"南通轨道交通 1、2 号线","fare_rule":"起步2元可乘6公里；6–16公里每5公里加1元；16–30公里每7公里加1元；30–45公里每15公里加1元；45公里以上每20公里加1元。","min_fare":2,"boundaries":{"1":null,"2":6,"3":11,"4":16,"5":23,"6":30,"7":45,"8":65,"9":85,"10":105},"max_fare":7,"beyond":20,"note":"线网最高单程票价 7 元；本表 8 元及以上档位不适用。","as_of":"2023-08-16 批复（1、2号线开通）","srcType":"官网","sources":["https://service.ntrailway.com/#/Ticketingrules"],"confidence":"high"},{"city":"呼和浩特","short":"呼和浩特","region":"华北","scope":"呼和浩特地铁 1、2 号线","fare_rule":"0–5公里2元；5–10公里3元；10–15公里4元；15–21公里5元；21–28公里6元；28公里以上每10公里加1元。","min_fare":2,"boundaries":{"1":null,"2":5,"3":10,"4":15,"5":21,"6":28,"7":38,"8":48,"9":58,"10":68},"max_fare":7,"beyond":10,"note":"票价规则自 2019 年生效，2025 年发改委官网再次公示沿用。与公交非同价体系。","as_of":"2019 年起（呼城轨发〔2019〕63号）","srcType":"官网","sources":["https://www.hhhtmetro.com/hsdt/toBmfw?menuid=149062"],"confidence":"high"},{"city":"洛阳","short":"洛阳","region":"华中","scope":"洛阳轨道交通 1、2 号线","fare_rule":"起步2元可乘6公里；6–14公里3元；14–22公里4元；22公里以上每递增9公里加1元。","min_fare":2,"boundaries":{"1":null,"2":6,"3":14,"4":22,"5":31,"6":40,"7":49,"8":58,"9":67,"10":76},"max_fare":5,"beyond":9,"note":"线网最高单程票价 5 元；本表 6 元及以上档位不适用。","as_of":"2021 年起（洛发改〔2021〕1号）","srcType":"官网","sources":["https://www.lysubway.com.cn/Search/detail/2604"],"confidence":"high"},{"city":"绍兴","short":"绍兴","region":"华东","scope":"绍兴轨道交通 1、2 号线（与杭州地铁联网分段计价）","fare_rule":"起步2元可乘4公里；4–12公里每1元乘4公里；12–24公里每1元乘6公里；24公里以上每1元乘8公里。","min_fare":2,"boundaries":{"1":null,"2":4,"3":8,"4":12,"5":18,"6":24,"7":32,"8":40,"9":48,"10":56},"max_fare":8,"beyond":8,"note":"与杭州地铁采用联网分段计价，跨市在姑娘桥站由系统后台结账后重新计费。","as_of":"2021 年起（绍市发改价〔2021〕4号），2023年2号线沿用","srcType":"发改委","sources":["https://fgw.sx.gov.cn/art/2021/6/17/art_1478708_58919461.html"],"confidence":"high"},{"city":"东莞","short":"东莞","region":"华南","scope":"东莞轨道交通 2 号线（1号线同规则）","fare_rule":"起步2元可乘4公里；4–12公里每递增4公里加1元；12–24公里每递增6公里加1元；24公里以上每递增8公里加1元。","min_fare":2,"boundaries":{"1":null,"2":4,"3":8,"4":12,"5":18,"6":24,"7":32,"8":40,"9":48,"10":56},"max_fare":8,"beyond":8,"note":"2025-02 市发改局问政回复确认 1、2 号线同规则。","as_of":"2016-01-01 起（东发改〔2015〕597号）","srcType":"政府","sources":["https://www.dg.gov.cn/12345/201801/page/notice/noticeDetailList.html?noticeId=202305491"],"confidence":"high"},{"city":"芜湖","short":"芜湖","region":"华东","scope":"芜湖轨道交通 1、2 号线（跨座式单轨）","fare_rule":"起步2元可乘8公里；此后每增加1元的晋级里程为6、7、8、9、9公里；38公里以上每9公里加1元。","min_fare":2,"boundaries":{"1":null,"2":8,"3":14,"4":21,"5":29,"6":38,"7":47,"8":56,"9":65,"10":74},"max_fare":6,"beyond":9,"note":"跨座式单轨制式，起步里程 8 公里（与合肥并列最长）。","as_of":"2021-09 批复，有效期五年（至2026-09）","srcType":"官网","sources":["https://www.wuhurailtransit.com/cczn/info.aspx?itemid=293"],"confidence":"high"},{"city":"金华","short":"金华","region":"华东","scope":"金华轨道交通 金义东线（市域铁路）","fare_rule":"起步2元可乘8公里；8–28公里每1元乘4公里；28–64公里每1元乘6公里；64公里以上每1元乘8公里。","min_fare":2,"boundaries":{"1":null,"2":8,"3":12,"4":16,"5":20,"6":24,"7":28,"8":34,"9":40,"10":46},"max_fare":16,"beyond":8,"note":"市域铁路制式，起步里程长（8公里）但后续递进平缓。","as_of":"2022 年（金发改价格〔2022〕1号）","srcType":"发改委","sources":["http://fgw.jinhua.gov.cn/art/2022/1/4/art_1229169629_1771792.html"],"confidence":"high"},{"city":"台州","short":"台州","region":"华东","scope":"台州市域铁路 S1 线","fare_rule":"起步2元可乘8公里；8–28公里每1元乘4公里；28–64公里每1元乘6公里；64公里以上每1元乘8公里。","min_fare":2,"boundaries":{"1":null,"2":8,"3":12,"4":16,"5":20,"6":24,"7":28,"8":34,"9":40,"10":46},"max_fare":11,"beyond":8,"note":"市域铁路制式，运价结构与金华金义东线一致。","as_of":"2022-12-08 批复（随S1线开通执行）","srcType":"发改委","sources":["https://tz.zjol.com.cn/tzxw/202212/t20221209_25165901.shtml"],"confidence":"high"}]};
+const CITIES = DATA.cities;
+const PY = {"北京":"beijing","上海":"shanghai","广州":"guangzhou","深圳":"shenzhen","成都":"chengdu","武汉":"wuhan","重庆":"chongqing","杭州":"hangzhou","南京":"nanjing","西安":"xian","苏州":"suzhou","天津":"tianjin","郑州":"zhengzhou","长沙":"changsha","沈阳":"shenyang","大连":"dalian","青岛":"qingdao","宁波":"ningbo","合肥":"hefei","昆明":"kunming","南宁":"nanning","福州":"fuzhou","厦门":"xiamen","济南":"jinan","太原":"taiyuan","石家庄":"shijiazhuang","兰州":"lanzhou","乌鲁木齐":"wulumuqi","贵阳":"guiyang","佛山":"foshan","南昌":"nanchang","长春":"changchun","哈尔滨":"haerbin","无锡":"wuxi","温州":"wenzhou","徐州":"xuzhou","常州":"changzhou","南通":"nantong","呼和浩特":"huhehaote","洛阳":"luoyang","绍兴":"shaoxing","东莞":"dongguan","芜湖":"wuhu","金华":"jinhua","台州":"taizhou"};
+/* 基准票价：可输入 2–20 的整数（越界自动钳制；输入过程中暂空时沿用上一个有效值） */
+const BASE_MIN=2, BASE_MAX=20;
+let lastBase=parseInt(document.getElementById('baseSel').value,10)||10;
+function clampBase(v){ return Math.max(BASE_MIN, Math.min(BASE_MAX, Math.round(v))); }
+function getBase(){
+  const v=parseInt(document.getElementById('baseSel').value,10);
+  return isNaN(v) ? lastBase : clampBase(v);
+}
+
+/* 当前排序状态：type∈{ref,fare,mf,pinyin}；dir:-1 降序 / 1 升序（ref = 按起步里程↑，为默认视图） */
+let curSort={type:'ref', dir:1};
+function togglePriceSort(f){
+  if(curSort.type==='fare' && curSort.f===f) curSort.dir=-curSort.dir;
+  else curSort={type:'fare', f:f, dir:-1};
+  rerenderAll();
+}
+/* 城市列表头点击：按拼音升（A→Z）/ 降 */
+function toggleCitySort(){
+  if(curSort.type==='pinyin') curSort.dir=-curSort.dir;
+  else curSort={type:'pinyin', dir:1};
+  rerenderAll();
+}
+/* 最高票价列表头点击：切换降/升 */
+function toggleMfSort(){
+  if(curSort.type==='mf') curSort.dir=-curSort.dir;
+  else curSort={type:'mf', dir:-1};
+  rerenderAll();
+}
+
+/* ---------- helpers ---------- */
+/* 该城市线网实际最高票价档（超过该档不再推算，表格显示「–」） */
+function maxFare(c){ return c.max_fare || 15; }
+function b(c,f){
+  if(f<c.min_fare || f>maxFare(c)) return null;
+  const v=c.boundaries[String(f)];
+  if(v!==null && v!==undefined) return v;
+  // 超出已定义档位（如 11–15 元）时，按 beyond 从最高档递推
+  if(f>10 && c.beyond){
+    for(let k=10; k>=c.min_fare; k--){
+      const vv=c.boundaries[String(k)];
+      if(vv!==null && vv!==undefined) return vv+(f-k)*c.beyond;
+    }
+  }
+  return null;
+}
+/* 是否「里程票制」城市：天津为按站数计价，无里程档，隐藏非里程票制时应剔除 */
+function isMile(c){ return (c.unit || 'km') !== '站'; }
+function unitOf(c){ return c.unit || 'km'; }
+function spanOf(c,f){
+  const cur=b(c,f); if(cur===null) return null;
+  if(f>=maxFare(c)) return {type:'cap'};   // 已是该城市线网最高票价档
+  const nx=b(c,f+1);
+  if(nx!==null && nx>cur) return {type:'inc', n:nx-cur};
+  if(nx!==null && nx===cur) return null;
+  if(c.beyond) return {type:'inc', n:c.beyond};
+  return null;
+}
+function cellHTML(c,f){
+  const v=b(c,f);
+  if(v===null) return '<span style="color:#cdc3b7">–</span>';
+  const s=spanOf(c,f);
+  let sup='';
+  if(s&&s.type==='inc') sup='<sup class="inc">+'+s.n+'</sup>';
+  else if(s&&s.type==='cap') sup='<sup class="cap">封顶</sup>';
+  return '<span class="km">'+v+'</span><span class="unit">'+unitOf(c)+'</span>'+sup;
+}
+/* 最高票价列：该城市线网实际的最高票价档（统一显示为 N 元） */
+function maxFareHTML(c){
+  return '<span class="mfv">'+maxFare(c)+'</span><span class="unit">元</span>';
+}
+/* 基准票价对应的可乘里程（统一取用户所选基准票价） */
+function baseKm(c){ return b(c, getBase()); }
+
+/* ---------- chips ---------- */
+(function(){
+  const t=[ '覆盖城市 '+CITIES.length+' 座', '核价截止 '+DATA.meta.as_of ];
+  document.getElementById('chips').innerHTML=t.map(x=>'<span class="chip">'+x+'</span>').join('');
+})();
+
+/* ---------- table head (dynamic base, clickable 城市/价格/最高票价 表头) ---------- */
+function renderHead(){
+  const cityArr=(curSort.type==='pinyin')?'<span class="arr">'+(curSort.dir===-1?'▼':'▲')+'</span>':'';
+  let h='<th class="city-h price" data-city="1">城市'+cityArr+'</th>';
+  for(let f=2; f<=getBase(); f++){
+    const active=(curSort.type==='fare' && curSort.f===f);
+    const arr=active?'<span class="arr">'+(curSort.dir===-1?'▼':'▲')+'</span>':'';
+    h+='<th class="price" data-f="'+f+'">'+f+' 元<span class="y">km</span>'+arr+'</th>';
+  }
+  const mfArr=(curSort.type==='mf')?'<span class="arr">'+(curSort.dir===-1?'▼':'▲')+'</span>':'';
+  h+='<th class="mfh price" data-mf="1">最高票价'+mfArr+'</th><th>规则要点</th>';
+  document.getElementById('thead-row').innerHTML=h;
+  document.querySelectorAll('#thead-row th.price').forEach(th=>{
+    th.addEventListener('click', ()=>{
+      if(th.getAttribute('data-city')) toggleCitySort();
+      else if(th.getAttribute('data-mf')) toggleMfSort();
+      else togglePriceSort(parseInt(th.getAttribute('data-f'),10));
+    });
+  });
+}
+
+/* ---------- merge identical-rule groups ---------- */
+function mergeGroups(list){
+  const map={};
+  list.forEach(c=>{
+    const fp=JSON.stringify([c.min_fare,c.boundaries,c.beyond,c.unit||null]);
+    (map[fp]=map[fp]||[]).push(c);
+  });
+  return Object.keys(map).map(k=>{ const g=map[k]; return {cities:g, rep:g[0], merged:g.length>1}; });
+}
+
+/* 永久合并：广佛同城、杭绍联网（无论是否勾选「合并显示」都合并） */
+const PERMA_MERGE=[["广州","佛山"],["杭州","绍兴"]];
+function applyPerma(list){
+  const idx={};
+  PERMA_MERGE.forEach((g,i)=>g.forEach(n=>{ idx[n]=i; }));
+  const buckets={}, singles=[];
+  list.forEach(c=>{
+    if(Object.prototype.hasOwnProperty.call(idx,c.city)){ const i=idx[c.city]; (buckets[i]=buckets[i]||[]).push(c); }
+    else singles.push(c);
+  });
+  const out=singles.map(c=>({cities:[c],rep:c,merged:false}));
+  Object.keys(buckets).forEach(i=>{ const g=buckets[i]; out.push({cities:g, rep:g[0], merged:true}); });
+  return out;
+}
+
+/* ---------- table body ---------- */
+/* 「–」（该城无此票价档）恒排底部：返回非 null 即表示已定序，不再参与数值比较 */
+function nullLast(vx,vy){ return (vx===null||vy===null)?((vx===null&&vy===null)?0:(vx===null?1:-1)):null; }
+function cmpOf(s){
+  const cmp={
+    ref:(x,y)=>{ const k=c=>isMile(c)?((b(c,c.min_fare)||0)-(c.min_fare-2)*3):999; const fx=k(x), fy=k(y); return fx-fy || (baseKm(y)||0)-(baseKm(x)||0); },
+    fare:(x,y)=>{ const f=s.f, vx=b(x,f), vy=b(y,f); const n=nullLast(vx,vy); if(n!==null) return n;
+      return s.dir===-1 ? vy-vx : vx-vy; },
+    mf:(x,y)=>{ const vx=maxFare(x), vy=maxFare(y); return s.dir===-1 ? vy-vx : vx-vy; },
+    pinyin:(x,y)=>{ const r=(PY[x.city]||'').localeCompare(PY[y.city]||''); return s.dir===-1 ? -r : r; }
+  };
+  return cmp[s.type]||cmp.ref;
+}
+function sortCities(s){ return CITIES.slice().sort(cmpOf(s)); }
+function render(){
+  const hideNon=document.getElementById('hideNonMile').checked;
+  const q=document.getElementById('q').value.trim();
+  const base=getBase();
+  let list=sortCities(curSort);
+  if(hideNon) list=list.filter(isMile);
+  if(q) list=list.filter(c=>c.city.indexOf(q)>=0||c.region.indexOf(q)>=0);
+  const cmpRep=cmpOf(curSort);
+  const groups=(document.getElementById('mergeView').checked?mergeGroups(list):applyPerma(list))
+    .sort((A,B)=>cmpRep(A.rep,B.rep));
+  /* 每个价格档下可乘里程最长的城市（用于强调高亮），按当前可见的里程票制城市计算 */
+  const bestFare={};
+  for(let f=2; f<=base; f++){
+    let mx=null;
+    groups.forEach(g=>{ if(!isMile(g.rep)) return; const v=b(g.rep,f); if(v!==null && (mx===null||v>mx)) mx=v; });
+    bestFare[f]=mx;
+  }
+  /* 政策性封顶城市：官方把最高票价写为「封顶优惠/上限」，而非按最远 OD 算出的自然最高 */
+  const CAP_CITIES=['沈阳','天津'];
+  const tag=v=>'<span class="tag '+v[0]+'">'+v[1]+'</span>';
+  const tb=document.getElementById('tbody');
+  tb.innerHTML=groups.map(g=>{
+    const c=g.rep;
+    let tds='';
+    for(let f=2; f<=base; f++){
+      const v=b(c,f);
+      const own=(f===c.min_fare)&&v!==null;
+      const isBest=v!==null && v===bestFare[f];
+      tds+='<td class="'+(v===null?'na':'')+(own?' start':'')+(isBest?' best':'')+'">'+cellHTML(c,f)+'</td>';
+    }
+    const name=g.merged?g.cities.map(x=>x.city).join('、'):c.city;
+    const isCap=CAP_CITIES.indexOf(c.city)>=0;
+    const nameHTML=isCap?'<span class="capname">'+name+'</span>':name;
+    const tags=[];
+    if(c.city==='天津') tags.push(tag(['warn','站数票制']));
+    if(['温州','金华','台州'].indexOf(c.city)>=0) tags.push(tag(['note','市域铁路']));
+    if(c.city==='芜湖') tags.push(tag(['note','单轨']));
+    if(isCap) tags.push(tag(['cap', maxFare(c)+'元封顶']));
+    const mergeNote=g.merged?' <span class="tag note">'+g.cities.length+'城同规则</span>':'';
+    return '<tr><td class="city">'+nameHTML+tags.join('')+mergeNote+'</td>'+tds+'<td class="mf">'+maxFareHTML(c)+'</td><td class="rule">'+c.fare_rule+'</td></tr>';
+  }).join('');
+  if(!groups.length) tb.innerHTML='<tr><td colspan="'+(base+2)+'" style="padding:26px;color:#8d7d6d">没有匹配的城市</td></tr>';
+}
+
+/* ---------- source table (per city, to keep each city's official source) ---------- */
+function renderSrc(){
+  const order=['官网','官网(同网)','政府','发改委','媒体'];
+  const list=CITIES.slice().sort((a,b2)=>order.indexOf(a.srcType)-order.indexOf(b2.srcType)||a.city.localeCompare(b2.city,'zh'));
+  const cls={'官网':'g','官网(同网)':'g','政府':'b','发改委':'b','媒体':'r'};
+  const conf={high:'官方口径，高置信',medium:'多源一致，中置信',low:'待进一步核实'};
+  document.getElementById('srcBody').innerHTML=list.map(c=>
+    '<tr><td class="c">'+c.city+'</td>'+
+    '<td>'+c.fare_rule+(c.note?'<div class="conf" style="margin-top:4px">'+c.note+'</div>':'')+'</td>'+
+    '<td style="white-space:nowrap">'+c.as_of+'<div class="conf" style="margin-top:4px">'+conf[c.confidence]+'</div></td>'+
+    '<td><span class="type '+cls[c.srcType]+'">'+c.srcType+'</span></td>'+
+    '<td>'+c.sources.map(u=>'<div style="word-break:break-all;margin-bottom:3px"><a href="'+u+'" target="_blank" rel="noopener">'+(u.length>64?u.slice(0,62)+'…':u)+'</a></div>').join('')+'</td></tr>'
+  ).join('');
+}
+
+function rerenderAll(){
+  if(curSort.type==='fare' && curSort.f>getBase()) curSort={type:'ref',dir:1};
+  renderHead(); render();
+}
+/* 基准票价：边输入边生效；输入框为空时保持当前视图，离焦/回车再把越界值钳回 2–20 并回写 */
+function baseApply(raw){
+  const v=parseInt(raw,10);
+  if(isNaN(v)) return;
+  const c=clampBase(v);
+  if(c!==lastBase){ lastBase=c; rerenderAll(); }
+}
+function baseCommit(){
+  const el=document.getElementById('baseSel');
+  const v=parseInt(el.value,10);
+  const c=isNaN(v)?BASE_MIN:clampBase(v);
+  if(el.value!==String(c)) el.value=String(c);
+  if(c!==lastBase){ lastBase=c; rerenderAll(); }
+}
+document.getElementById('baseSel').addEventListener('input',e=>baseApply(e.target.value));
+document.getElementById('baseSel').addEventListener('change',baseCommit);
+document.getElementById('baseSel').addEventListener('blur',baseCommit);
+document.getElementById('mergeView').addEventListener('change',render);
+document.getElementById('hideNonMile').addEventListener('change',render);
+document.getElementById('q').addEventListener('input',render);
+renderHead(); render(); renderSrc();
+</script>
+</body>
+</html>

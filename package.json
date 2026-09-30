@@ -1,0 +1,25 @@
+{
+  "name": "metro-fare",
+  "version": "1.0.0",
+  "private": true,
+  "description": "全国城市轨道交通票价对比 — Tauri 2 桌面端与安卓端",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "tauri": "tauri",
+    "web": "node scripts/web.mjs",
+    "web:dev": "node scripts/web.mjs --serve",
+    "desktop:dev": "node scripts/desktop.mjs dev",
+    "desktop:build": "node scripts/desktop.mjs build",
+    "desktop:installer": "node scripts/desktop.mjs build --installer",
+    "android:init": "node scripts/android.mjs init",
+    "android:dev": "node scripts/android.mjs dev",
+    "android:build": "node scripts/android.mjs build --apk --target aarch64",
+    "android:doctor": "node scripts/android.mjs doctor",
+    "package": "powershell -ExecutionPolicy Bypass -File scripts/package-all.ps1"
+  },
+  "devDependencies": {
+    "@tauri-apps/cli": "2.11.4"
+  }
+}

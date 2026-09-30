@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>全国城市轨道交通票价对比（按里程计价）· 2026版</title>
+<style>
+  :root{
+    --bg:#f7f3ed; --card:#ffffff; --ink:#2c2118; --ink2:#5b4a3c; --muted:#8d7d6d;
+    --orange:#e2701a; --orange-d:#a83c10; --orange-l:#f8b34a; --green:#0f9d58;
+    --line:#ece2d6; --line2:#f6efe6; --blue:#2a6fb0;
+    --shadow:0 1px 2px rgba(120,80,40,.06), 0 8px 24px rgba(120,80,40,.07);
+  }
+  *{box-sizing:border-box}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font-family:"PingFang SC","Microsoft YaHei","Hiragino Sans GB","Source Han Sans SC",system-ui,-apple-system,"Segoe UI",sans-serif;
+    -webkit-font-smoothing:antialiased; line-height:1.6;
+  }
+  .wrap{max-width:1180px;margin:0 auto;padding:0 18px 70px}
+  .wrap.tight{padding-bottom:0}
+  .wrap-wide{padding:0 18px}
+
+  /* ---------- banner ---------- */
+  .banner{
+    background:linear-gradient(120deg,#8e2f08 0%,var(--orange-d) 22%,var(--orange) 58%,var(--orange-l) 100%);
+    color:#fff; padding:34px 0 30px; margin-bottom:-2px; position:relative; overflow:hidden;
+  }
+  .banner:after{
+    content:""; position:absolute; inset:0;
+    background:radial-gradient(circle at 88% 12%, rgba(255,255,255,.22), transparent 42%);
+    pointer-events:none;
+  }
+  .banner .wrap{padding-bottom:0}
+  .banner h1{margin:0;font-size:33px;letter-spacing:1px;font-weight:800;text-shadow:0 2px 10px rgba(80,30,0,.28)}
+  .banner .chips{margin-top:16px;display:flex;flex-wrap:wrap;gap:8px}
+  .chip{background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.34);border-radius:999px;padding:4px 12px;font-size:12.5px;backdrop-filter:blur(2px)}
+
+  /* ---------- card ---------- */
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;box-shadow:var(--shadow);padding:18px 20px;margin-top:20px}
+  h2.sec{font-size:18px;margin:26px 0 10px;display:flex;align-items:center;gap:9px}
+  h2.sec:before{content:"";width:5px;height:19px;border-radius:3px;background:linear-gradient(180deg,var(--orange),var(--orange-l))}
+  h3.sub{font-size:15px;margin:20px 0 8px;color:var(--ink)}
+  p,li{font-size:14px;color:var(--ink2)}
+  a{color:var(--blue);text-decoration:none}
+  a:hover{text-decoration:underline}
+
+  /* ---------- toolbar ---------- */
+  .toolbar{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-top:18px}
+  .toolbar label{font-size:13px;color:var(--ink2);display:flex;align-items:center;gap:6px}
+  .toolbar .hint{font-size:12.5px;color:var(--muted)}
+  select,input[type=search],input[type=number]{
+    font:inherit;font-size:13px;color:var(--ink);background:#fff;border:1px solid var(--line);
+    border-radius:9px;padding:7px 10px;outline:none;transition:.15s;
+  }
+  select:focus,input[type=search]:focus,input[type=number]:focus{border-color:var(--orange);box-shadow:0 0 0 3px rgba(226,112,26,.14)}
+  input[type=search]{width:170px}
+  input[type=number]{width:72px;text-align:center;font-weight:700;font-variant-numeric:tabular-nums}
+  .switch{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--ink2);cursor:pointer;user-select:none}
+  .switch input{accent-color:var(--orange);width:15px;height:15px}
+
+  /* ---------- legend ---------- */
+  .legend{display:flex;flex-wrap:wrap;gap:16px;align-items:center;background:#fffaf4;border:1px dashed #f0d9bd;border-radius:12px;padding:11px 14px;margin-top:16px;font-size:13px;color:var(--ink2)}
+  .legend .kv{display:flex;align-items:center;gap:7px}
+
+  /* ---------- table ---------- */
+  .tbl-scroll{overflow-x:auto;margin-top:14px;border:1px solid var(--line);border-radius:12px}
+  table.fare{border-collapse:separate;border-spacing:0;width:100%;min-width:1000px;background:#fff}
+  table.fare th,table.fare td{border-bottom:1px solid var(--line2);border-right:1px solid var(--line2);padding:3px 8px;text-align:center;white-space:nowrap}
+  table.fare thead th{
+    position:sticky;top:0;z-index:3;background:linear-gradient(180deg,var(--orange),#d6620f);color:#fff;
+    font-size:13px;font-weight:700;letter-spacing:.4px;border-right-color:rgba(255,255,255,.22);border-bottom:1px solid #c9560a;
+  }
+  table.fare thead th.price{cursor:pointer;user-select:none}
+  table.fare thead th.price:hover{background:linear-gradient(180deg,#ef7d22,#c2530a)}
+  table.fare thead th .arr{font-size:10px;margin-left:2px;opacity:.95}
+  table.fare thead th span.y{font-size:11px;opacity:.9;font-weight:500;display:block;margin-top:-2px}
+  table.fare td.city{
+    position:sticky;left:0;z-index:2;background:#fff;text-align:left;font-weight:700;font-size:14px;
+    padding-left:14px;min-width:132px;border-right:1px solid var(--line);
+  }
+  table.fare thead th.city-h{position:sticky;left:0;z-index:4;text-align:left;padding-left:14px;min-width:132px}
+  table.fare tbody tr:nth-child(even) td{background:#fdfbf8}
+  table.fare tbody tr:nth-child(even) td.city{background:#fdf9f4}
+  table.fare tbody tr:hover td{background:#fff6ec}
+  table.fare tbody tr:hover td.city{background:#ffefdd}
+  table.fare tbody tr td.best{background:#fff3d6}
+  table.fare tbody tr td.best .km{color:#8a4b00}
+  table.fare tbody tr:hover td.best{background:#ffe9bf}
+  .km{font-size:16.5px;font-weight:800;color:var(--orange-d);letter-spacing:-.2px}
+  .unit{font-size:10.5px;color:var(--muted);margin-left:1px;font-weight:500}
+  sup.inc{color:var(--green);font-size:11px;font-weight:700;margin-left:2px;letter-spacing:-.2px}
+  sup.cap{color:var(--muted);font-size:10.5px;font-weight:700;margin-left:2px}
+  td.na{color:#cdc3b7;font-size:15px}
+  /* 最高票价列（该城市线网实际最高票价档，统一格式） */
+  table.fare th.mfh,table.fare td.mf{min-width:84px}
+  td.mf .mfv{font-size:14.5px;font-weight:800;color:var(--ink);letter-spacing:-.2px}
+  td.start{background:#fff4e6 !important;position:relative}
+  td.start .km{color:#a83c10}
+  td.start:after{content:"★";position:absolute;top:3px;left:5px;font-size:9px;color:var(--orange-l)}
+  .tag{display:inline-block;font-size:10.5px;line-height:1.5;padding:1px 6px;border-radius:6px;margin-left:6px;vertical-align:1px;font-weight:600}
+  .tag.warn{background:#fdefe0;color:#a85812;border:1px solid #f2d8bb}
+  .tag.note{background:#eef6ef;color:#0f7a45;border:1px solid #cfe8d8}
+  /* 政策性封顶（官方设最高票价上限，非网络最远 OD 的自然最高）：紫色系 */
+  .tag.cap{background:#f2ecfc;color:#6a35c8;border:1px solid #ddd0f5}
+  td.city .capname{color:#6a35c8}
+  td.rule{text-align:left;font-size:12px;color:var(--muted);white-space:normal;line-height:1.5}
+
+  /* ---------- src table ---------- */
+  table.src{border-collapse:collapse;width:100%;font-size:12.5px}
+  table.src th{background:#fbf5ee;color:var(--ink);font-weight:700;text-align:left;padding:8px 10px;border-bottom:1px solid var(--line)}
+  table.src td{padding:8px 10px;border-bottom:1px solid var(--line2);vertical-align:top;color:var(--ink2)}
+  table.src tr:last-child td{border-bottom:none}
+  table.src td.c{font-weight:700;color:var(--ink);white-space:nowrap}
+  .type{display:inline-block;font-size:11px;padding:1px 7px;border-radius:999px;font-weight:700;white-space:nowrap}
+  .type.g{background:#eaf5ee;color:#0f7a45;border:1px solid #cfe8d8}
+  .type.y{background:#fdf1e2;color:#a85812;border:1px solid #f2d8bb}
+  .type.b{background:#eef3fa;color:#2a6fb0;border:1px solid #d7e4f4}
+  .type.r{background:#fdeeee;color:#b03030;border:1px solid #f3d6d6}
+  .conf{font-size:11px;color:var(--muted)}
+  .ins{background:#fffaf3;border-left:3px solid var(--orange-l);border-radius:0 8px 8px 0;padding:10px 14px;margin:10px 0}
+  .ins b{color:var(--orange-d)}
+  @media (max-width:820px){.banner h1{font-size:24px}}
+  .warnbox{background:#fdf3e8;border:1px solid #f3ddc2;border-radius:10px;padding:12px 15px;font-size:13px;color:#8a5216;margin-top:14px}
+  @media print{
+    body{background:#fff} .banner{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    table.fare thead th{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+    .toolbar{display:none} .tbl-scroll{overflow:visible}
+  }
+</style>
+</head>
+<body>
+
+<div class="banner">
+  <div class="wrap">
+    <h1>全国城市轨道交通票价对比</h1>
+    <div class="chips" id="chips"></div>
+  </div>
+</div>
+
+<div class="wrap tight">
+
+  <div class="legend">
+    <div class="kv"><span class="km">112</span><span class="unit">km</span><sup class="inc">+20</sup><span>该票价可乘的累计里程上限</span></div>
+    <div class="kv"><sup class="inc">+20</sup><span>= 再花 1 元可多乘的公里数</span></div>
+    <div class="kv"><span style="color:#cdc3b7">–</span><span>该档票价不存在</span></div>
+    <div class="kv"><span style="color:var(--orange-l)">★</span><span>最低票价（起步价）档</span></div>
+    <div class="kv"><sup class="cap">封顶</sup><span>该城市线网票价到此封顶，更高档位不予售票</span></div>
+  </div>
+
+  <div class="toolbar">
+    <span class="hint">点表头可排序：城市（拼音）/ 各价格档 / 最高票价，再次点击反向</span>
+    <label>基准票价
+      <input type="number" id="baseSel" min="2" max="20" step="1" value="10" inputmode="numeric"
+             title="请输入 2–20 的整数"> 元
+    </label>
+    <label><input type="checkbox" id="mergeView"> 合并显示（同规则城市）</label>
+    <label><input type="checkbox" id="hideNonMile"> 隐藏非里程票制城市</label>
+    <label>搜索 <input type="search" id="q" placeholder="城市名，如 青岛"></label>
+  </div>
+</div>
+
+<!-- 主表格：全宽，突破 .wrap 的 1180px 居中列，随窗口宽度伸展 -->
+<div class="wrap-wide">
+  <div class="tbl-scroll">
+    <table class="fare" id="tbl">
+      <thead>
+        <tr id="thead-row"></tr>
+      </thead>
+      <tbody id="tbody"></tbody>
+    </table>
+  </div>
+</div>
+
+<div class="wrap">
+  <p style="font-size:12.5px;color:var(--muted);margin:10px 0 0">
+    说明：表中数值为「该票价档对应的里程上限」，按各城市官方公布的「每增加 1 元可乘 N 公里」规则累加得出。
+    标 <sup class="inc">+N</sup> 为下一档的里程跨度，标 <sup class="cap">封顶</sup> 的为该城市线网的最高票价档；
+    超出该线网最高票价、实际并不售票的档位不再推算，统一显示为 <span style="color:#cdc3b7">–</span>。
+    广州/佛山（广佛同城）、杭州/绍兴（杭绍联网）默认合并为一行；勾选「合并显示」可将其余计价规则完全一致的城市也合并（标注「N城同规则」）。
+    标 <span style="background:#fff3d6;padding:0 5px;border-radius:4px;color:#8a4b00;font-weight:700">金色底</span> 的单元格，是该价格档下可乘里程最长的城市（按当前可见行计算，多个城市并列最长时一并高亮）。
+    最右「最高票价」列为该城市线网实际售票的最高票价档——超过它的档位一律不再推算。
+    城市名标 <span style="color:#6a35c8;font-weight:800">紫色</span> 并带「N 元封顶」标签的（<b>沈阳 7 元、天津 5 元</b>），其最高票价是官方设定的<strong>政策性上限</strong>（明细列为「票价优惠政策」「便民让利」），而<u>不是</u>按网络最远 OD 算出来的自然最高——按计价规则它们本可继续加价。
+  </p>
+
+  <h2 class="sec">关键发现</h2>
+  <div class="card">
+    <div class="ins"><b>1. 同样 10 元，里程差近 3 倍。</b>青岛 10 元可乘约 <b>118 km</b>（单位成本约 0.085 元/km），温州 S 线 10 元仅约 <b>40 km</b>（0.25 元/km）——相差约 <b>2.95 倍</b>。差异根源是「递远递减」的陡峭程度：青岛、北京、重庆、厦门在长距离段做到「每 1 元可乘 20 公里」，而温州、金华、台州等市域铁路在 4–28 公里段「每 1 元仅 4 公里」。</div>
+    <div class="ins"><b>2. 起步价基本固化在 2 元。</b>45 城中仅 <b>北京、上海</b>为 3 元起步（且无 1、2 元档），其余 43 城为 2 元起步（其中天津市区线网按站数计价）；2 元能乘的最长里程为 <b>合肥、芜湖、金华、台州 8 km</b>，最短为广州、深圳、成都、武汉、重庆、杭州、南京、厦门、兰州、贵阳、佛山、绍兴、东莞、温州的 <b>4 km</b>。</div>
+    <div class="ins"><b>3. 起步价 3 元的北京/上海并不「贵」，长距离反而更便宜。</b>北京 10 元可乘 112 km、上海 76 km，均高于 2 元起步城市的中位水平；北京 32 km 以上「每元 20 公里」的阶梯是全国最陡的之一。</div>
+    <div class="ins"><b>4. 近半数城市的线网票价已在 10 元以下封顶。</b>45 城中有 <b>23 城</b>的线网最高票价低于 10 元（沈阳、南昌、洛阳等即是），其更高档位实际并不售票，在本表中统一显示为「–」；天津市区线网至今仍按<b>站数</b>而非里程计价（≤5 站 2 元、17 站及以上为该线网最高档），是全国唯一以站数票制为主体的主要城市，因此无法换算里程档。</div>
+    <div class="ins"><b>5. 2024–2026 年确实调过价的城市：</b>重庆（2025-07-30 起细分 12–24 公里段）、昆明（2025-04-15 起跳档里程由 5/7/9/11/13 改为 4/5/6/7/8/9）、太原（2024-12 起执行新票价）。其余城市本轮复核未见基本票价调整，多数仍沿用 2014–2019 年的票制文件。</div>
+    <div class="ins"><b>6. 跨市同网同价的两个样本：</b>佛山 2/3 号线与广州完全同价（4 km 起步 2 元、24 km 后每元 8 公里）；绍兴与杭州地铁联网分段计价（跨市在姑娘桥站后台结账后重新计费）。</div>
+  </div>
+
+  <h2 class="sec">逐城规则与数据来源</h2>
+  <div class="card">
+    <p style="margin-top:0">每一行的票制规则都取自该城市运营公司官网的票务规则页，或当地发改委／交通委的票价批复公告；「来源类型」标注了取证优先级，可点击链接核对原文。合并行的各城市来源请见其独立条目（本表逐城列出以保证可追溯）。</p>
+    <div class="tbl-scroll">
+      <table class="src" id="srcTbl">
+        <thead>
+          <tr><th>城市</th><th>规则要点（官方原文概括）</th><th>规则生效</th><th>来源类型</th><th>来源链接</th></tr>
+        </thead>
+        <tbody id="srcBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <h2 class="sec">口径与免责说明</h2>
+  <div class="card">
+    <ul style="margin:0;padding-left:20px">
+      <li><b>城市范围：</b>中国内地已开通城市轨道交通的城市（含地铁、轻轨、跨座式单轨、市域铁路）。中国香港（港铁）、中国澳门、中国台湾地区的轨道交通采用不同票制体系，未纳入本次里程口径对比。</li>
+      <li><b>排除项：</b>机场专线（北京首都机场线/大兴机场线、上海机场联络线、长沙磁浮、福州滨海快线等）、单独计价的有轨电车与 APM、跨市城际铁路（杭海城际、郑许市域铁路等）均不计入「普通地铁」口径，在各城市备注中注明。</li>
+      <li><b>换算方式：</b>官方规则多以「起步 X 元可乘 A 公里，之后每增加 1 元可乘 B 公里」表述，本表按此逐档累加；各城市线网最高票价及以下的档位为实际可售价档，超出该线网最高票价的部分不再推算，统一显示为「–」。各城市线网最高票价同时汇总于主表最右「最高票价」列，并完整列示在随附的 CSV / XLSX 数据表中。</li>
+      <li><b>计价细节：</b>绝大多数城市按「最短路径」里程计价，换乘不重复计费；同站进出、超时（多为 120–240 分钟）另有规定，不影响本表里程对比。</li>
+      <li><b>数据时效：</b>核价截止 <b>2026-09-21</b>。票价政策会随新线开通与听证调整，如需用于正式引用请以各城市运营公司官网当日公示为准。</li>
+    </ul>
+    <div class="warnbox">本表为按官方规则换算的<strong>理论上限里程</strong>，实际单程票价取决于具体出行 OD 的最短路径里程，表中数值不等于「任意两站间都能坐这么远」。</div>
+  </div>
+
+</div>
+
+<script>
+const DATA = __DATA__;
+const CITIES = DATA.cities;
+const PY = {"北京":"beijing","上海":"shanghai","广州":"guangzhou","深圳":"shenzhen","成都":"chengdu","武汉":"wuhan","重庆":"chongqing","杭州":"hangzhou","南京":"nanjing","西安":"xian","苏州":"suzhou","天津":"tianjin","郑州":"zhengzhou","长沙":"changsha","沈阳":"shenyang","大连":"dalian","青岛":"qingdao","宁波":"ningbo","合肥":"hefei","昆明":"kunming","南宁":"nanning","福州":"fuzhou","厦门":"xiamen","济南":"jinan","太原":"taiyuan","石家庄":"shijiazhuang","兰州":"lanzhou","乌鲁木齐":"wulumuqi","贵阳":"guiyang","佛山":"foshan","南昌":"nanchang","长春":"changchun","哈尔滨":"haerbin","无锡":"wuxi","温州":"wenzhou","徐州":"xuzhou","常州":"changzhou","南通":"nantong","呼和浩特":"huhehaote","洛阳":"luoyang","绍兴":"shaoxing","东莞":"dongguan","芜湖":"wuhu","金华":"jinhua","台州":"taizhou"};
+/* 基准票价：可输入 2–20 的整数（越界自动钳制；输入过程中暂空时沿用上一个有效值） */
+const BASE_MIN=2, BASE_MAX=20;
+let lastBase=parseInt(document.getElementById('baseSel').value,10)||10;
+function clampBase(v){ return Math.max(BASE_MIN, Math.min(BASE_MAX, Math.round(v))); }
+function getBase(){
+  const v=parseInt(document.getElementById('baseSel').value,10);
+  return isNaN(v) ? lastBase : clampBase(v);
+}
+
+/* 当前排序状态：type∈{ref,fare,mf,pinyin}；dir:-1 降序 / 1 升序（ref = 按起步里程↑，为默认视图） */
+let curSort={type:'ref', dir:1};
+function togglePriceSort(f){
+  if(curSort.type==='fare' && curSort.f===f) curSort.dir=-curSort.dir;
+  else curSort={type:'fare', f:f, dir:-1};
+  rerenderAll();
+}
+/* 城市列表头点击：按拼音升（A→Z）/ 降 */
+function toggleCitySort(){
+  if(curSort.type==='pinyin') curSort.dir=-curSort.dir;
+  else curSort={type:'pinyin', dir:1};
+  rerenderAll();
+}
+/* 最高票价列表头点击：切换降/升 */
+function toggleMfSort(){
+  if(curSort.type==='mf') curSort.dir=-curSort.dir;
+  else curSort={type:'mf', dir:-1};
+  rerenderAll();
+}
+
+/* ---------- helpers ---------- */
+/* 该城市线网实际最高票价档（超过该档不再推算，表格显示「–」） */
+function maxFare(c){ return c.max_fare || 15; }
+function b(c,f){
+  if(f<c.min_fare || f>maxFare(c)) return null;
+  const v=c.boundaries[String(f)];
+  if(v!==null && v!==undefined) return v;
+  // 超出已定义档位（如 11–15 元）时，按 beyond 从最高档递推
+  if(f>10 && c.beyond){
+    for(let k=10; k>=c.min_fare; k--){
+      const vv=c.boundaries[String(k)];
+      if(vv!==null && vv!==undefined) return vv+(f-k)*c.beyond;
+    }
+  }
+  return null;
+}
+/* 是否「里程票制」城市：天津为按站数计价，无里程档，隐藏非里程票制时应剔除 */
+function isMile(c){ return (c.unit || 'km') !== '站'; }
+function unitOf(c){ return c.unit || 'km'; }
+function spanOf(c,f){
+  const cur=b(c,f); if(cur===null) return null;
+  if(f>=maxFare(c)) return {type:'cap'};   // 已是该城市线网最高票价档
+  const nx=b(c,f+1);
+  if(nx!==null && nx>cur) return {type:'inc', n:nx-cur};
+  if(nx!==null && nx===cur) return null;
+  if(c.beyond) return {type:'inc', n:c.beyond};
+  return null;
+}
+function cellHTML(c,f){
+  const v=b(c,f);
+  if(v===null) return '<span style="color:#cdc3b7">–</span>';
+  const s=spanOf(c,f);
+  let sup='';
+  if(s&&s.type==='inc') sup='<sup class="inc">+'+s.n+'</sup>';
+  else if(s&&s.type==='cap') sup='<sup class="cap">封顶</sup>';
+  return '<span class="km">'+v+'</span><span class="unit">'+unitOf(c)+'</span>'+sup;
+}
+/* 最高票价列：该城市线网实际的最高票价档（统一显示为 N 元） */
+function maxFareHTML(c){
+  return '<span class="mfv">'+maxFare(c)+'</span><span class="unit">元</span>';
+}
+/* 基准票价对应的可乘里程（统一取用户所选基准票价） */
+function baseKm(c){ return b(c, getBase()); }
+
+/* ---------- chips ---------- */
+(function(){
+  const t=[ '覆盖城市 '+CITIES.length+' 座', '核价截止 '+DATA.meta.as_of ];
+  document.getElementById('chips').innerHTML=t.map(x=>'<span class="chip">'+x+'</span>').join('');
+})();
+
+/* ---------- table head (dynamic base, clickable 城市/价格/最高票价 表头) ---------- */
+function renderHead(){
+  const cityArr=(curSort.type==='pinyin')?'<span class="arr">'+(curSort.dir===-1?'▼':'▲')+'</span>':'';
+  let h='<th class="city-h price" data-city="1">城市'+cityArr+'</th>';
+  for(let f=2; f<=getBase(); f++){
+    const active=(curSort.type==='fare' && curSort.f===f);
+    const arr=active?'<span class="arr">'+(curSort.dir===-1?'▼':'▲')+'</span>':'';
+    h+='<th class="price" data-f="'+f+'">'+f+' 元<span class="y">km</span>'+arr+'</th>';
+  }
+  const mfArr=(curSort.type==='mf')?'<span class="arr">'+(curSort.dir===-1?'▼':'▲')+'</span>':'';
+  h+='<th class="mfh price" data-mf="1">最高票价'+mfArr+'</th><th>规则要点</th>';
+  document.getElementById('thead-row').innerHTML=h;
+  document.querySelectorAll('#thead-row th.price').forEach(th=>{
+    th.addEventListener('click', ()=>{
+      if(th.getAttribute('data-city')) toggleCitySort();
+      else if(th.getAttribute('data-mf')) toggleMfSort();
+      else togglePriceSort(parseInt(th.getAttribute('data-f'),10));
+    });
+  });
+}
+
+/* ---------- merge identical-rule groups ---------- */
+function mergeGroups(list){
+  const map={};
+  list.forEach(c=>{
+    const fp=JSON.stringify([c.min_fare,c.boundaries,c.beyond,c.unit||null]);
+    (map[fp]=map[fp]||[]).push(c);
+  });
+  return Object.keys(map).map(k=>{ const g=map[k]; return {cities:g, rep:g[0], merged:g.length>1}; });
+}
+
+/* 永久合并：广佛同城、杭绍联网（无论是否勾选「合并显示」都合并） */
+const PERMA_MERGE=[["广州","佛山"],["杭州","绍兴"]];
+function applyPerma(list){
+  const idx={};
+  PERMA_MERGE.forEach((g,i)=>g.forEach(n=>{ idx[n]=i; }));
+  const buckets={}, singles=[];
+  list.forEach(c=>{
+    if(Object.prototype.hasOwnProperty.call(idx,c.city)){ const i=idx[c.city]; (buckets[i]=buckets[i]||[]).push(c); }
+    else singles.push(c);
+  });
+  const out=singles.map(c=>({cities:[c],rep:c,merged:false}));
+  Object.keys(buckets).forEach(i=>{ const g=buckets[i]; out.push({cities:g, rep:g[0], merged:true}); });
+  return out;
+}
+
+/* ---------- table body ---------- */
+/* 「–」（该城无此票价档）恒排底部：返回非 null 即表示已定序，不再参与数值比较 */
+function nullLast(vx,vy){ return (vx===null||vy===null)?((vx===null&&vy===null)?0:(vx===null?1:-1)):null; }
+function cmpOf(s){
+  const cmp={
+    ref:(x,y)=>{ const k=c=>isMile(c)?((b(c,c.min_fare)||0)-(c.min_fare-2)*3):999; const fx=k(x), fy=k(y); return fx-fy || (baseKm(y)||0)-(baseKm(x)||0); },
+    fare:(x,y)=>{ const f=s.f, vx=b(x,f), vy=b(y,f); const n=nullLast(vx,vy); if(n!==null) return n;
+      return s.dir===-1 ? vy-vx : vx-vy; },
+    mf:(x,y)=>{ const vx=maxFare(x), vy=maxFare(y); return s.dir===-1 ? vy-vx : vx-vy; },
+    pinyin:(x,y)=>{ const r=(PY[x.city]||'').localeCompare(PY[y.city]||''); return s.dir===-1 ? -r : r; }
+  };
+  return cmp[s.type]||cmp.ref;
+}
+function sortCities(s){ return CITIES.slice().sort(cmpOf(s)); }
+function render(){
+  const hideNon=document.getElementById('hideNonMile').checked;
+  const q=document.getElementById('q').value.trim();
+  const base=getBase();
+  let list=sortCities(curSort);
+  if(hideNon) list=list.filter(isMile);
+  if(q) list=list.filter(c=>c.city.indexOf(q)>=0||c.region.indexOf(q)>=0);
+  const cmpRep=cmpOf(curSort);
+  const groups=(document.getElementById('mergeView').checked?mergeGroups(list):applyPerma(list))
+    .sort((A,B)=>cmpRep(A.rep,B.rep));
+  /* 每个价格档下可乘里程最长的城市（用于强调高亮），按当前可见的里程票制城市计算 */
+  const bestFare={};
+  for(let f=2; f<=base; f++){
+    let mx=null;
+    groups.forEach(g=>{ if(!isMile(g.rep)) return; const v=b(g.rep,f); if(v!==null && (mx===null||v>mx)) mx=v; });
+    bestFare[f]=mx;
+  }
+  /* 政策性封顶城市：官方把最高票价写为「封顶优惠/上限」，而非按最远 OD 算出的自然最高 */
+  const CAP_CITIES=['沈阳','天津'];
+  const tag=v=>'<span class="tag '+v[0]+'">'+v[1]+'</span>';
+  const tb=document.getElementById('tbody');
+  tb.innerHTML=groups.map(g=>{
+    const c=g.rep;
+    let tds='';
+    for(let f=2; f<=base; f++){
+      const v=b(c,f);
+      const own=(f===c.min_fare)&&v!==null;
+      const isBest=v!==null && v===bestFare[f];
+      tds+='<td class="'+(v===null?'na':'')+(own?' start':'')+(isBest?' best':'')+'">'+cellHTML(c,f)+'</td>';
+    }
+    const name=g.merged?g.cities.map(x=>x.city).join('、'):c.city;
+    const isCap=CAP_CITIES.indexOf(c.city)>=0;
+    const nameHTML=isCap?'<span class="capname">'+name+'</span>':name;
+    const tags=[];
+    if(c.city==='天津') tags.push(tag(['warn','站数票制']));
+    if(['温州','金华','台州'].indexOf(c.city)>=0) tags.push(tag(['note','市域铁路']));
+    if(c.city==='芜湖') tags.push(tag(['note','单轨']));
+    if(isCap) tags.push(tag(['cap', maxFare(c)+'元封顶']));
+    const mergeNote=g.merged?' <span class="tag note">'+g.cities.length+'城同规则</span>':'';
+    return '<tr><td class="city">'+nameHTML+tags.join('')+mergeNote+'</td>'+tds+'<td class="mf">'+maxFareHTML(c)+'</td><td class="rule">'+c.fare_rule+'</td></tr>';
+  }).join('');
+  if(!groups.length) tb.innerHTML='<tr><td colspan="'+(base+2)+'" style="padding:26px;color:#8d7d6d">没有匹配的城市</td></tr>';
+}
+
+/* ---------- source table (per city, to keep each city's official source) ---------- */
+function renderSrc(){
+  const order=['官网','官网(同网)','政府','发改委','媒体'];
+  const list=CITIES.slice().sort((a,b2)=>order.indexOf(a.srcType)-order.indexOf(b2.srcType)||a.city.localeCompare(b2.city,'zh'));
+  const cls={'官网':'g','官网(同网)':'g','政府':'b','发改委':'b','媒体':'r'};
+  const conf={high:'官方口径，高置信',medium:'多源一致，中置信',low:'待进一步核实'};
+  document.getElementById('srcBody').innerHTML=list.map(c=>
+    '<tr><td class="c">'+c.city+'</td>'+
+    '<td>'+c.fare_rule+(c.note?'<div class="conf" style="margin-top:4px">'+c.note+'</div>':'')+'</td>'+
+    '<td style="white-space:nowrap">'+c.as_of+'<div class="conf" style="margin-top:4px">'+conf[c.confidence]+'</div></td>'+
+    '<td><span class="type '+cls[c.srcType]+'">'+c.srcType+'</span></td>'+
+    '<td>'+c.sources.map(u=>'<div style="word-break:break-all;margin-bottom:3px"><a href="'+u+'" target="_blank" rel="noopener">'+(u.length>64?u.slice(0,62)+'…':u)+'</a></div>').join('')+'</td></tr>'
+  ).join('');
+}
+
+function rerenderAll(){
+  if(curSort.type==='fare' && curSort.f>getBase()) curSort={type:'ref',dir:1};
+  renderHead(); render();
+}
+/* 基准票价：边输入边生效；输入框为空时保持当前视图，离焦/回车再把越界值钳回 2–20 并回写 */
+function baseApply(raw){
+  const v=parseInt(raw,10);
+  if(isNaN(v)) return;
+  const c=clampBase(v);
+  if(c!==lastBase){ lastBase=c; rerenderAll(); }
+}
+function baseCommit(){
+  const el=document.getElementById('baseSel');
+  const v=parseInt(el.value,10);
+  const c=isNaN(v)?BASE_MIN:clampBase(v);
+  if(el.value!==String(c)) el.value=String(c);
+  if(c!==lastBase){ lastBase=c; rerenderAll(); }
+}
+document.getElementById('baseSel').addEventListener('input',e=>baseApply(e.target.value));
+document.getElementById('baseSel').addEventListener('change',baseCommit);
+document.getElementById('baseSel').addEventListener('blur',baseCommit);
+document.getElementById('mergeView').addEventListener('change',render);
+document.getElementById('hideNonMile').addEventListener('change',render);
+document.getElementById('q').addEventListener('input',render);
+renderHead(); render(); renderSrc();
+</script>
+</body>
+</html>

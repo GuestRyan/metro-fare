@@ -1,0 +1,49 @@
+[package]
+name = "metro-fare"
+version = "1.0.0"
+edition = "2021"
+rust-version = "1.77"
+description = "全国城市轨道交通票价对比"
+license = "UNLICENSED"
+
+[lib]
+name = "metro_fare_lib"
+crate-type = ["staticlib", "cdylib", "rlib"]
+
+[build-dependencies]
+# ⚠️ 版本锁定为与 FxxkBox 一致的一组（见 README §12.7）。不要随手写成 "2"。
+tauri-build = { version = "=2.6.3", features = [] }
+
+[dependencies]
+# ⚠️ 版本**刻意锁定**（见 README §12.7）。
+tauri = { version = "=2.11.5", features = [] }
+tauri-utils = "=2.9.3"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+
+# ⚠️ indexmap 1.x 必须打本地补丁（见 README §12.7）。
+#
+# 症状：编译 schemars 0.8.22 报
+#   error[E0107]: struct takes 3 generic arguments but 2 generic arguments were supplied
+#   pub type Map<K, V> = indexmap::IndexMap<K, V>;
+#
+# 根因：indexmap 1.9.3 有两份 IndexMap 定义：
+#   #[cfg(has_std)]     pub struct IndexMap<K, V, S = RandomState>   ← 有默认 S
+#   #[cfg(not(has_std))] pub struct IndexMap<K, V, S>                ← 无默认 S
+# `has_std` 由 build.rs 决定，而上游 build.rs 用 autocfg 探测 sysroot 的 std，
+# 在本机 rustc 1.98.1 上探测失败 → 落到 `#![no_std]` 那份 → E0107。
+#
+# 修复：vendor/indexmap/build.rs 改为**无条件** emit `has_std`
+# （本项目 Windows / Android 目标都必然有 std）。
+[patch.crates-io]
+indexmap = { path = "vendor/indexmap" }
+
+[profile.release]
+# 小体积：单编译单元 + 全量 LTO + 体积优化 + 去符号 + panic abort
+codegen-units = 1
+lto = "fat"
+opt-level = "z"
+strip = true
+panic = "abort"
+debug = false
+incremental = false
