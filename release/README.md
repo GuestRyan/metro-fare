@@ -1,37 +1,20 @@
-# 地铁票价对比 — 发布目录
+# 城市轨道交通票价查询软件 V1.0.0
 
-本目录存放打包产物，**内容不入版本库**（`.gitignore` 用锚定规则 `/release/*` 忽略，只保留本说明与 `web/.gitkeep`）。
+## 运行
 
-```
-release/
-├── web/                      # Tauri 前端资源（index.html + 原始单文件）
-├── windows/                  # Windows 便携版 exe / NSIS 安装包 + sha256
-├── android/                  # Android APK + sha256
-└── README.md                 # 本文件
-```
+Windows 打开 `windows/里程票价查询.exe`，`WebView2Loader.dll` 保留在同一目录，系统需安装 Microsoft Edge WebView2 Runtime。离线网页直接打开 `web/index.html`，无需服务器。
 
-## 一键打包
+打开时里程为空、城市不选，右侧显示教程。输入 0.01 至 500 公里并选择城市后显示结果。天津放在城市列表最下方，标为「天津（站数计价）」，选择后不做公里报价。数据来源只显示文字，不提供超链接。重新打开不恢复旧输入。
 
-```powershell
-powershell -ExecutionPolicy Bypass -File scripts\package-all.ps1
-# 只要桌面端：      -DesktopOnly
-# 只要桌面端+安装包：-DesktopOnly -Installer
-# 跳过某一端：      -SkipWindows / -SkipAndroid
-```
+## 文件
 
-## 单独打包
+- `docs/01_运行与构建说明.md`：打开、查询、数据表及源码构建方法。
+- `docs/02_总体设计说明.md`、`docs/03_详细设计说明.md`、`docs/04_测试案例与结果.md`：设计及测试记录。
+- `data/里程票价与数据来源.xlsx`：原始 CSV 的城市、地区、计价规则、备注、规则生效、来源链接六列。
+- `SHA256SUMS.txt`：最终同步完成后更新的文件校验值。
 
-```powershell
-npm run desktop:build          # 便携版 exe
-npm run desktop:installer      # 追加 NSIS 安装包
-npm run android:build          # 需先 npm run android:init
-```
+## 说明
 
-## 产物命名
+票价按原始 CSV 测算，不是运营方实时报价。浏览器下载已验证，Windows 原生窗口下载仍需目标机验收。
 
-- Windows：`release/windows/地铁票价对比.exe`
-- Android：`release/android/地铁票价对比.apk`
-
-每个产物旁都有同名 `.sha256` 文本文件。
-
-> ⚠️ 目录中的**中文文件名**在部分终端下会显示成乱码，那是控制台编码问题，文件本身正常。
+草稿、截图、测试输出及旧版副本保存在工作目录或项目外归档，不放入 release。

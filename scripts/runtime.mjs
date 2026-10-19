@@ -56,27 +56,22 @@ export function execute(command, args, options = {}) {
   if (result.status !== 0) throw new Error(command + ' failed with exit code ' + result.status);
 }
 
-/** 跑 Python 构建管线（build.py），先生成 地铁票价对比.html 等交付物。 */
+/** 兼容旧调用入口，但只生成新版查询页。 */
 export function runBuild() {
-  const python = process.env.METRO_FARE_PYTHON
-    || ['D:\\Program Files\\Python314\\python.exe']
-      .find((candidate) => existsSync(candidate))
-    || 'python';
-  execute(python, [path.join(root, 'build.py')]);
-  return python;
+  execute(process.execPath, [path.join(root, 'scripts/web.mjs')]);
+  return process.execPath;
 }
 
-/** 给已就位的产物写一份 sha256 旁证文件。 */
+// 单次构建的校验记录留在工作目录；交付包由打包脚本统一计算。
 export function writeChecksum(file, description) {
   const digest = createHash('sha256').update(readFileSync(file)).digest('hex');
-  writeFileSync(file + '.sha256', description + 'SHA256 ' + digest + '\n');
+  const checks = path.join(root, 'workfiles/build-checksums');
+  mkdirSync(checks, { recursive: true });
+  writeFileSync(path.join(checks, path.basename(file) + '.sha256'), description + 'SHA256 ' + digest + '\n');
   return { digest, size: statSync(file).size };
 }
 
-/**
- * 拷贝产物到发布位置并落一份 sha256 旁证文件。
- * source 与 target 相同会先截断再读，等于把文件清空，调用方必须先保证两者不同。
- */
+// 发布文件后记录校验值。
 export function publishArtifact(source, target, description) {
   mkdirSync(path.dirname(target), { recursive: true });
   copyFileSync(source, target);

@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="light">
+  <link rel="icon" href="data:,">
+  <title>城市轨道交通票价查询软件</title>
+  <style>__STYLES__</style>
+</head>
+<body>
+  <header class="topbar">
+    <h1>城市轨道交通票价查询</h1>
+    <nav aria-label="页面导航">
+      <button class="nav active" data-view="query" aria-current="page">票价查询</button>
+      <button class="nav" data-view="sources">数据来源</button>
+    </nav>
+    <span id="version" class="version"></span>
+  </header>
+  <main>
+    <div id="query-view" class="workspace">
+      <aside class="controls">
+        <form id="query-form" novalidate>
+          <label for="distance" class="field-label">乘车里程（公里）</label>
+          <div class="distance-field">
+            <input id="distance" name="distance" type="text" inputmode="decimal"
+              autocomplete="off" aria-describedby="distance-error">
+            <button type="submit" class="primary-button">查询</button>
+          </div>
+          <p id="distance-error" class="error" role="alert" hidden></p>
+          <fieldset class="mode-switch">
+            <legend>查询方式</legend>
+            <label><input type="radio" name="mode" value="single">单城查询</label>
+            <label><input type="radio" name="mode" value="multiple" checked>多城对比</label>
+          </fieldset>
+          <div class="section-heading">
+            <h2>选择城市</h2>
+            <span id="selected-count"></span>
+          </div>
+          <input id="city-search" type="search" placeholder="搜索城市"
+            aria-label="搜索城市名称" class="search-field">
+          <div class="selection-tools">
+            <button type="button" id="select-all">全选当前列表</button>
+            <button type="button" id="clear-selection">清空</button>
+          </div>
+          <div id="city-list" class="city-list" aria-label="城市列表"></div>
+        </form>
+      </aside>
+      <section class="results" aria-labelledby="results-title">
+        <div class="results-heading">
+          <h2 id="results-title">票价查询</h2>
+          <div class="result-actions">
+            <label for="sort" class="sr-only">排序</label>
+            <select id="sort">
+              <option value="fare">票价从低到高</option>
+              <option value="name">城市名称</option>
+            </select>
+            <button id="export-csv">导出 CSV</button>
+          </div>
+        </div>
+        <div id="query-tutorial" class="query-tutorial">
+          <ol>
+            <li>在左侧填写乘车里程，范围为 0.01–500 公里，最多两位小数。</li>
+            <li>选择“单城查询”或“多城对比”，再勾选需要查询的城市。</li>
+            <li>填写完整后显示票价。点击“规则”查看计价区间，点击“导出 CSV”保存结果。</li>
+          </ol>
+          <p>例如：输入 16 公里并选择上海，测算票价为 4 元。</p>
+          <p>天津按站数计价，不能直接用公里数换算。</p>
+        </div>
+        <p id="empty-state" class="empty-state" hidden></p>
+        <div class="table-scroll">
+          <table id="fare-table">
+            <thead><tr>
+              <th scope="col">城市</th>
+              <th scope="col">测算票价（元）</th>
+              <th scope="col">与最低价相差（元）</th>
+              <th scope="col"><span class="sr-only">操作</span></th>
+            </tr></thead>
+            <tbody id="fare-rows"></tbody>
+          </table>
+        </div>
+        <section id="rule-detail" class="rule-panel" aria-labelledby="rule-title" hidden></section>
+      </section>
+    </div>
+    <section id="sources-view" hidden>
+      <div class="source-heading">
+        <h2>数据来源</h2>
+        <span id="source-date"></span>
+      </div>
+      <input type="search" id="source-search" class="search-field source-search"
+        placeholder="搜索城市或来源" aria-label="搜索城市或来源">
+      <div class="table-scroll">
+        <table class="sources-table">
+          <thead><tr><th>城市</th><th>计价规则</th><th>规则生效</th><th>来源</th></tr></thead>
+          <tbody id="source-rows"></tbody>
+        </table>
+      </div>
+    </section>
+  </main>
+  <dialog id="source-dialog" aria-labelledby="dialog-title">
+    <div class="dialog-head">
+      <h2 id="dialog-title"></h2>
+      <button id="close-dialog" aria-label="关闭来源详情">关闭</button>
+    </div>
+    <div id="dialog-body"></div>
+  </dialog>
+  <script>__DATA__</script>
+  <script>__ENGINE__</script>
+  <script>__APP__</script>
+</body>
+</html>

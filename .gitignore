@@ -42,10 +42,40 @@ key.properties
 .DS_Store
 Thumbs.db
 
-# 本地 agent 工作区
-/.workbuddy/
-
 # Python
 __pycache__/
 *.py[cod]
 .venv/
+
+# 草稿、截图、验收日志和交付归档
+/workfiles/
+
+# 本地登记提交包，含个人身份填写信息
+/提交/
+
+# 本地协作工具的工程数据（不随源码仓分发）
+/.workbuddy/
+# ===== 软著登记材料与个人隐私（严格不入库）=====
+# 软著鉴别材料报告（含身份证号片段、真实姓名、出生日期）
+/软著鉴别材料*.md
+# 软著辅助脚本与自查记录
+/check-filing-materials.ps1
+/filing-selfcheck.txt
+/check-filing-materials.ps1
+scripts/check-filing.py
+scripts/check-workbook-format.py
+scripts/filing_layout.py
+scripts/finalize-filing-pdf.py
+scripts/optimize-filing.py
+scripts/package-release.mjs
+scripts/verify-release.mjs
+scripts/release-files.mjs
+scripts/research_sources.py
+scripts/search_sources.py
+scripts/prepare-data.mjs
+scripts/export-data.mjs
+# 测试缓存
+tests/__pycache__/
+
+# 软著版面测试（依赖被排除的软著辅助脚本）
+tests/test_filing_layout.py

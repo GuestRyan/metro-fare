@@ -1,0 +1,4613 @@
+{
+  "meta": {
+    "name": "城市轨道交通票价查询软件",
+    "version": "1.0.0",
+    "checkedOn": "2026-10-07",
+    "source": "从发改委或地铁公司官网获取",
+    "inputFile": "地铁票价对比.csv",
+    "inputSha256": "66686617dc30ac1142ca9d42ca6f9d72cc9dcbe58145a21c7b19ea828666300a",
+    "method": "按用户指定的根目录CSV整理。数值票档优先，后续分段取同一行计价规则；只有政策性封顶列为“是”才启用封顶。历史网页核查不覆盖本版数据。",
+    "scope": "按原表收录的成人单程票规则测算；不计算折扣、换乘补贴和另行计价服务。",
+    "disclaimer": "来源统一说明由用户指定，原表链接照录，未逐项重新核验网站。测算不代表线路可达、政策仍有效或实时售票报价。"
+  },
+  "cities": [
+    {
+      "id": "city-01",
+      "name": "北京",
+      "region": "华北",
+      "pricing": "distance",
+      "tiers": [
+        {
+          "fare": 3,
+          "upTo": 6
+        },
+        {
+          "fare": 4,
+          "upTo": 12
+        },
+        {
+          "fare": 5,
+          "upTo": 22
+        },
+        {
+          "fare": 6,
+          "upTo": 32
+        },
+        {
+          "fare": 7,
+          "upTo": 52
+        },
+        {
+          "fare": 8,
+          "upTo": 72
+        },
+        {
+          "fare": 9,
+          "upTo": 92
+        },
+        {
+          "fare": 10,
+          "upTo": 112
+        }
+      ],
+      "stepKm": 20,
+      "scope": "无1元、2元票档。首都机场线（26.7元/人次）、大兴机场线（36.5元/人次）单独计价，已排除；有轨电车不适用本规则。",
+      "rule": "6公里(含)内3元；6–12公里4元；12–22公里5元；22–32公里6元；32公里以上每增加1元可多乘20公里。",
+      "note": "CSV 的“最高票价”不作为政策封顶；超出线网里程只作票制测算，不表示线路可达。 已列票档之后每 20 公里加1元，续程取自本行规则及阶梯跨度。",
+      "audit": {
+        "status": "csv",
+        "label": "按原表数据",
+        "note": "计价依据为目录内 CSV；来源说明按用户要求统一，不代表本次逐项完成官网复核。"
+      },
+      "sources": [
+        {
+          "type": "从发改委或地铁公司官网获取",
+          "title": "从发改委或地铁公司官网获取",
+          "url": "https://www.bjsubway.com/support/ccgd/",
+          "checkedOn": "2026-10-07",
+          "access": "已读取原始CSV第2行；未重新访问网页",
+          "excerpt": "6公里(含)内3元；6–12公里4元；12–22公里5元；22–32公里6元；32公里以上每增加1元可多乘20公里。",
+          "sha256": "66686617dc30ac1142ca9d42ca6f9d72cc9dcbe58145a21c7b19ea828666300a",
+          "snapshot": "input/地铁票价对比.csv",
+          "row": 2
+        }
+      ],
+      "original": {
+        "row": 2,
+        "listedTiers": [
+          {
+            "fare": 3,
+            "upTo": 6
+          },
+          {
+            "fare": 4,
+            "upTo": 12
+          },
+          {
+            "fare": 5,
+            "upTo": 22
+          },
+          {
+            "fare": 6,
+            "upTo": 32
+          },
+          {
+            "fare": 7,
+            "upTo": 52
+          },
+          {
+            "fare": 8,
+            "upTo": 72
+          },
+          {
+            "fare": 9,
+            "upTo": 92
+          },
+          {
+            "fare": 10,
+            "upTo": 112
+          }
+        ],
+        "networkMaxFare": 10,
+        "policyCap": "",
+        "maxFareDistance": 112,
+        "maxStepKm": 20,
+        "effective": "2014-12 起执行（京发改〔2014〕2526号），2026-09 复核未见调整",
+        "confidence": "high"
+      }
+    },
+    {
+      "id": "city-02",
+      "name": "上海",
+      "region": "华东",
+      "pricing": "distance",
+      "tiers": [
+        {
+          "fare": 3,
+          "upTo": 6
+        },
+        {
+          "fare": 4,
+          "upTo": 16
+        },
+        {
+          "fare": 5,
+          "upTo": 26
+        },
+        {
+          "fare": 6,
+          "upTo": 36
+        },
+        {
+          "fare": 7,
+          "upTo": 46
+        },
+        {
+          "fare": 8,
+          "upTo": 56
+        },
+        {
+          "fare": 9,
+          "upTo": 66
+        },
+        {
+          "fare": 10,
+          "upTo": 76
+        }
+      ],
+      "stepKm": 10,
+      "scope": "无1元、2元票档。机场联络线、嘉闵线、崇明线等市域线按「起乘4元＋0.45元/公里」单独计价（沪发改价调〔2024〕54号），已排除在普通地铁口径外。",
+      "rule": "0–6公里3元；6公里以上每10公里增加1元。",
+      "note": "CSV 的“最高票价”不作为政策封顶；超出线网里程只作票制测算，不表示线路可达。 已列票档之后每 10 公里加1元，续程取自本行规则及阶梯跨度。",
+      "audit": {
+        "status": "csv",
+        "label": "按原表数据",
+        "note": "计价依据为目录内 CSV；来源说明按用户要求统一，不代表本次逐项完成官网复核。"
+      },
+      "sources": [
+        {
+          "type": "从发改委或地铁公司官网获取",
+          "title": "从发改委或地铁公司官网获取",
+          "url": "https://m.shmetro.com/workspace/shmetrotest/viewcpxz.aspx?catalogId=1299&did=4053",
+          "checkedOn": "2026-10-07",
+          "access": "已读取原始CSV第3行；未重新访问网页",
+          "excerpt": "0–6公里3元；6公里以上每10公里增加1元。",
+          "sha256": "66686617dc30ac1142ca9d42ca6f9d72cc9dcbe58145a21c7b19ea828666300a",
+          "snapshot": "input/地铁票价对比.csv",
+          "row": 3
+        }
+      ],
+      "original": {
+        "row": 3,
+        "listedTiers": [
+          {
+            "fare": 3,
+            "upTo": 6
+          },
+          {
+            "fare": 4,
+            "upTo": 16
+          },
+          {
+            "fare": 5,
+            "upTo": 26
+          },
+          {
+            "fare": 6,
+            "upTo": 36
+          },
+          {
+            "fare": 7,
+            "upTo": 46
+          },
+          {
+            "fare": 8,
+            "upTo": 56
+          },
+          {
+            "fare": 9,
+            "upTo": 66
+          },
+          {
+            "fare": 10,
+            "upTo": 76
+          }
+        ],
+        "networkMaxFare": 15,
+        "policyCap": "",
+        "maxFareDistance": 126,
+        "maxStepKm": 10,
+        "effective": "市区线沿用 2005 年批复（沪交财〔2005〕527号），2024-2026 未调整",
+        "confidence": "high"
+      }
+    },
+    {
+      "id": "city-03",
+      "name": "广州",
+      "region": "华南",
+      "pricing": "distance",
+      "tiers": [
+        {
+          "fare": 2,
+          "upTo": 4
+        },
+        {
+          "fare": 3,
+          "upTo": 8
+        },
+        {
+          "fare": 4,
+          "upTo": 12
+        },
+        {
+          "fare": 5,
+          "upTo": 18
+        },
+        {
+          "fare": 6,
+          "upTo": 24
+        },
+        {
+          "fare": 7,
+          "upTo": 32
+        },
+        {
+          "fare": 8,
+          "upTo": 40
+        },
+        {
+          "fare": 9,
+          "upTo": 48
+        },
+        {
+          "fare": 10,
+          "upTo": 56
+        }
+      ],
+      "stepKm": 8,
+      "scope": "APM 线（珠江新城旅客自动输送系统）为 2 元单一票制，单独计价已排除。2023-09 起仅调整累额优惠，基本计价规则未变。",
+      "rule": "4公里以内2元；4–12公里每递增4公里加1元；12–24公里每递增6公里加1元；24公里以后每递增8公里加1元。",
+      "note": "CSV 的“最高票价”不作为政策封顶；超出线网里程只作票制测算，不表示线路可达。 已列票档之后每 8 公里加1元，续程取自本行规则及阶梯跨度。",
+      "audit": {
+        "status": "csv",
+        "label": "按原表数据",
+        "note": "计价依据为目录内 CSV；来源说明按用户要求统一，不代表本次逐项完成官网复核。"
+      },
+      "sources": [
+        {
+          "type": "从发改委或地铁公司官网获取",
+          "title": "从发改委或地铁公司官网获取",
+          "url": "https://cs.gzmtr.com/ckfw/pwzy_202001/202011/t20201117_69746.html",
+          "checkedOn": "2026-10-07",
+          "access": "已读取原始CSV第4行；未重新访问网页",
+          "excerpt": "4公里以内2元；4–12公里每递增4公里加1元；12–24公里每递增6公里加1元；24公里以后每递增8公里加1元。",
+          "sha256": "66686617dc30ac1142ca9d42ca6f9d72cc9dcbe58145a21c7b19ea828666300a",
+          "snapshot": "input/地铁票价对比.csv",
+          "row": 4
+        }
+      ],
+      "original": {
+        "row": 4,
+        "listedTiers": [
+          {
+            "fare": 2,
+            "upTo": 4
+          },
+          {
+            "fare": 3,
+            "upTo": 8
+          },
+          {
+            "fare": 4,
+            "upTo": 12
+          },
+          {
+            "fare": 5,
+            "upTo": 18
+          },
+          {
+            "fare": 6,
+            "upTo": 24
+          },
+          {
+            "fare": 7,
+            "upTo": 32
+          },
+          {
+            "fare": 8,
+            "upTo": 40
+          },
+          {
+            "fare": 9,
+            "upTo": 48
+          },
+          {
+            "fare": 10,
+            "upTo": 56
+          }
+        ],
+        "networkMaxFare": 20,
+        "policyCap": "",
+        "maxFareDistance": 136,
+        "maxStepKm": 8,
+        "effective": "分段计价规则多年未变，2026-09 复核仍为现行",
+        "confidence": "high"
+      }
+    },
+    {
+      "id": "city-04",
+      "name": "深圳",
+      "region": "华南",
+      "pricing": "distance",
+      "tiers": [
+        {
+          "fare": 2,
+          "upTo": 4
+        },
+        {
+          "fare": 3,
+          "upTo": 8
+        },
+        {
+          "fare": 4,
+          "upTo": 12
+        },
+        {
+          "fare": 5,
+          "upTo": 18
+        },
+        {
+          "fare": 6,
+          "upTo": 24
+        },
+        {
+          "fare": 7,
+          "upTo": 32
+        },
+        {
+          "fare": 8,
+          "upTo": 40
+        },
+        {
+          "fare": 9,
+          "upTo": 48
+        },
+        {
+          "fare": 10,
+          "upTo": 56
+        }
+      ],
+      "stepKm": 8,
+      "scope": "商务车厢票价不高于普通车厢 3 倍、单程 6–36 元，单独计价已排除；龙华有轨电车（2元一票制）、坪山云巴同样排除。",
+      "rule": "起步4公里2元；4–12公里每1元可乘4公里；12–24公里每1元可乘6公里；24公里以上每1元可乘8公里。",
+      "note": "CSV 的“最高票价”不作为政策封顶；超出线网里程只作票制测算，不表示线路可达。 已列票档之后每 8 公里加1元，续程取自本行规则及阶梯跨度。",
+      "audit": {
+        "status": "csv",
+        "label": "按原表数据",
+        "note": "计价依据为目录内 CSV；来源说明按用户要求统一，不代表本次逐项完成官网复核。"
+      },
+      "sources": [
+        {
+          "type": "从发改委或地铁公司官网获取",
+          "title": "从发改委或地铁公司官网获取",
+          "url": "https://www.szmcob.com/pwxx.html",
+          "checkedOn": "2026-10-07",
+          "access": "已读取原始CSV第5行；未重新访问网页",
+          "excerpt": "起步4公里2元；4–12公里每1元可乘4公里；12–24公里每1元可乘6公里；24公里以上每1元可乘8公里。",
+          "sha256": "66686617dc30ac1142ca9d42ca6f9d72cc9dcbe58145a21c7b19ea828666300a",
+          "snapshot": "input/地铁票价对比.csv",
+          "row": 5
+        }
+      ],
+      "original": {
+        "row": 5,
+        "listedTiers": [
+          {
+            "fare": 2,
+            "upTo": 4
+          },
+          {
+            "fare": 3,
+            "upTo": 8
+          },
+          {
+            "fare": 4,
+            "upTo": 12
+          },
+          {
+            "fare": 5,
+            "upTo": 18
+          },
+          {
+            "fare": 6,
+            "upTo": 24
+          },
+          {
+            "fare": 7,
+            "upTo": 32
+          },
+          {
+            "fare": 8,
+            "upTo": 40
+          },
+          {
+            "fare": 9,
+            "upTo": 48
+          },
+          {
+            "fare": 10,
+            "upTo": 56
+          }
+        ],
+        "networkMaxFare": 15,
+        "policyCap": "",
+        "maxFareDistance": 96,
+        "maxStepKm": 8,
+        "effective": "同网同价里程分段计价，2024-2026 未调整",
+        "confidence": "high"
+      }
+    },
+    {
+      "id": "city-05",
+      "name": "成都",
+      "region": "西南",
+      "pricing": "distance",
+      "tiers": [
+        {
+          "fare": 2,
+          "upTo": 4
+        },
+        {
+          "fare": 3,
+          "upTo": 8
+        },
+        {
+          "fare": 4,
+          "upTo": 12
+        },
+        {
+          "fare": 5,
+          "upTo": 18
+        },
+        {
+          "fare": 6,
+          "upTo": 24
+        },
+        {
+          "fare": 7,
+          "upTo": 32
+        },
+        {
+          "fare": 8,
+          "upTo": 40
+        },
+        {
+          "fare": 9,
+          "upTo": 50
+        },
+        {
+          "fare": 10,
+          "upTo": 70
+        }
+      ],
+      "stepKm": 20,
+      "scope": "有轨电车蓉2号线为 2 元一票制单独计价，已排除；18号线（天府机场）纳入线网里程计价。",
+      "rule": "起价2元可乘4公里；4–12公里每4公里加1元；12–24公里每6公里加1元；24–40公里每8公里加1元；40–50公里每10公里加1元；50公里以上每20公里加1元。",
+      "note": "CSV 的“最高票价”不作为政策封顶；超出线网里程只作票制测算，不表示线路可达。 已列票档之后每 20 公里加1元，续程取自本行规则及阶梯跨度。",
+      "audit": {
+        "status": "csv",
+        "label": "按原表数据",
+        "note": "计价依据为目录内 CSV；来源说明按用户要求统一，不代表本次逐项完成官网复核。"
+      },
+      "sources": [
+        {
+          "type": "从发改委或地铁公司官网获取",
+          "title": "从发改委或地铁公司官网获取",
+          "url": "https://www.chengdurail.com/xccxjgy.jsp?urltype=tree.TreeTempUrl&wbtreeid=2142",
+          "checkedOn": "2026-10-07",
+          "access": "已读取原始CSV第6行；未重新访问网页",
+          "excerpt": "起价2元可乘4公里；4–12公里每4公里加1元；12–24公里每6公里加1元；24–40公里每8公里加1元；40–50公里每10公里加1元；50公里以上每20公里加1元。",
+          "sha256": "66686617dc30ac1142ca9d42ca6f9d72cc9dcbe58145a21c7b19ea828666300a",
+          "snapshot": "input/地铁票价对比.csv",
+          "row": 6
+        }
+      ],
+      "original": {
+        "row": 6,
+        "listedTiers": [
+          {
+            "fare": 2,
+            "upTo": 4
+          },
+          {
+            "fare": 3,
+            "upTo": 8
+          },
+          {
+            "fare": 4,
+            "upTo": 12
+          },
+          {
+            "fare": 5,
+            "upTo": 18
+          },
+          {
+            "fare": 6,
+            "upTo": 24
+          },
+          {
+            "fare": 7,
+            "upTo": 32
+          },
+          {
+            "fare": 8,
+            "upTo": 40
+          },
+          {
+            "fare": 9,
+            "upTo": 50
+          },
+          {
+            "fare": 10,
+            "upTo": 70
+          }
+        ],
+        "networkMaxFare": 12,
+        "policyCap": "",
+        "maxFareDistance": 110,
+        "maxStepKm": 20,
+        "effective": "2017-06-02 起（成交发〔2017〕46号），2024-2026 未调整",
+        "confidence": "high"
+      }
+    },
+    {
+      "id": "city-06",
+      "name": "武汉",
+      "region": "华中",
+      "pricing": "distance",
+      "tiers": [
+        {
+          "fare": 2,
+          "upTo": 4
+        },
+        {
+          "fare": 3,
+          "upTo": 8
+        },
+        {
+          "fare": 4,
+          "upTo": 12
+        },
+        {
+          "fare": 5,
+          "upTo": 18
+        },
+        {
+          "fare": 6,
+          "upTo": 24
+        },
+        {
+          "fare": 7,
+          "upTo": 32
+        },
+        {
+          "fare": 8,
+          "upTo": 40
+        },
+        {
+          "fare": 9,
+          "upTo": 50
+        },
+        {
+          "fare": 10,
+          "upTo": 70
+        }
+      ],
+      "stepKm": 20,
+      "scope": "无单独计价线路，全线网统一按最短路径里程计价。",
+      "rule": "4公里(含)内2元；4–12公里1元/4公里；12–24公里1元/6公里；24–40公里1元/8公里；40–50公里1元/10公里；50公里以上1元/20公里。",
+      "note": "CSV 的“最高票价”不作为政策封顶；超出线网里程只作票制测算，不表示线路可达。 已列票档之后每 20 公里加1元，续程取自本行规则及阶梯跨度。",
+      "audit": {
+        "status": "csv",
+        "label": "按原表数据",
+        "note": "计价依据为目录内 CSV；来源说明按用户要求统一，不代表本次逐项完成官网复核。"
+      },
+      "sources": [
+        {
+          "type": "从发改委或地铁公司官网获取",
+          "title": "从发改委或地铁公司官网获取",
+          "url": "https://www.wuhanrt.com/news-content.html?id=1485599",
+          "checkedOn": "2026-10-07",
+          "access": "已读取原始CSV第7行；未重新访问网页",
+          "excerpt": "4公里(含)内2元；4–12公里1元/4公里；12–24公里1元/6公里；24–40公里1元/8公里；40–50公里1元/10公里；50公里以上1元/20公里。",
+          "sha256": "66686617dc30ac1142ca9d42ca6f9d72cc9dcbe58145a21c7b19ea828666300a",
+          "snapshot": "input/地铁票价对比.csv",
+          "row": 7
+        }
+      ],
+      "original": {
+        "row": 7,
+        "listedTiers": [
+          {
+            "fare": 2,
+            "upTo": 4
+          },
+          {
+            "fare": 3,
+            "upTo": 8
+          },
+          {
+            "fare": 4,
+            "upTo": 12
+          },
+          {
+            "fare": 5,
+            "upTo": 18
+          },
+          {
+            "fare": 6,
+            "upTo": 24
+          },
+          {
+            "fare": 7,
+            "upTo": 32
+          },
+          {
+            "fare": 8,
+            "upTo": 40
+          },
+          {
+            "fare": 9,
+            "upTo": 50
+          },
+          {
+            "fare": 10,
+            "upTo": 70
+          }
+        ],
+        "networkMaxFare": 12,
+        "policyCap": "",
+        "maxFareDistance": 110,
+        "maxStepKm": 20,
+        "effective": "官方票务规定更新于 2025-10-30，计价标准延续未调整",
+        "confidence": "high"
+      }
+    },
+    {
+      "id": "city-07",
+      "name": "重庆",
+      "region": "西南",
+      "pricing": "distance",
+      "tiers": [
+        {
+          "fare": 2,
+          "upTo": 4
+        },
+        {
+          "fare": 3,
+          "upTo": 8
+        },
+        {
+          "fare": 4,
+          "upTo": 12
+        },
+        {
+          "fare": 5,
+          "upTo": 17
+        },
+        {
+          "fare": 6,
+          "upTo": 23
+        },
+        {
+          "fare": 7,
+          "upTo": 30
+        },
+        {
+          "fare": 8,
+          "upTo": 40
+        },
+        {
+          "fare": 9,
+          "upTo": 55
+        },
+        {
+          "fare": 10,
+          "upTo": 75
+        }
+      ],
+      "stepKm": 20,
+      "scope": "2025-07-30 起执行新分段（原 12–24 公里段拆细为 12–17、17–23 等），属近年调价城市。江跳线、璧铜线单独计价已排除。",
+      "rule": "0–4公里2元；4–8公里3元；8–12公里4元；12–17公里5元；17–23公里6元；23–30公里7元；30–40公里8元；40–55公里9元；55公里以上每20公里加1元。",
+      "note": "CSV 的“最高票价”不作为政策封顶；超出线网里程只作票制测算，不表示线路可达。 已列票档之后每 20 公里加1元，续程取自本行规则及阶梯跨度。",
+      "audit": {
+        "status": "csv",
+        "label": "按原表数据",
+        "note": "计价依据为目录内 CSV；来源说明按用户要求统一，不代表本次逐项完成官网复核。"
+      },
+      "sources": [
+        {
+          "type": "从发改委或地铁公司官网获取",
+          "title": "从发改委或地铁公司官网获取",
+          "url": "https://www.cqmetro.cn/yyfw/pwzc",
+          "checkedOn": "2026-10-07",
+          "access": "已读取原始CSV第8行；未重新访问网页",
+          "excerpt": "0–4公里2元；4–8公里3元；8–12公里4元；12–17公里5元；17–23公里6元；23–30公里7元；30–40公里8元；40–55公里9元；55公里以上每20公里加1元。",
+          "sha256": "66686617dc30ac1142ca9d42ca6f9d72cc9dcbe58145a21c7b19ea828666300a",
+          "snapshot": "input/地铁票价对比.csv",
+          "row": 8
+        }
+      ],
+      "original": {
+        "row": 8,
+        "listedTiers": [
+          {
+            "fare": 2,
+            "upTo": 4
+          },
+          {
+            "fare": 3,
+            "upTo": 8
+          },
+          {
+            "fare": 4,
+            "upTo": 12
+          },
+          {
+            "fare": 5,
+            "upTo": 17
+          },
+          {
+            "fare": 6,
+            "upTo": 23
+          },
+          {
+            "fare": 7,
+            "upTo": 30
+          },
+          {
+            "fare": 8,
+            "upTo": 40
+          },
+          {
+            "fare": 9,
+            "upTo": 55
+          },
+          {
+            "fare": 10,
+            "upTo": 75
+          }
+        ],
+        "networkMaxFare": 10,
+        "policyCap": "",
+        "maxFareDistance": 75,
+        "maxStepKm": 20,
+        "effective": "2025-07-30 起（渝发改规范〔2025〕1号）",
+        "confidence": "high"
+      }
+    },
+    {
+      "id": "city-08",
+      "name": "杭州",
+      "region": "华东",
+      "pricing": "distance",
+      "tiers": [
+        {
+          "fare": 2,
+          "upTo": 4
+        },
+        {
+          "fare": 3,
+          "upTo": 8
+        },
+        {
+          "fare": 4,
+          "upTo": 12
+        },
+        {
+          "fare": 5,
+          "upTo": 18
+        },
+        {
+          "fare": 6,
+          "upTo": 24
+        },
+        {
+          "fare": 7,
+          "upTo": 32
+        },
+        {
+          "fare": 8,
+          "upTo": 40
+        },
+        {
+          "fare": 9,
+          "upTo": 48
+        },
+        {
+          "fare": 10,
+          "upTo": 56
+        }
+      ],
+      "stepKm": 8,
+      "scope": "19号线（机场轨道快线）、16号线（原杭临城际）均纳入线网里程计价；杭海城际为跨市独立系统，单独计价已排除。",
+      "rule": "起步2元可乘4公里；4–12公里每1元可乘4公里；12–24公里每1元可乘6公里；24公里以上每1元可乘8公里。",
+      "note": "CSV 的“最高票价”不作为政策封顶；超出线网里程只作票制测算，不表示线路可达。 已列票档之后每 8 公里加1元，续程取自本行规则及阶梯跨度。",
+      "audit": {
+        "status": "csv",
+        "label": "按原表数据",
+        "note": "计价依据为目录内 CSV；来源说明按用户要求统一，不代表本次逐项完成官网复核。"
+      },
+      "sources": [
+        {
+          "type": "从发改委或地铁公司官网获取",
+          "title": "从发改委或地铁公司官网获取",
+          "url": "https://www.hzmetro.com/findNews_show.aspx?ID=4856",
+          "checkedOn": "2026-10-07",
+          "access": "已读取原始CSV第9行；未重新访问网页",
+          "excerpt": "起步2元可乘4公里；4–12公里每1元可乘4公里；12–24公里每1元可乘6公里；24公里以上每1元可乘8公里。",
+          "sha256": "66686617dc30ac1142ca9d42ca6f9d72cc9dcbe58145a21c7b19ea828666300a",
+          "snapshot": "input/地铁票价对比.csv",
+          "row": 9
+        }
+      ],
+      "original": {
+        "row": 9,
+        "listedTiers": [
+          {
+            "fare": 2,
+            "upTo": 4
+          },
+          {
+            "fare": 3,
+            "upTo": 8
+          },
+          {
+            "fare": 4,
+            "upTo": 12
+          },
+          {
+            "fare": 5,
+            "upTo": 18
+          },
+          {
+            "fare": 6,
+            "upTo": 24
+          },
+          {
+            "fare": 7,
+            "upTo": 32
+          },
+          {
+            "fare": 8,
+            "upTo": 40
+          },
+          {
+            "fare": 9,
+            "upTo": 48
+          },
+          {
+            "fare": 10,
+            "upTo": 56
+          }
+        ],
+        "networkMaxFare": 16,
+        "policyCap": "",
+        "maxFareDistance": 104,
+        "maxStepKm": 8,
+        "effective": "现行票制沿用，2024-2026 未调整",
+        "confidence": "high"
+      }
+    },
+    {
+      "id": "city-09",
+      "name": "南京",
+      "region": "华东",
+      "pricing": "distance",
+      "tiers": [
+        {
+          "fare": 2,
+          "upTo": 4
+        },
+        {
+          "fare": 3,
+          "upTo": 9
+        },
+        {
+          "fare": 4,
+          "upTo": 14
+        },
+        {
+          "fare": 5,
+          "upTo": 21
+        },
+        {
+          "fare": 6,
+          "upTo": 28
+        },
+        {
+          "fare": 7,
+          "upTo": 37
+        },
+        {
+          "fare": 8,
+          "upTo": 48
+        },
+        {
+          "fare": 9,
+          "upTo": 61
+        },
+        {
+          "fare": 10,
+          "upTo": 76
+        }
+      ],
+      "stepKm": 15,
+      "scope": "2019-03-31 起起步里程由 10 公里缩至 4 公里、晋级里程缩短，是南京首次实质性调价。2024-2026 未再调整。",
+      "rule": "起步2元可乘4公里；4公里以上每1元晋级里程依次为5、5、7、7、9、11、13、15公里。",
+      "note": "CSV 的“最高票价”不作为政策封顶；超出线网里程只作票制测算，不表示线路可达。 已列票档之后每 15 公里加1元，续程取自本行规则及阶梯跨度。",
+      "audit": {
+        "status": "csv",
+        "label": "按原表数据",
+        "note": "计价依据为目录内 CSV；来源说明按用户要求统一，不代表本次逐项完成官网复核。"
+      },
+      "sources": [
+        {
+          "type": "从发改委或地铁公司官网获取",
+          "title": "从发改委或地铁公司官网获取",
+          "url": "https://www.njmetro.com.cn/njdtweb/portal/article-detail.do?rowId=4a8208ae7b6b11e9ac27000c2965e15a&columnId=40288e817180aad0017180ae38a40001&tag=infoopen3",
+          "checkedOn": "2026-10-07",
+          "access": "已读取原始CSV第10行；未重新访问网页",
+          "excerpt": "起步2元可乘4公里；4公里以上每1元晋级里程依次为5、5、7、7、9、11、13、15公里。",
+          "sha256": "66686617dc30ac1142ca9d42ca6f9d72cc9dcbe58145a21c7b19ea828666300a",
+          "snapshot": "input/地铁票价对比.csv",
+          "row": 10
+        }
+      ],
+      "original": {
+        "row": 10,
+        "listedTiers": [
+          {
+            "fare": 2,
+            "upTo": 4
+          },
+          {
+            "fare": 3,
+            "upTo": 9
+          },
+          {
+            "fare": 4,
+            "upTo": 14
+          },
+          {
+            "fare": 5,
+            "upTo": 21
+          },
+          {
+            "fare": 6,
+            "upTo": 28
+          },
+          {
+            "fare": 7,
+            "upTo": 37
+          },
+          {
+            "fare": 8,
+            "upTo": 48
+          },
+          {
+            "fare": 9,
+            "upTo": 61
+          },
+          {
+            "fare": 10,
+            "upTo": 76
+          }
+        ],
+        "networkMaxFare": 15,
+        "policyCap": "",
+        "maxFareDistance": 151,
+        "maxStepKm": 15,
+        "effective": "2019-03-31 起（宁发改服价字〔2019〕73号）",
+        "confidence": "high"
+      }
+    },
+    {
+      "id": "city-10",
+      "name": "西安",
+      "region": "西北",
+      "pricing": "distance",
+      "tiers": [
+        {
+          "fare": 2,
+          "upTo": 6
+        },
+        {
+          "fare": 3,
+          "upTo": 10
+        },
+        {
+          "fare": 4,
+          "upTo": 14
+        },
+        {
+          "fare": 5,
+          "upTo": 20
+        },
+        {
+          "fare": 6,
+          "upTo": 26
+        },
+        {
+          "fare": 7,
+          "upTo": 34
+        },
+        {
+          "fare": 8,
+          "upTo": 42
+        },
+        {
+          "fare": 9,
+          "upTo": 50
+        },
+        {
+          "fare": 10,
+          "upTo": 58
+        }
+      ],
+      "stepKm": 8,
+      "scope": "14号线机场段并入线网同价；西户市域（郊）铁路单独计价已排除。",
+      "rule": "起步2元可乘6公里；其后每增加1元可乘4、4、6、6、8、8公里；26公里以上每8公里加1元。",
+      "note": "CSV 的“最高票价”不作为政策封顶；超出线网里程只作票制测算，不表示线路可达。 已列票档之后每 8 公里加1元，续程取自本行规则及阶梯跨度。",
+      "audit": {
+        "status": "csv",
+        "label": "按原表数据",
+        "note": "计价依据为目录内 CSV；来源说明按用户要求统一，不代表本次逐项完成官网复核。"
+      },
+      "sources": [
+        {
+          "type": "从发改委或地铁公司官网获取",
+          "title": "从发改委或地铁公司官网获取",
+          "url": "https://shxgdjt.com/news/info/120",
+          "checkedOn": "2026-10-07",
+          "access": "已读取原始CSV第11行；未重新访问网页",
+          "excerpt": "起步2元可乘6公里；其后每增加1元可乘4、4、6、6、8、8公里；26公里以上每8公里加1元。",
+          "sha256": "66686617dc30ac1142ca9d42ca6f9d72cc9dcbe58145a21c7b19ea828666300a",
+          "snapshot": "input/地铁票价对比.csv",
+          "row": 11
+        }
+      ],
+      "original": {
+        "row": 11,
+        "listedTiers": [
+          {
+            "fare": 2,
+            "upTo": 6
+          },
+          {
+            "fare": 3,
+            "upTo": 10
+          },
+          {
+            "fare": 4,
+            "upTo": 14
+          },
+          {
+            "fare": 5,
+            "upTo": 20
+          },
+          {
+            "fare": 6,
+            "upTo": 26
+          },
+          {
+            "fare": 7,
+            "upTo": 34
+          },
+          {
+            "fare": 8,
+            "upTo": 42
+          },
+          {
+            "fare": 9,
+            "upTo": 50
+          },
+          {
+            "fare": 10,
+            "upTo": 58
+          }
+        ],
+        "networkMaxFare": 13,
+        "policyCap": "",
+        "maxFareDistance": 82,
+        "maxStepKm": 8,
+        "effective": "2016 年起（市物发〔2016〕124号），2024-2026 未调整",
+        "confidence": "high"
+      }
+    },
+    {
+      "id": "city-11",
+      "name": "苏州",
+      "region": "华东",
+      "pricing": "distance",
+      "tiers": [
+        {
+          "fare": 2,
+          "upTo": 6
+        },
+        {
+          "fare": 3,
+          "upTo": 11
+        },
+        {
+          "fare": 4,
+          "upTo": 16
+        },
+        {
+          "fare": 5,
+          "upTo": 23
+        },
+        {
+          "fare": 6,
+          "upTo": 30
+        },
+        {
+          "fare": 7,
+          "upTo": 39
+        },
+        {
+          "fare": 8,
+          "upTo": 48
+        },
+        {
+          "fare": 9,
+          "upTo": 57
+        },
+        {
+          "fare": 10,
+          "upTo": 66
+        }
+      ],
+      "stepKm": 9,
+      "scope": "票价按最短路径里程计算。2024 年初取消电子计次票（改为多乘多惠折扣），普通里程计价规则未调整。",
+      "rule": "起步2元可乘6公里；6–16公里每1元可乘5公里；16–30公里每1元可乘7公里；30公里以上每1元可乘9公里。",
+      "note": "CSV 的“最高票价”不作为政策封顶；超出线网里程只作票制测算，不表示线路可达。 已列票档之后每 9 公里加1元，续程取自本行规则及阶梯跨度。",
+      "audit": {
+        "status": "csv",
+        "label": "按原表数据",
+        "note": "计价依据为目录内 CSV；来源说明按用户要求统一，不代表本次逐项完成官网复核。"
+      },
+      "sources": [
+        {
+          "type": "从发改委或地铁公司官网获取",
+          "title": "从发改委或地铁公司官网获取",
+          "url": "https://www.sz-mtr.com/service/guide/ticket/202306/F0705BF7.html",
+          "checkedOn": "2026-10-07",
+          "access": "已读取原始CSV第12行；未重新访问网页",
+          "excerpt": "起步2元可乘6公里；6–16公里每1元可乘5公里；16–30公里每1元可乘7公里；30公里以上每1元可乘9公里。",
+          "sha256": "66686617dc30ac1142ca9d42ca6f9d72cc9dcbe58145a21c7b19ea828666300a",
+          "snapshot": "input/地铁票价对比.csv",
+          "row": 12
+        }
+      ],
+      "original": {
+        "row": 12,
+        "listedTiers": [
+          {
+            "fare": 2,
+            "upTo": 6
+          },
+          {
+            "fare": 3,
+            "upTo": 11
+          },
+          {
+            "fare": 4,
+            "upTo": 16
+          },
+          {
+            "fare": 5,
+            "upTo": 23
+          },
+          {
+            "fare": 6,
+            "upTo": 30
+          },
+          {
+            "fare": 7,
+            "upTo": 39
+          },
+          {
+            "fare": 8,
+            "upTo": 48
+          },
+          {
+            "fare": 9,
+            "upTo": 57
+          },
+          {
+            "fare": 10,
+            "upTo": 66
+          }
+        ],
+        "networkMaxFare": 13,
+        "policyCap": "",
+        "maxFareDistance": 93,
+        "maxStepKm": 9,
+        "effective": "苏价服字〔2013〕122号，基础票价沿用未调整",
+        "confidence": "high"
+      }
+    },
+    {
+      "id": "city-12",
+      "name": "天津",
+      "region": "华北",
+      "pricing": "stations",
+      "tiers": [],
+      "stepKm": null,
+      "capFare": 5,
+      "scope": "天津市区线网按「站数」而非里程计价（2元可乘5站、3元10站、4元16站，17站及以上为最高档）。表中数字为可乘站数（非里程），故不能与其他城市的里程直接比较。9号线津滨段（中山门—东海路）按里程计程（起步2元、递增1元，天津站—东海路全程9元），与市区段两套票制并存。",
+      "rule": "按乘坐站数（区间）分段计程：≤5站(4区间)2元；6–10站3元；11–16站4元；17站及以上均为5元。",
+      "note": "原表数值为站数，不当作公里；本站数票制的5元封顶不用于公里查询。",
+      "audit": {
+        "status": "csv",
+        "label": "按原表数据",
+        "note": "计价依据为目录内 CSV；来源说明按用户要求统一，不代表本次逐项完成官网复核。"
+      },
+      "sources": [
+        {
+          "type": "从发改委或地铁公司官网获取",
+          "title": "从发改委或地铁公司官网获取",
+          "url": "https://fzgg.tj.gov.cn/sy_47324/gabsycs/kyfwgh/202106/t20210625_5487351.html",
+          "checkedOn": "2026-10-07",
+          "access": "已读取原始CSV第13行；未重新访问网页",
+          "excerpt": "按乘坐站数（区间）分段计程：≤5站(4区间)2元；6–10站3元；11–16站4元；17站及以上均为5元。",
+          "sha256": "66686617dc30ac1142ca9d42ca6f9d72cc9dcbe58145a21c7b19ea828666300a",
+          "snapshot": "input/地铁票价对比.csv",
+          "row": 13
+        }
+      ],
+      "original": {
+        "row": 13,
+        "listedTiers": [
+          {
+            "fare": 2,
+            "upTo": 5
+          },
+          {
+            "fare": 3,
+            "upTo": 10
+          },
+          {
+            "fare": 4,
+            "upTo": 16
+          },
+          {
+            "fare": 5,
+            "upTo": 16
+          }
+        ],
+        "networkMaxFare": 5,
+        "policyCap": "是",
+        "maxFareDistance": 16,
+        "maxStepKm": 6,
+        "effective": "市区段票制自2005/2012沿用至今未调整",
+        "confidence": "medium"
+      }
+    },
+    {
+      "id": "city-13",
+      "name": "郑州",
+      "region": "华中",
+      "pricing": "distance",
+      "tiers": [
+        {
+          "fare": 2,
+          "upTo": 6
+        },
+        {
+          "fare": 3,
+          "upTo": 13
+        },
+        {
+          "fare": 4,
+          "upTo": 21
+        },
+        {
+          "fare": 5,
+          "upTo": 30
+        },
+        {
+          "fare": 6,
+          "upTo": 39
+        },
+        {
+          "fare": 7,
+          "upTo": 48
+        },
+        {
+          "fare": 8,
+          "upTo": 57
+        },
+        {
+          "fare": 9,
+          "upTo": 66
+        },
+        {
+          "fare": 10,
+          "upTo": 75
+        }
+      ],
+      "stepKm": 9,
+      "scope": "2024-11 官方批复新开7、8号线执行现行线网票价、保持连续稳定。郑许市域铁路另行计价已排除。",
+      "rule": "起步2元（含6公里）；6–13公里3元；13–21公里4元；21公里以上每递增9公里加1元。",
+      "note": "CSV 的“最高票价”不作为政策封顶；超出线网里程只作票制测算，不表示线路可达。 已列票档之后每 9 公里加1元，续程取自本行规则及阶梯跨度。",
+      "audit": {
+        "status": "csv",
+        "label": "按原表数据",
+        "note": "计价依据为目录内 CSV；来源说明按用户要求统一，不代表本次逐项完成官网复核。"
+      },
+      "sources": [
+        {
+          "type": "从发改委或地铁公司官网获取",
+          "title": "从发改委或地铁公司官网获取",
+          "url": "https://www.zzmetro.com/page/10",
+          "checkedOn": "2026-10-07",
+          "access": "已读取原始CSV第14行；未重新访问网页",
+          "excerpt": "起步2元（含6公里）；6–13公里3元；13–21公里4元；21公里以上每递增9公里加1元。",
+          "sha256": "66686617dc30ac1142ca9d42ca6f9d72cc9dcbe58145a21c7b19ea828666300a",
+          "snapshot": "input/地铁票价对比.csv",
+          "row": 14
+        }
+      ],
+      "original": {
+        "row": 14,
+        "listedTiers": [
+          {
+            "fare": 2,
+            "upTo": 6
+          },
+          {
+            "fare": 3,
+            "upTo": 13
+          },
+          {
+            "fare": 4,
+            "upTo": 21
+          },
+          {
+            "fare": 5,
+            "upTo": 30
+          },
+          {
+            "fare": 6,
+            "upTo": 39
+          },
+          {
+            "fare": 7,
+            "upTo": 48
+          },
+          {
+            "fare": 8,
+            "upTo": 57
+          },
+          {
+            "fare": 9,
+            "upTo": 66
+          },
+          {
+            "fare": 10,
+            "upTo": 75
+          }
+        ],
+        "networkMaxFare": 11,
+        "policyCap": "",
+        "maxFareDistance": 84,
+        "maxStepKm": 9,
+        "effective": "线网统一里程计价沿用未调整",
+        "confidence": "high"
+      }
+    },
+    {
+      "id": "city-14",
+      "name": "长沙",
+      "region": "华中",
+      "pricing": "distance",
+      "tiers": [
+        {
+          "fare": 2,
+          "upTo": 6
+        },
+        {
+          "fare": 3,
+          "upTo": 11
+        },
+        {
+          "fare": 4,
+          "upTo": 16
+        },
+        {
+          "fare": 5,
+          "upTo": 23
+        },
+        {
+          "fare": 6,
+          "upTo": 30
+        },
+        {
+          "fare": 7,
+          "upTo": 39
+        },
+        {
+          "fare": 8,
+          "upTo": 48
+        },
+        {
+          "fare": 9,
+          "upTo": 57
+        }
+      ],
+      "stepKm": 9,
+      "scope": "磁浮快线（黄花机场）为独立制式、单独票价，已排除。",
+      "rule": "起步2元可乘6公里；6–16公里每递增5公里加1元；16–30公里每递增7公里加1元；30公里以上每递增9公里加1元。",
+      "note": "CSV 的“最高票价”不作为政策封顶；超出线网里程只作票制测算，不表示线路可达。 已列票档之后每 9 公里加1元，续程取自本行规则及阶梯跨度。",
+      "audit": {
+        "status": "csv",
+        "label": "按原表数据",
+        "note": "计价依据为目录内 CSV；来源说明按用户要求统一，不代表本次逐项完成官网复核。"
+      },
+      "sources": [
+        {
+          "type": "从发改委或地铁公司官网获取",
+          "title": "从发改委或地铁公司官网获取",
+          "url": "https://www.hncsmtr.com/905/941/index.htm",
+          "checkedOn": "2026-10-07",
+          "access": "已读取原始CSV第15行；未重新访问网页",
+          "excerpt": "起步2元可乘6公里；6–16公里每递增5公里加1元；16–30公里每递增7公里加1元；30公里以上每递增9公里加1元。",
+          "sha256": "66686617dc30ac1142ca9d42ca6f9d72cc9dcbe58145a21c7b19ea828666300a",
+          "snapshot": "input/地铁票价对比.csv",
+          "row": 15
+        }
+      ],
+      "original": {
+        "row": 15,
+        "listedTiers": [
+          {
+            "fare": 2,
+            "upTo": 6
+          },
+          {
+            "fare": 3,
+            "upTo": 11
+          },
+          {
+            "fare": 4,
+            "upTo": 16
+          },
+          {
+            "fare": 5,
+            "upTo": 23
+          },
+          {
+            "fare": 6,
+            "upTo": 30
+          },
+          {
+            "fare": 7,
+            "upTo": 39
+          },
+          {
+            "fare": 8,
+            "upTo": 48
+          },
+          {
+            "fare": 9,
+            "upTo": 57
+          }
+        ],
+        "networkMaxFare": 9,
+        "policyCap": "",
+        "maxFareDistance": 57,
+        "maxStepKm": 9,
+        "effective": "票务规则沿用未调整",
+        "confidence": "high"
+      }
+    },
+    {
+      "id": "city-15",
+      "name": "沈阳",
+      "region": "东北",
+      "pricing": "distance",
+      "tiers": [
+        {
+          "fare": 2,
+          "upTo": 6
+        },
+        {
+          "fare": 3,
+          "upTo": 10
+        },
+        {
+          "fare": 4,
+          "upTo": 14
+        },
+        {
+          "fare": 5,
+          "upTo": 21
+        },
+        {
+          "fare": 6,
+          "upTo": 28
+        },
+        {
+          "fare": 7,
+          "upTo": 38
+        }
+      ],
+      "stepKm": null,
+      "capFare": 7,
+      "scope": "2024-12 将适用范围扩大至全线网及后续新线，基础票价未调整。",
+      "rule": "起步2元可乘6公里；每增加1元可续乘4、4、7、7、10、10公里。",
+      "note": "CSV 的“政策性封顶”列为“是”，按 7 元封顶。",
+      "audit": {
+        "status": "csv",
+        "label": "按原表数据",
+        "note": "计价依据为目录内 CSV；来源说明按用户要求统一，不代表本次逐项完成官网复核。"
+      },
+      "sources": [
+        {
+          "type": "从发改委或地铁公司官网获取",
+          "title": "从发改委或地铁公司官网获取",
+          "url": "https://fgw.shenyang.gov.cn/zwgk/fdzdgknr/yjzj/cayjzj/yjzjwd/?Id=1740",
+          "checkedOn": "2026-10-07",
+          "access": "已读取原始CSV第16行；未重新访问网页",
+          "excerpt": "起步2元可乘6公里；每增加1元可续乘4、4、7、7、10、10公里。",
+          "sha256": "66686617dc30ac1142ca9d42ca6f9d72cc9dcbe58145a21c7b19ea828666300a",
+          "snapshot": "input/地铁票价对比.csv",
+          "row": 16
+        }
+      ],
+      "original": {
+        "row": 16,
+        "listedTiers": [
+          {
+            "fare": 2,
+            "upTo": 6
+          },
+          {
+            "fare": 3,
+            "upTo": 10
+          },
+          {
+            "fare": 4,
+            "upTo": 14
+          },
+          {
+            "fare": 5,
+            "upTo": 21
+          },
+          {
+            "fare": 6,
+            "upTo": 28
+          },
+          {
+            "fare": 7,
+            "upTo": 38
+          }
+        ],
+        "networkMaxFare": 7,
+        "policyCap": "是",
+        "maxFareDistance": 38,
+        "maxStepKm": 10,
+        "effective": "2019 年起（沈发改发〔2019〕53号）",
+        "confidence": "high"
+      }
+    },
+    {
+      "id": "city-16",
+      "name": "大连",
+      "region": "东北",
+      "pricing": "distance",
+      "tiers": [
+        {
+          "fare": 2,
+          "upTo": 6
+        },
+        {
+          "fare": 3,
+          "upTo": 12
+        },
+        {
+          "fare": 4,
+          "upTo": 18
+        },
+        {
+          "fare": 5,
+          "upTo": 26
+        },
+        {
+          "fare": 6,
+          "upTo": 34
+        },
+        {
+          "fare": 7,
+          "upTo": 44
+        },
+        {
+          "fare": 8,
+          "upTo": 54
+        },
+        {
+          "fare": 9,
+          "upTo": 69
+        },
+        {
+          "fare": 10,
+          "upTo": 84
+        }
+      ],
+      "stepKm": 15,
+      "scope": "快轨3/12/13号线为快轨制式，但执行相同里程计价并同网换乘。",
+      "rule": "6公里以内2元；以1元为增加单位，晋级里程为6、6、8、8、10、10、15、15公里。",
+      "note": "CSV 的“最高票价”不作为政策封顶；超出线网里程只作票制测算，不表示线路可达。 已列票档之后每 15 公里加1元，续程取自本行规则及阶梯跨度。",
+      "audit": {
+        "status": "csv",
+        "label": "按原表数据",
+        "note": "计价依据为目录内 CSV；来源说明按用户要求统一，不代表本次逐项完成官网复核。"
+      },
+      "sources": [
+        {
+          "type": "从发改委或地铁公司官网获取",
+          "title": "从发改委或地铁公司官网获取",
+          "url": "https://www.dltransgrp.com/subway/subwayShow.do?newsId=0ed3313608eb4ed4bd23b9ee8cf57478&columnId=serviceCenter3link",
+          "checkedOn": "2026-10-07",
+          "access": "已读取原始CSV第17行；未重新访问网页",
+          "excerpt": "6公里以内2元；以1元为增加单位，晋级里程为6、6、8、8、10、10、15、15公里。",
+          "sha256": "66686617dc30ac1142ca9d42ca6f9d72cc9dcbe58145a21c7b19ea828666300a",
+          "snapshot": "input/地铁票价对比.csv",
+          "row": 17
+        }
+      ],
+      "original": {
+        "row": 17,
+        "listedTiers": [
+          {
+            "fare": 2,
+            "upTo": 6
+          },
+          {
+            "fare": 3,
+            "upTo": 12
+          },
+          {
+            "fare": 4,
+            "upTo": 18
+          },
+          {
+            "fare": 5,
+            "upTo": 26
+          },
+          {
+            "fare": 6,
+            "upTo": 34
+          },
+          {
+            "fare": 7,
+            "upTo": 44
+          },
+          {
+            "fare": 8,
+            "upTo": 54
+          },
+          {
+            "fare": 9,
+            "upTo": 69
+          },
+          {
+            "fare": 10,
+            "upTo": 84
+          }
+        ],
+        "networkMaxFare": 14,
+        "policyCap": "",
+        "maxFareDistance": 144,
+        "maxStepKm": 15,
+        "effective": "2015 年开通起沿用，2024-2026 未见调整",
+        "confidence": "high"
+      }
+    },
+    {
+      "id": "city-17",
+      "name": "青岛",
+      "region": "华东",
+      "pricing": "distance",
+      "tiers": [
+        {
+          "fare": 2,
+          "upTo": 5
+        },
+        {
+          "fare": 3,
+          "upTo": 10
+        },
+        {
+          "fare": 4,
+          "upTo": 17
+        },
+        {
+          "fare": 5,
+          "upTo": 27
+        },
+        {
+          "fare": 6,
+          "upTo": 38
+        },
+        {
+          "fare": 7,
+          "upTo": 58
+        },
+        {
+          "fare": 8,
+          "upTo": 78
+        },
+        {
+          "fare": 9,
+          "upTo": 98
+        },
+        {
+          "fare": 10,
+          "upTo": 118
+        }
+      ],
+      "stepKm": 20,
+      "scope": "8号线胶东机场段纳入线网计价，无机场专线加价；38 公里以上的 1 元跨度达 20 公里，为全国最「陡」的递减阶梯之一。",
+      "rule": "起步2元可乘5公里；5–10公里3元；10–17公里4元；17–27公里5元；27–38公里6元；38公里以上每20公里加1元。",
+      "note": "CSV 的“最高票价”不作为政策封顶；超出线网里程只作票制测算，不表示线路可达。 已列票档之后每 20 公里加1元，续程取自本行规则及阶梯跨度。",
+      "audit": {
+        "status": "csv",
+        "label": "按原表数据",
+        "note": "计价依据为目录内 CSV；来源说明按用户要求统一，不代表本次逐项完成官网复核。"
+      },
+      "sources": [
+        {
+          "type": "从发改委或地铁公司官网获取",
+          "title": "从发改委或地铁公司官网获取",
+          "url": "https://qd-metro.com/informationInfo.php?id=1387",
+          "checkedOn": "2026-10-07",
+          "access": "已读取原始CSV第18行；未重新访问网页",
+          "excerpt": "起步2元可乘5公里；5–10公里3元；10–17公里4元；17–27公里5元；27–38公里6元；38公里以上每20公里加1元。",
+          "sha256": "66686617dc30ac1142ca9d42ca6f9d72cc9dcbe58145a21c7b19ea828666300a",
+          "snapshot": "input/地铁票价对比.csv",
+          "row": 18
+        }
+      ],
+      "original": {
+        "row": 18,
+        "listedTiers": [
+          {
+            "fare": 2,
+            "upTo": 5
+          },
+          {
+            "fare": 3,
+            "upTo": 10
+          },
+          {
+            "fare": 4,
+            "upTo": 17
+          },
+          {
+            "fare": 5,
+            "upTo": 27
+          },
+          {
+            "fare": 6,
+            "upTo": 38
+          },
+          {
+            "fare": 7,
+            "upTo": 58
+          },
+          {
+            "fare": 8,
+            "upTo": 78
+          },
+          {
+            "fare": 9,
+            "upTo": 98
+          },
+          {
+            "fare": 10,
+            "upTo": 118
+          }
+        ],
+        "networkMaxFare": 12,
+        "policyCap": "",
+        "maxFareDistance": 158,
+        "maxStepKm": 20,
+        "effective": "2015 年起（青价格〔2015〕47号），2024-2026 未调整",
+        "confidence": "high"
+      }
+    },
+    {
+      "id": "city-18",
+      "name": "宁波",
+      "region": "华东",
+      "pricing": "distance",
+      "tiers": [
+        {
+          "fare": 2,
+          "upTo": 4
+        },
+        {
+          "fare": 3,
+          "upTo": 8
+        },
+        {
+          "fare": 4,
+          "upTo": 13
+        },
+        {
+          "fare": 5,
+          "upTo": 20
+        },
+        {
+          "fare": 6,
+          "upTo": 29
+        },
+        {
+          "fare": 7,
+          "upTo": 38
+        },
+        {
+          "fare": 8,
+          "upTo": 47
+        },
+        {
+          "fare": 9,
+          "upTo": 56
+        },
+        {
+          "fare": 10,
+          "upTo": 65
+        }
+      ],
+      "stepKm": 9,
+      "scope": "12号线（象山线，含跨象山港市域铁路段）2026-09-22 开通后仍沿用原票制。",
+      "rule": "4公里及以内2元；4–8公里每1元可乘4公里；8–13公里每1元可乘5公里；13–20公里每1元可乘7公里；20公里以上每1元可乘9公里。",
+      "note": "CSV 的“最高票价”不作为政策封顶；超出线网里程只作票制测算，不表示线路可达。 已列票档之后每 9 公里加1元，续程取自本行规则及阶梯跨度。",
+      "audit": {
+        "status": "csv",
+        "label": "按原表数据",
+        "note": "计价依据为目录内 CSV；来源说明按用户要求统一，不代表本次逐项完成官网复核。"
+      },
+      "sources": [
+        {
+          "type": "从发改委或地铁公司官网获取",
+          "title": "从发改委或地铁公司官网获取",
+          "url": "http://www.nbmetro.com/news_lead.php?info/1647",
+          "checkedOn": "2026-10-07",
+          "access": "已读取原始CSV第19行；未重新访问网页",
+          "excerpt": "4公里及以内2元；4–8公里每1元可乘4公里；8–13公里每1元可乘5公里；13–20公里每1元可乘7公里；20公里以上每1元可乘9公里。",
+          "sha256": "66686617dc30ac1142ca9d42ca6f9d72cc9dcbe58145a21c7b19ea828666300a",
+          "snapshot": "input/地铁票价对比.csv",
+          "row": 19
+        }
+      ],
+      "original": {
+        "row": 19,
+        "listedTiers": [
+          {
+            "fare": 2,
+            "upTo": 4
+          },
+          {
+            "fare": 3,
+            "upTo": 8
+          },
+          {
+            "fare": 4,
+            "upTo": 13
+          },
+          {
+            "fare": 5,
+            "upTo": 20
+          },
+          {
+            "fare": 6,
+            "upTo": 29
+          },
+          {
+            "fare": 7,
+            "upTo": 38
+          },
+          {
+            "fare": 8,
+            "upTo": 47
+          },
+          {
+            "fare": 9,
+            "upTo": 56
+          },
+          {
+            "fare": 10,
+            "upTo": 65
+          }
+        ],
+        "networkMaxFare": 14,
+        "policyCap": "",
+        "maxFareDistance": 101,
+        "maxStepKm": 9,
+        "effective": "2014 年票制沿用，2024-2026 未调整",
+        "confidence": "high"
+      }
+    },
+    {
+      "id": "city-19",
+      "name": "合肥",
+      "region": "华东",
+      "pricing": "distance",
+      "tiers": [
+        {
+          "fare": 2,
+          "upTo": 8
+        },
+        {
+          "fare": 3,
+          "upTo": 14
+        },
+        {
+          "fare": 4,
+          "upTo": 21
+        },
+        {
+          "fare": 5,
+          "upTo": 29
+        },
+        {
+          "fare": 6,
+          "upTo": 38
+        },
+        {
+          "fare": 7,
+          "upTo": 47
+        },
+        {
+          "fare": 8,
+          "upTo": 56
+        }
+      ],
+      "stepKm": 9,
+      "scope": "起步里程 8 公里，为全国最长的一档起步里程（与芜湖单轨并列）。2023-12-26 起继续执行原票价标准。",
+      "rule": "起步2元可乘8公里；8–14公里3元；14–21公里4元；21–29公里5元；29公里以上每9公里加1元。",
+      "note": "CSV 的“最高票价”不作为政策封顶；超出线网里程只作票制测算，不表示线路可达。 已列票档之后每 9 公里加1元，续程取自本行规则及阶梯跨度。",
+      "audit": {
+        "status": "csv",
+        "label": "按原表数据",
+        "note": "计价依据为目录内 CSV；来源说明按用户要求统一，不代表本次逐项完成官网复核。"
+      },
+      "sources": [
+        {
+          "type": "从发改委或地铁公司官网获取",
+          "title": "从发改委或地铁公司官网获取",
+          "url": "https://www.hefei.gov.cn/zwgk/public/156407/108813653.html",
+          "checkedOn": "2026-10-07",
+          "access": "已读取原始CSV第20行；未重新访问网页",
+          "excerpt": "起步2元可乘8公里；8–14公里3元；14–21公里4元；21–29公里5元；29公里以上每9公里加1元。",
+          "sha256": "66686617dc30ac1142ca9d42ca6f9d72cc9dcbe58145a21c7b19ea828666300a",
+          "snapshot": "input/地铁票价对比.csv",
+          "row": 20
+        }
+      ],
+      "original": {
+        "row": 20,
+        "listedTiers": [
+          {
+            "fare": 2,
+            "upTo": 8
+          },
+          {
+            "fare": 3,
+            "upTo": 14
+          },
+          {
+            "fare": 4,
+            "upTo": 21
+          },
+          {
+            "fare": 5,
+            "upTo": 29
+          },
+          {
+            "fare": 6,
+            "upTo": 38
+          },
+          {
+            "fare": 7,
+            "upTo": 47
+          },
+          {
+            "fare": 8,
+            "upTo": 56
+          }
+        ],
+        "networkMaxFare": 8,
+        "policyCap": "",
+        "maxFareDistance": 56,
+        "maxStepKm": 9,
+        "effective": "原标准延续，2023-12-26 确认继续执行",
+        "confidence": "high"
+      }
+    },
+    {
+      "id": "city-20",
+      "name": "昆明",
+      "region": "西南",
+      "pricing": "distance",
+      "tiers": [
+        {
+          "fare": 2,
+          "upTo": 4
+        },
+        {
+          "fare": 3,
+          "upTo": 8
+        },
+        {
+          "fare": 4,
+          "upTo": 13
+        },
+        {
+          "fare": 5,
+          "upTo": 19
+        },
+        {
+          "fare": 6,
+          "upTo": 26
+        },
+        {
+          "fare": 7,
+          "upTo": 34
+        },
+        {
+          "fare": 8,
+          "upTo": 43
+        },
+        {
+          "fare": 9,
+          "upTo": 53
+        }
+      ],
+      "stepKm": 10,
+      "scope": "2025-04-15 起执行新票价，原 2012 年「跳档5/7/9/11/13公里」规则已废止——近年调价城市。6号线按普通地铁计价，无机场专线加价。",
+      "rule": "起步2元可乘4公里；其后跳档里程为4、5、6、7、8、9公里（43公里以后每10公里一档），每跳一档加1元。",
+      "note": "CSV 的“最高票价”不作为政策封顶；超出线网里程只作票制测算，不表示线路可达。 已列票档之后每 10 公里加1元，续程取自本行规则及阶梯跨度。",
+      "audit": {
+        "status": "csv",
+        "label": "按原表数据",
+        "note": "计价依据为目录内 CSV；来源说明按用户要求统一，不代表本次逐项完成官网复核。"
+      },
+      "sources": [
+        {
+          "type": "从发改委或地铁公司官网获取",
+          "title": "从发改委或地铁公司官网获取",
+          "url": "https://jtys.km.gov.cn/c/2025-04-11/4967417.shtml",
+          "checkedOn": "2026-10-07",
+          "access": "已读取原始CSV第21行；未重新访问网页",
+          "excerpt": "起步2元可乘4公里；其后跳档里程为4、5、6、7、8、9公里（43公里以后每10公里一档），每跳一档加1元。",
+          "sha256": "66686617dc30ac1142ca9d42ca6f9d72cc9dcbe58145a21c7b19ea828666300a",
+          "snapshot": "input/地铁票价对比.csv",
+          "row": 21
+        }
+      ],
+      "original": {
+        "row": 21,
+        "listedTiers": [
+          {
+            "fare": 2,
+            "upTo": 4
+          },
+          {
+            "fare": 3,
+            "upTo": 8
+          },
+          {
+            "fare": 4,
+            "upTo": 13
+          },
+          {
+            "fare": 5,
+            "upTo": 19
+          },
+          {
+            "fare": 6,
+            "upTo": 26
+          },
+          {
+            "fare": 7,
+            "upTo": 34
+          },
+          {
+            "fare": 8,
+            "upTo": 43
+          },
+          {
+            "fare": 9,
+            "upTo": 53
+          }
+        ],
+        "networkMaxFare": 9,
+        "policyCap": "",
+        "maxFareDistance": 53,
+        "maxStepKm": 10,
+        "effective": "2025-04-15 起执行",
+        "confidence": "high"
+      }
+    },
+    {
+      "id": "city-21",
+      "name": "南宁",
+      "region": "西南",
+      "pricing": "distance",
+      "tiers": [
+        {
+          "fare": 2,
+          "upTo": 6
+        },
+        {
+          "fare": 3,
+          "upTo": 12
+        },
+        {
+          "fare": 4,
+          "upTo": 18
+        },
+        {
+          "fare": 5,
+          "upTo": 26
+        },
+        {
+          "fare": 6,
+          "upTo": 34
+        },
+        {
+          "fare": 7,
+          "upTo": 44
+        }
+      ],
+      "stepKm": 10,
+      "scope": "线网最高单程票价 7 元；本表 8 元及以上档位不适用。",
+      "rule": "起步2元可乘6公里；6–12、12–18、18–26、26–34公里各加1元；34公里以上每10公里加1元。",
+      "note": "CSV 的“最高票价”不作为政策封顶；超出线网里程只作票制测算，不表示线路可达。 已列票档之后每 10 公里加1元，续程取自本行规则及阶梯跨度。",
+      "audit": {
+        "status": "csv",
+        "label": "按原表数据",
+        "note": "计价依据为目录内 CSV；来源说明按用户要求统一，不代表本次逐项完成官网复核。"
+      },
+      "sources": [
+        {
+          "type": "从发改委或地铁公司官网获取",
+          "title": "从发改委或地铁公司官网获取",
+          "url": "https://www.nngdjt.com/html/service3a/",
+          "checkedOn": "2026-10-07",
+          "access": "已读取原始CSV第22行；未重新访问网页",
+          "excerpt": "起步2元可乘6公里；6–12、12–18、18–26、26–34公里各加1元；34公里以上每10公里加1元。",
+          "sha256": "66686617dc30ac1142ca9d42ca6f9d72cc9dcbe58145a21c7b19ea828666300a",
+          "snapshot": "input/地铁票价对比.csv",
+          "row": 22
+        }
+      ],
+      "original": {
+        "row": 22,
+        "listedTiers": [
+          {
+            "fare": 2,
+            "upTo": 6
+          },
+          {
+            "fare": 3,
+            "upTo": 12
+          },
+          {
+            "fare": 4,
+            "upTo": 18
+          },
+          {
+            "fare": 5,
+            "upTo": 26
+          },
+          {
+            "fare": 6,
+            "upTo": 34
+          },
+          {
+            "fare": 7,
+            "upTo": 44
+          }
+        ],
+        "networkMaxFare": 7,
+        "policyCap": "",
+        "maxFareDistance": 44,
+        "maxStepKm": 10,
+        "effective": "2016 年批复（2021年5号线延续），2024-2026 未见调整",
+        "confidence": "high"
+      }
+    },
+    {
+      "id": "city-22",
+      "name": "福州",
+      "region": "华东",
+      "pricing": "distance",
+      "tiers": [
+        {
+          "fare": 2,
+          "upTo": 5
+        },
+        {
+          "fare": 3,
+          "upTo": 10
+        },
+        {
+          "fare": 4,
+          "upTo": 15
+        },
+        {
+          "fare": 5,
+          "upTo": 22
+        },
+        {
+          "fare": 6,
+          "upTo": 29
+        },
+        {
+          "fare": 7,
+          "upTo": 38
+        },
+        {
+          "fare": 8,
+          "upTo": 47
+        }
+      ],
+      "stepKm": 9,
+      "scope": "滨海快线 F1（新区段按 0.3 元/公里固定费率）计价机制不同，已排除。",
+      "rule": "起步5公里(含)2元；5–15公里每5公里加1元；15–29公里每7公里加1元；29公里以上每9公里加1元。",
+      "note": "CSV 的“最高票价”不作为政策封顶；超出线网里程只作票制测算，不表示线路可达。 已列票档之后每 9 公里加1元，续程取自本行规则及阶梯跨度。",
+      "audit": {
+        "status": "csv",
+        "label": "按原表数据",
+        "note": "计价依据为目录内 CSV；来源说明按用户要求统一，不代表本次逐项完成官网复核。"
+      },
+      "sources": [
+        {
+          "type": "从发改委或地铁公司官网获取",
+          "title": "从发改委或地铁公司官网获取",
+          "url": "https://fgw.fuzhou.gov.cn/zfxxgkzl/zfxxgkml/ywgz/jgysf/201603/t20160329_1545981.htm",
+          "checkedOn": "2026-10-07",
+          "access": "已读取原始CSV第23行；未重新访问网页",
+          "excerpt": "起步5公里(含)2元；5–15公里每5公里加1元；15–29公里每7公里加1元；29公里以上每9公里加1元。",
+          "sha256": "66686617dc30ac1142ca9d42ca6f9d72cc9dcbe58145a21c7b19ea828666300a",
+          "snapshot": "input/地铁票价对比.csv",
+          "row": 23
+        }
+      ],
+      "original": {
+        "row": 23,
+        "listedTiers": [
+          {
+            "fare": 2,
+            "upTo": 5
+          },
+          {
+            "fare": 3,
+            "upTo": 10
+          },
+          {
+            "fare": 4,
+            "upTo": 15
+          },
+          {
+            "fare": 5,
+            "upTo": 22
+          },
+          {
+            "fare": 6,
+            "upTo": 29
+          },
+          {
+            "fare": 7,
+            "upTo": 38
+          },
+          {
+            "fare": 8,
+            "upTo": 47
+          }
+        ],
+        "networkMaxFare": 8,
+        "policyCap": "",
+        "maxFareDistance": 47,
+        "maxStepKm": 9,
+        "effective": "2016 年起（榕发改价格〔2016〕33号），2024-2026 未见调整",
+        "confidence": "high"
+      }
+    },
+    {
+      "id": "city-23",
+      "name": "厦门",
+      "region": "华东",
+      "pricing": "distance",
+      "tiers": [
+        {
+          "fare": 2,
+          "upTo": 4
+        },
+        {
+          "fare": 3,
+          "upTo": 8
+        },
+        {
+          "fare": 4,
+          "upTo": 12
+        },
+        {
+          "fare": 5,
+          "upTo": 18
+        },
+        {
+          "fare": 6,
+          "upTo": 28
+        },
+        {
+          "fare": 7,
+          "upTo": 43
+        },
+        {
+          "fare": 8,
+          "upTo": 63
+        }
+      ],
+      "stepKm": 20,
+      "scope": "旧资料称「2号线票价区间2–7元」系单线范围，非全网规则；跨设区市段（如6号线角美延伸段）另行定价已排除。",
+      "rule": "起步4公里(含)2元；4–12公里每4公里加1元；12–18公里每6公里加1元；18–28公里每10公里加1元；28–43公里每15公里加1元；43公里以上每20公里加1元。",
+      "note": "CSV 的“最高票价”不作为政策封顶；超出线网里程只作票制测算，不表示线路可达。 已列票档之后每 20 公里加1元，续程取自本行规则及阶梯跨度。",
+      "audit": {
+        "status": "csv",
+        "label": "按原表数据",
+        "note": "计价依据为目录内 CSV；来源说明按用户要求统一，不代表本次逐项完成官网复核。"
+      },
+      "sources": [
+        {
+          "type": "从发改委或地铁公司官网获取",
+          "title": "从发改委或地铁公司官网获取",
+          "url": "https://cloud.xm.gov.cn/165/service/2704016.xhtml",
+          "checkedOn": "2026-10-07",
+          "access": "已读取原始CSV第24行；未重新访问网页",
+          "excerpt": "起步4公里(含)2元；4–12公里每4公里加1元；12–18公里每6公里加1元；18–28公里每10公里加1元；28–43公里每15公里加1元；43公里以上每20公里加1元。",
+          "sha256": "66686617dc30ac1142ca9d42ca6f9d72cc9dcbe58145a21c7b19ea828666300a",
+          "snapshot": "input/地铁票价对比.csv",
+          "row": 24
+        }
+      ],
+      "original": {
+        "row": 24,
+        "listedTiers": [
+          {
+            "fare": 2,
+            "upTo": 4
+          },
+          {
+            "fare": 3,
+            "upTo": 8
+          },
+          {
+            "fare": 4,
+            "upTo": 12
+          },
+          {
+            "fare": 5,
+            "upTo": 18
+          },
+          {
+            "fare": 6,
+            "upTo": 28
+          },
+          {
+            "fare": 7,
+            "upTo": 43
+          },
+          {
+            "fare": 8,
+            "upTo": 63
+          }
+        ],
+        "networkMaxFare": 8,
+        "policyCap": "",
+        "maxFareDistance": 63,
+        "maxStepKm": 20,
+        "effective": "2017 年（厦发改价格〔2017〕780号）；2023-01-01 起续期 5 年至 2027-12-31",
+        "confidence": "high"
+      }
+    },
+    {
+      "id": "city-24",
+      "name": "济南",
+      "region": "华东",
+      "pricing": "distance",
+      "tiers": [
+        {
+          "fare": 2,
+          "upTo": 5
+        },
+        {
+          "fare": 3,
+          "upTo": 10
+        },
+        {
+          "fare": 4,
+          "upTo": 15
+        },
+        {
+          "fare": 5,
+          "upTo": 22
+        },
+        {
+          "fare": 6,
+          "upTo": 29
+        },
+        {
+          "fare": 7,
+          "upTo": 38
+        },
+        {
+          "fare": 8,
+          "upTo": 47
+        },
+        {
+          "fare": 9,
+          "upTo": 56
+        },
+        {
+          "fare": 10,
+          "upTo": 65
+        }
+      ],
+      "stepKm": 9,
+      "scope": "2025-12-27 新开4、8号线及6号线东段沿用同一票制；济南云巴为不同制式已排除。",
+      "rule": "5公里内2元；5–10公里3元；10–15公里4元；15–22公里5元；22–29公里6元；29公里以上每9公里加1元。",
+      "note": "CSV 的“最高票价”不作为政策封顶；超出线网里程只作票制测算，不表示线路可达。 已列票档之后每 9 公里加1元，续程取自本行规则及阶梯跨度。",
+      "audit": {
+        "status": "csv",
+        "label": "按原表数据",
+        "note": "计价依据为目录内 CSV；来源说明按用户要求统一，不代表本次逐项完成官网复核。"
+      },
+      "sources": [
+        {
+          "type": "从发改委或地铁公司官网获取",
+          "title": "从发改委或地铁公司官网获取",
+          "url": "https://www.jngdjt.cn/index.php?m=content&c=index&a=show&catid=108&id=4291",
+          "checkedOn": "2026-10-07",
+          "access": "已读取原始CSV第25行；未重新访问网页",
+          "excerpt": "5公里内2元；5–10公里3元；10–15公里4元；15–22公里5元；22–29公里6元；29公里以上每9公里加1元。",
+          "sha256": "66686617dc30ac1142ca9d42ca6f9d72cc9dcbe58145a21c7b19ea828666300a",
+          "snapshot": "input/地铁票价对比.csv",
+          "row": 25
+        }
+      ],
+      "original": {
+        "row": 25,
+        "listedTiers": [
+          {
+            "fare": 2,
+            "upTo": 5
+          },
+          {
+            "fare": 3,
+            "upTo": 10
+          },
+          {
+            "fare": 4,
+            "upTo": 15
+          },
+          {
+            "fare": 5,
+            "upTo": 22
+          },
+          {
+            "fare": 6,
+            "upTo": 29
+          },
+          {
+            "fare": 7,
+            "upTo": 38
+          },
+          {
+            "fare": 8,
+            "upTo": 47
+          },
+          {
+            "fare": 9,
+            "upTo": 56
+          },
+          {
+            "fare": 10,
+            "upTo": 65
+          }
+        ],
+        "networkMaxFare": 12,
+        "policyCap": "",
+        "maxFareDistance": 83,
+        "maxStepKm": 9,
+        "effective": "原票制，2025-12-27 新线延续",
+        "confidence": "high"
+      }
+    },
+    {
+      "id": "city-25",
+      "name": "太原",
+      "region": "华北",
+      "pricing": "distance",
+      "tiers": [
+        {
+          "fare": 2,
+          "upTo": 5
+        },
+        {
+          "fare": 3,
+          "upTo": 10
+        },
+        {
+          "fare": 4,
+          "upTo": 15
+        },
+        {
+          "fare": 5,
+          "upTo": 21
+        },
+        {
+          "fare": 6,
+          "upTo": 27
+        },
+        {
+          "fare": 7,
+          "upTo": 34
+        },
+        {
+          "fare": 8,
+          "upTo": 41
+        }
+      ],
+      "stepKm": 7,
+      "scope": "2024-12 起执行新票价（并发改收费字〔2024〕135号），取代 2020 年 2 号线旧批复；1号线 2025-02 开通后同网同价。",
+      "rule": "起步2元可乘5公里；其后每增加1元的晋级里程为5、5、6、6、7公里；34公里以上每7公里加1元。",
+      "note": "CSV 的“最高票价”不作为政策封顶；超出线网里程只作票制测算，不表示线路可达。 已列票档之后每 7 公里加1元，续程取自本行规则及阶梯跨度。",
+      "audit": {
+        "status": "csv",
+        "label": "按原表数据",
+        "note": "计价依据为目录内 CSV；来源说明按用户要求统一，不代表本次逐项完成官网复核。"
+      },
+      "sources": [
+        {
+          "type": "从发改委或地铁公司官网获取",
+          "title": "从发改委或地铁公司官网获取",
+          "url": "https://www.tymetro.ltd/service/info/ticket",
+          "checkedOn": "2026-10-07",
+          "access": "已读取原始CSV第26行；未重新访问网页",
+          "excerpt": "起步2元可乘5公里；其后每增加1元的晋级里程为5、5、6、6、7公里；34公里以上每7公里加1元。",
+          "sha256": "66686617dc30ac1142ca9d42ca6f9d72cc9dcbe58145a21c7b19ea828666300a",
+          "snapshot": "input/地铁票价对比.csv",
+          "row": 26
+        }
+      ],
+      "original": {
+        "row": 26,
+        "listedTiers": [
+          {
+            "fare": 2,
+            "upTo": 5
+          },
+          {
+            "fare": 3,
+            "upTo": 10
+          },
+          {
+            "fare": 4,
+            "upTo": 15
+          },
+          {
+            "fare": 5,
+            "upTo": 21
+          },
+          {
+            "fare": 6,
+            "upTo": 27
+          },
+          {
+            "fare": 7,
+            "upTo": 34
+          },
+          {
+            "fare": 8,
+            "upTo": 41
+          }
+        ],
+        "networkMaxFare": 8,
+        "policyCap": "",
+        "maxFareDistance": 41,
+        "maxStepKm": 7,
+        "effective": "2024-12 起（并发改收费字〔2024〕135号）",
+        "confidence": "high"
+      }
+    },
+    {
+      "id": "city-26",
+      "name": "石家庄",
+      "region": "华北",
+      "pricing": "distance",
+      "tiers": [
+        {
+          "fare": 2,
+          "upTo": 6
+        },
+        {
+          "fare": 3,
+          "upTo": 13
+        },
+        {
+          "fare": 4,
+          "upTo": 20
+        },
+        {
+          "fare": 5,
+          "upTo": 28
+        },
+        {
+          "fare": 6,
+          "upTo": 36
+        },
+        {
+          "fare": 7,
+          "upTo": 45
+        },
+        {
+          "fare": 8,
+          "upTo": 54
+        }
+      ],
+      "stepKm": 10,
+      "scope": "自动售检票按最短路径计价。",
+      "rule": "起步6公里2元；6–20公里每7公里加1元；20–36公里每8公里加1元；36–54公里每9公里加1元；54公里以上每10公里加1元。",
+      "note": "CSV 的“最高票价”不作为政策封顶；超出线网里程只作票制测算，不表示线路可达。 已列票档之后每 10 公里加1元，续程取自本行规则及阶梯跨度。",
+      "audit": {
+        "status": "csv",
+        "label": "按原表数据",
+        "note": "计价依据为目录内 CSV；来源说明按用户要求统一，不代表本次逐项完成官网复核。"
+      },
+      "sources": [
+        {
+          "type": "从发改委或地铁公司官网获取",
+          "title": "从发改委或地铁公司官网获取",
+          "url": "http://sjzmetro.cn/service/ticket/95.html",
+          "checkedOn": "2026-10-07",
+          "access": "已读取原始CSV第27行；未重新访问网页",
+          "excerpt": "起步6公里2元；6–20公里每7公里加1元；20–36公里每8公里加1元；36–54公里每9公里加1元；54公里以上每10公里加1元。",
+          "sha256": "66686617dc30ac1142ca9d42ca6f9d72cc9dcbe58145a21c7b19ea828666300a",
+          "snapshot": "input/地铁票价对比.csv",
+          "row": 27
+        }
+      ],
+      "original": {
+        "row": 27,
+        "listedTiers": [
+          {
+            "fare": 2,
+            "upTo": 6
+          },
+          {
+            "fare": 3,
+            "upTo": 13
+          },
+          {
+            "fare": 4,
+            "upTo": 20
+          },
+          {
+            "fare": 5,
+            "upTo": 28
+          },
+          {
+            "fare": 6,
+            "upTo": 36
+          },
+          {
+            "fare": 7,
+            "upTo": 45
+          }
+        ],
+        "networkMaxFare": 7,
+        "policyCap": "",
+        "maxFareDistance": 45,
+        "maxStepKm": 9,
+        "effective": "2017 年线网开通起沿用，2024-2026 未调整",
+        "confidence": "high"
+      }
+    },
+    {
+      "id": "city-27",
+      "name": "兰州",
+      "region": "西北",
+      "pricing": "distance",
+      "tiers": [
+        {
+          "fare": 2,
+          "upTo": 4
+        },
+        {
+          "fare": 3,
+          "upTo": 8
+        },
+        {
+          "fare": 4,
+          "upTo": 12
+        },
+        {
+          "fare": 5,
+          "upTo": 18
+        },
+        {
+          "fare": 6,
+          "upTo": 24
+        },
+        {
+          "fare": 7,
+          "upTo": 32
+        },
+        {
+          "fare": 8,
+          "upTo": 40
+        }
+      ],
+      "stepKm": 8,
+      "scope": "120 分钟内按实际里程计费。",
+      "rule": "起步2元可乘4公里；晋级里程为4、4、6、6、8、8公里；40公里以上每8公里加1元。",
+      "note": "CSV 的“最高票价”不作为政策封顶；超出线网里程只作票制测算，不表示线路可达。 已列票档之后每 8 公里加1元，续程取自本行规则及阶梯跨度。",
+      "audit": {
+        "status": "csv",
+        "label": "按原表数据",
+        "note": "计价依据为目录内 CSV；来源说明按用户要求统一，不代表本次逐项完成官网复核。"
+      },
+      "sources": [
+        {
+          "type": "从发改委或地铁公司官网获取",
+          "title": "从发改委或地铁公司官网获取",
+          "url": "https://www.lzgdjt.com/lzgd/detail.jsp?contentId=51457",
+          "checkedOn": "2026-10-07",
+          "access": "已读取原始CSV第28行；未重新访问网页",
+          "excerpt": "起步2元可乘4公里；晋级里程为4、4、6、6、8、8公里；40公里以上每8公里加1元。",
+          "sha256": "66686617dc30ac1142ca9d42ca6f9d72cc9dcbe58145a21c7b19ea828666300a",
+          "snapshot": "input/地铁票价对比.csv",
+          "row": 28
+        }
+      ],
+      "original": {
+        "row": 28,
+        "listedTiers": [
+          {
+            "fare": 2,
+            "upTo": 4
+          },
+          {
+            "fare": 3,
+            "upTo": 8
+          },
+          {
+            "fare": 4,
+            "upTo": 12
+          },
+          {
+            "fare": 5,
+            "upTo": 18
+          },
+          {
+            "fare": 6,
+            "upTo": 24
+          },
+          {
+            "fare": 7,
+            "upTo": 32
+          }
+        ],
+        "networkMaxFare": 7,
+        "policyCap": "",
+        "maxFareDistance": 32,
+        "maxStepKm": 8,
+        "effective": "2019 年起（兰州市政府令〔2019〕第20号）",
+        "confidence": "high"
+      }
+    },
+    {
+      "id": "city-28",
+      "name": "乌鲁木齐",
+      "region": "西北",
+      "pricing": "distance",
+      "tiers": [
+        {
+          "fare": 2,
+          "upTo": 5
+        },
+        {
+          "fare": 3,
+          "upTo": 9
+        },
+        {
+          "fare": 4,
+          "upTo": 13
+        },
+        {
+          "fare": 5,
+          "upTo": 19
+        },
+        {
+          "fare": 6,
+          "upTo": 25
+        },
+        {
+          "fare": 7,
+          "upTo": 33
+        }
+      ],
+      "stepKm": 8,
+      "scope": "进闸后停留时限 120 分钟。",
+      "rule": "起步2元可乘5公里；5–13公里每1元可乘4公里；13–25公里每1元可乘6公里；25公里以上每1元可乘8公里。",
+      "note": "CSV 的“最高票价”不作为政策封顶；超出线网里程只作票制测算，不表示线路可达。 已列票档之后每 8 公里加1元，续程取自本行规则及阶梯跨度。",
+      "audit": {
+        "status": "csv",
+        "label": "按原表数据",
+        "note": "计价依据为目录内 CSV；来源说明按用户要求统一，不代表本次逐项完成官网复核。"
+      },
+      "sources": [
+        {
+          "type": "从发改委或地铁公司官网获取",
+          "title": "从发改委或地铁公司官网获取",
+          "url": "https://www.wlmq.gov.cn/wlmqs/c119128/202003/40ec35f41f21409b9851a529304682fb.shtml",
+          "checkedOn": "2026-10-07",
+          "access": "已读取原始CSV第29行；未重新访问网页",
+          "excerpt": "起步2元可乘5公里；5–13公里每1元可乘4公里；13–25公里每1元可乘6公里；25公里以上每1元可乘8公里。",
+          "sha256": "66686617dc30ac1142ca9d42ca6f9d72cc9dcbe58145a21c7b19ea828666300a",
+          "snapshot": "input/地铁票价对比.csv",
+          "row": 29
+        }
+      ],
+      "original": {
+        "row": 29,
+        "listedTiers": [
+          {
+            "fare": 2,
+            "upTo": 5
+          },
+          {
+            "fare": 3,
+            "upTo": 9
+          },
+          {
+            "fare": 4,
+            "upTo": 13
+          },
+          {
+            "fare": 5,
+            "upTo": 19
+          },
+          {
+            "fare": 6,
+            "upTo": 25
+          },
+          {
+            "fare": 7,
+            "upTo": 33
+          }
+        ],
+        "networkMaxFare": 7,
+        "policyCap": "",
+        "maxFareDistance": 33,
+        "maxStepKm": 8,
+        "effective": "2018 年批复（乌发改医价〔2018〕564号）",
+        "confidence": "high"
+      }
+    },
+    {
+      "id": "city-29",
+      "name": "贵阳",
+      "region": "西南",
+      "pricing": "distance",
+      "tiers": [
+        {
+          "fare": 2,
+          "upTo": 4
+        },
+        {
+          "fare": 3,
+          "upTo": 8
+        },
+        {
+          "fare": 4,
+          "upTo": 12
+        },
+        {
+          "fare": 5,
+          "upTo": 18
+        },
+        {
+          "fare": 6,
+          "upTo": 24
+        },
+        {
+          "fare": 7,
+          "upTo": 32
+        },
+        {
+          "fare": 8,
+          "upTo": 40
+        },
+        {
+          "fare": 9,
+          "upTo": 48
+        },
+        {
+          "fare": 10,
+          "upTo": 56
+        }
+      ],
+      "stepKm": 8,
+      "scope": "按最短路径计价，换乘不额外收费。",
+      "rule": "起步2元可乘4公里；4–8、8–12、12–18、18–24公里各加1元；24公里以上每递增8公里加1元。",
+      "note": "CSV 的“最高票价”不作为政策封顶；超出线网里程只作票制测算，不表示线路可达。 已列票档之后每 8 公里加1元，续程取自本行规则及阶梯跨度。",
+      "audit": {
+        "status": "csv",
+        "label": "按原表数据",
+        "note": "计价依据为目录内 CSV；来源说明按用户要求统一，不代表本次逐项完成官网复核。"
+      },
+      "sources": [
+        {
+          "type": "从发改委或地铁公司官网获取",
+          "title": "从发改委或地铁公司官网获取",
+          "url": "https://www.gyurt.com/n128/20251121/i25763.html",
+          "checkedOn": "2026-10-07",
+          "access": "已读取原始CSV第30行；未重新访问网页",
+          "excerpt": "起步2元可乘4公里；4–8、8–12、12–18、18–24公里各加1元；24公里以上每递增8公里加1元。",
+          "sha256": "66686617dc30ac1142ca9d42ca6f9d72cc9dcbe58145a21c7b19ea828666300a",
+          "snapshot": "input/地铁票价对比.csv",
+          "row": 30
+        }
+      ],
+      "original": {
+        "row": 30,
+        "listedTiers": [
+          {
+            "fare": 2,
+            "upTo": 4
+          },
+          {
+            "fare": 3,
+            "upTo": 8
+          },
+          {
+            "fare": 4,
+            "upTo": 12
+          },
+          {
+            "fare": 5,
+            "upTo": 18
+          },
+          {
+            "fare": 6,
+            "upTo": 24
+          },
+          {
+            "fare": 7,
+            "upTo": 32
+          },
+          {
+            "fare": 8,
+            "upTo": 40
+          },
+          {
+            "fare": 9,
+            "upTo": 48
+          },
+          {
+            "fare": 10,
+            "upTo": 56
+          }
+        ],
+        "networkMaxFare": 11,
+        "policyCap": "",
+        "maxFareDistance": 64,
+        "maxStepKm": 8,
+        "effective": "2017 年起（筑发改收费〔2017〕768号）",
+        "confidence": "high"
+      }
+    },
+    {
+      "id": "city-30",
+      "name": "佛山",
+      "region": "华南",
+      "pricing": "distance",
+      "tiers": [
+        {
+          "fare": 2,
+          "upTo": 4
+        },
+        {
+          "fare": 3,
+          "upTo": 8
+        },
+        {
+          "fare": 4,
+          "upTo": 12
+        },
+        {
+          "fare": 5,
+          "upTo": 18
+        },
+        {
+          "fare": 6,
+          "upTo": 24
+        },
+        {
+          "fare": 7,
+          "upTo": 32
+        },
+        {
+          "fare": 8,
+          "upTo": 40
+        },
+        {
+          "fare": 9,
+          "upTo": 48
+        },
+        {
+          "fare": 10,
+          "upTo": 56
+        }
+      ],
+      "stepKm": 8,
+      "scope": "广佛线由广州地铁运营、按广州规则计价；佛山 2/3 号线票价规则与广州一致。高明有轨电车（2元一票制）已排除。",
+      "rule": "与广州同网同价，按里程分段计价：4公里以内2元；4–12公里每递增4公里加1元；12–24公里每递增6公里加1元；24公里以后每递增8公里加1元。",
+      "note": "CSV 的“最高票价”不作为政策封顶；超出线网里程只作票制测算，不表示线路可达。 已列票档之后每 8 公里加1元，续程取自本行规则及阶梯跨度。",
+      "audit": {
+        "status": "csv",
+        "label": "按原表数据",
+        "note": "计价依据为目录内 CSV；来源说明按用户要求统一，不代表本次逐项完成官网复核。"
+      },
+      "sources": [
+        {
+          "type": "从发改委或地铁公司官网获取",
+          "title": "从发改委或地铁公司官网获取",
+          "url": "https://cs.gzmtr.com/ckfw/pwzy_202001/202011/t20201117_69746.html",
+          "checkedOn": "2026-10-07",
+          "access": "已读取原始CSV第31行；未重新访问网页",
+          "excerpt": "与广州同网同价，按里程分段计价：4公里以内2元；4–12公里每递增4公里加1元；12–24公里每递增6公里加1元；24公里以后每递增8公里加1元。",
+          "sha256": "66686617dc30ac1142ca9d42ca6f9d72cc9dcbe58145a21c7b19ea828666300a",
+          "snapshot": "input/地铁票价对比.csv",
+          "row": 31
+        }
+      ],
+      "original": {
+        "row": 31,
+        "listedTiers": [
+          {
+            "fare": 2,
+            "upTo": 4
+          },
+          {
+            "fare": 3,
+            "upTo": 8
+          },
+          {
+            "fare": 4,
+            "upTo": 12
+          },
+          {
+            "fare": 5,
+            "upTo": 18
+          },
+          {
+            "fare": 6,
+            "upTo": 24
+          },
+          {
+            "fare": 7,
+            "upTo": 32
+          },
+          {
+            "fare": 8,
+            "upTo": 40
+          },
+          {
+            "fare": 9,
+            "upTo": 48
+          },
+          {
+            "fare": 10,
+            "upTo": 56
+          }
+        ],
+        "networkMaxFare": 20,
+        "policyCap": "",
+        "maxFareDistance": 136,
+        "maxStepKm": 8,
+        "effective": "2021 年起与广州同网同价",
+        "confidence": "medium"
+      }
+    },
+    {
+      "id": "city-31",
+      "name": "南昌",
+      "region": "华中",
+      "pricing": "distance",
+      "tiers": [
+        {
+          "fare": 2,
+          "upTo": 6
+        },
+        {
+          "fare": 3,
+          "upTo": 12
+        },
+        {
+          "fare": 4,
+          "upTo": 20
+        },
+        {
+          "fare": 5,
+          "upTo": 28
+        },
+        {
+          "fare": 6,
+          "upTo": 38
+        },
+        {
+          "fare": 7,
+          "upTo": 48
+        }
+      ],
+      "stepKm": 10,
+      "scope": "线网最高单程票价 7 元；本表 8 元及以上档位不适用。",
+      "rule": "起步2元可乘6公里；6–12公里每1元可乘6公里；12–28公里每1元可乘8公里；28公里以上每1元可乘10公里。",
+      "note": "CSV 的“最高票价”不作为政策封顶；超出线网里程只作票制测算，不表示线路可达。 已列票档之后每 10 公里加1元，续程取自本行规则及阶梯跨度。",
+      "audit": {
+        "status": "csv",
+        "label": "按原表数据",
+        "note": "计价依据为目录内 CSV；来源说明按用户要求统一，不代表本次逐项完成官网复核。"
+      },
+      "sources": [
+        {
+          "type": "从发改委或地铁公司官网获取",
+          "title": "从发改委或地铁公司官网获取",
+          "url": "https://www.ncmtr.com/yyfw/4443177.html",
+          "checkedOn": "2026-10-07",
+          "access": "已读取原始CSV第32行；未重新访问网页",
+          "excerpt": "起步2元可乘6公里；6–12公里每1元可乘6公里；12–28公里每1元可乘8公里；28公里以上每1元可乘10公里。",
+          "sha256": "66686617dc30ac1142ca9d42ca6f9d72cc9dcbe58145a21c7b19ea828666300a",
+          "snapshot": "input/地铁票价对比.csv",
+          "row": 32
+        }
+      ],
+      "original": {
+        "row": 32,
+        "listedTiers": [
+          {
+            "fare": 2,
+            "upTo": 6
+          },
+          {
+            "fare": 3,
+            "upTo": 12
+          },
+          {
+            "fare": 4,
+            "upTo": 20
+          },
+          {
+            "fare": 5,
+            "upTo": 28
+          },
+          {
+            "fare": 6,
+            "upTo": 38
+          },
+          {
+            "fare": 7,
+            "upTo": 48
+          }
+        ],
+        "networkMaxFare": 7,
+        "policyCap": "",
+        "maxFareDistance": 48,
+        "maxStepKm": 10,
+        "effective": "2015 年起（洪价经字〔2015〕18号）",
+        "confidence": "high"
+      }
+    },
+    {
+      "id": "city-32",
+      "name": "长春",
+      "region": "东北",
+      "pricing": "distance",
+      "tiers": [
+        {
+          "fare": 2,
+          "upTo": 7
+        },
+        {
+          "fare": 3,
+          "upTo": 13
+        },
+        {
+          "fare": 4,
+          "upTo": 19
+        },
+        {
+          "fare": 5,
+          "upTo": 27
+        },
+        {
+          "fare": 6,
+          "upTo": 35
+        },
+        {
+          "fare": 7,
+          "upTo": 45
+        },
+        {
+          "fare": 8,
+          "upTo": 55
+        }
+      ],
+      "stepKm": 10,
+      "scope": "2019-05-30 起全网（地铁＋轻轨）统一执行同网同价；付费区可滞留 180 分钟。",
+      "rule": "起步2元可乘7公里；每增加1元可续乘6、6、8、8、10公里；35公里以上每10公里加1元。",
+      "note": "CSV 的“最高票价”不作为政策封顶；超出线网里程只作票制测算，不表示线路可达。 已列票档之后每 10 公里加1元，续程取自本行规则及阶梯跨度。",
+      "audit": {
+        "status": "csv",
+        "label": "按原表数据",
+        "note": "计价依据为目录内 CSV；来源说明按用户要求统一，不代表本次逐项完成官网复核。"
+      },
+      "sources": [
+        {
+          "type": "从发改委或地铁公司官网获取",
+          "title": "从发改委或地铁公司官网获取",
+          "url": "http://drc.changchun.gov.cn/fzgg/jggl/201809/t20180914_1289440.html",
+          "checkedOn": "2026-10-07",
+          "access": "已读取原始CSV第33行；未重新访问网页",
+          "excerpt": "起步2元可乘7公里；每增加1元可续乘6、6、8、8、10公里；35公里以上每10公里加1元。",
+          "sha256": "66686617dc30ac1142ca9d42ca6f9d72cc9dcbe58145a21c7b19ea828666300a",
+          "snapshot": "input/地铁票价对比.csv",
+          "row": 33
+        }
+      ],
+      "original": {
+        "row": 33,
+        "listedTiers": [
+          {
+            "fare": 2,
+            "upTo": 7
+          },
+          {
+            "fare": 3,
+            "upTo": 13
+          },
+          {
+            "fare": 4,
+            "upTo": 19
+          },
+          {
+            "fare": 5,
+            "upTo": 27
+          },
+          {
+            "fare": 6,
+            "upTo": 35
+          },
+          {
+            "fare": 7,
+            "upTo": 45
+          },
+          {
+            "fare": 8,
+            "upTo": 55
+          }
+        ],
+        "networkMaxFare": 8,
+        "policyCap": "",
+        "maxFareDistance": 55,
+        "maxStepKm": 10,
+        "effective": "2019-05-30 起全网统一",
+        "confidence": "high"
+      }
+    },
+    {
+      "id": "city-33",
+      "name": "哈尔滨",
+      "region": "东北",
+      "pricing": "distance",
+      "tiers": [
+        {
+          "fare": 2,
+          "upTo": 6
+        },
+        {
+          "fare": 3,
+          "upTo": 10
+        },
+        {
+          "fare": 4,
+          "upTo": 14
+        },
+        {
+          "fare": 5,
+          "upTo": 21
+        },
+        {
+          "fare": 6,
+          "upTo": 28
+        },
+        {
+          "fare": 7,
+          "upTo": 38
+        }
+      ],
+      "stepKm": 10,
+      "scope": "线网最高单程票价 7 元；本表 8 元及以上档位不适用。",
+      "rule": "起步2元可乘6公里，3元10公里、4元14公里、5元21公里、6元28公里；29公里以上每10公里加1元。",
+      "note": "CSV 的“最高票价”不作为政策封顶；超出线网里程只作票制测算，不表示线路可达。 已列票档之后每 10 公里加1元，续程取自本行规则及阶梯跨度。 原表“29公里以上”与票档边界表述不完全一致，边界按数值列的28公里、38公里处理。",
+      "audit": {
+        "status": "csv",
+        "label": "按原表数据",
+        "note": "计价依据为目录内 CSV；来源说明按用户要求统一，不代表本次逐项完成官网复核。"
+      },
+      "sources": [
+        {
+          "type": "从发改委或地铁公司官网获取",
+          "title": "从发改委或地铁公司官网获取",
+          "url": "https://www.songbei.gov.cn/hebsbq/cjwt1/202506/c01_1063609.shtml",
+          "checkedOn": "2026-10-07",
+          "access": "已读取原始CSV第34行；未重新访问网页",
+          "excerpt": "起步2元可乘6公里，3元10公里、4元14公里、5元21公里、6元28公里；29公里以上每10公里加1元。",
+          "sha256": "66686617dc30ac1142ca9d42ca6f9d72cc9dcbe58145a21c7b19ea828666300a",
+          "snapshot": "input/地铁票价对比.csv",
+          "row": 34
+        }
+      ],
+      "original": {
+        "row": 34,
+        "listedTiers": [
+          {
+            "fare": 2,
+            "upTo": 6
+          },
+          {
+            "fare": 3,
+            "upTo": 10
+          },
+          {
+            "fare": 4,
+            "upTo": 14
+          },
+          {
+            "fare": 5,
+            "upTo": 21
+          },
+          {
+            "fare": 6,
+            "upTo": 28
+          },
+          {
+            "fare": 7,
+            "upTo": 38
+          }
+        ],
+        "networkMaxFare": 7,
+        "policyCap": "",
+        "maxFareDistance": 38,
+        "maxStepKm": 10,
+        "effective": "2021 年随2号线开通执行线网票价",
+        "confidence": "high"
+      }
+    },
+    {
+      "id": "city-34",
+      "name": "无锡",
+      "region": "华东",
+      "pricing": "distance",
+      "tiers": [
+        {
+          "fare": 2,
+          "upTo": 5
+        },
+        {
+          "fare": 3,
+          "upTo": 10
+        },
+        {
+          "fare": 4,
+          "upTo": 15
+        },
+        {
+          "fare": 5,
+          "upTo": 22
+        },
+        {
+          "fare": 6,
+          "upTo": 29
+        },
+        {
+          "fare": 7,
+          "upTo": 38
+        },
+        {
+          "fare": 8,
+          "upTo": 47
+        },
+        {
+          "fare": 9,
+          "upTo": 56
+        },
+        {
+          "fare": 10,
+          "upTo": 65
+        }
+      ],
+      "stepKm": 9,
+      "scope": "S1 锡澄线 2024 年开通，执行同一规则。与本地公交非同价体系。",
+      "rule": "5公里内2元；5–15公里每5公里加1元；15–29公里每7公里加1元；29公里以上每9公里加1元。",
+      "note": "CSV 的“最高票价”不作为政策封顶；超出线网里程只作票制测算，不表示线路可达。 已列票档之后每 9 公里加1元，续程取自本行规则及阶梯跨度。",
+      "audit": {
+        "status": "csv",
+        "label": "按原表数据",
+        "note": "计价依据为目录内 CSV；来源说明按用户要求统一，不代表本次逐项完成官网复核。"
+      },
+      "sources": [
+        {
+          "type": "从发改委或地铁公司官网获取",
+          "title": "从发改委或地铁公司官网获取",
+          "url": "https://www.wxmetro.net/wxmetro/enterMetro?id=ccea0675e2f79831",
+          "checkedOn": "2026-10-07",
+          "access": "已读取原始CSV第35行；未重新访问网页",
+          "excerpt": "5公里内2元；5–15公里每5公里加1元；15–29公里每7公里加1元；29公里以上每9公里加1元。",
+          "sha256": "66686617dc30ac1142ca9d42ca6f9d72cc9dcbe58145a21c7b19ea828666300a",
+          "snapshot": "input/地铁票价对比.csv",
+          "row": 35
+        }
+      ],
+      "original": {
+        "row": 35,
+        "listedTiers": [
+          {
+            "fare": 2,
+            "upTo": 5
+          },
+          {
+            "fare": 3,
+            "upTo": 10
+          },
+          {
+            "fare": 4,
+            "upTo": 15
+          },
+          {
+            "fare": 5,
+            "upTo": 22
+          },
+          {
+            "fare": 6,
+            "upTo": 29
+          },
+          {
+            "fare": 7,
+            "upTo": 38
+          },
+          {
+            "fare": 8,
+            "upTo": 47
+          },
+          {
+            "fare": 9,
+            "upTo": 56
+          },
+          {
+            "fare": 10,
+            "upTo": 65
+          }
+        ],
+        "networkMaxFare": 10,
+        "policyCap": "",
+        "maxFareDistance": 65,
+        "maxStepKm": 9,
+        "effective": "2014 年票制（S1线2024年），2024-2026 未见调整",
+        "confidence": "high"
+      }
+    },
+    {
+      "id": "city-35",
+      "name": "温州",
+      "region": "华东",
+      "pricing": "distance",
+      "tiers": [
+        {
+          "fare": 2,
+          "upTo": 4
+        },
+        {
+          "fare": 3,
+          "upTo": 8
+        },
+        {
+          "fare": 4,
+          "upTo": 12
+        },
+        {
+          "fare": 5,
+          "upTo": 16
+        },
+        {
+          "fare": 6,
+          "upTo": 20
+        },
+        {
+          "fare": 7,
+          "upTo": 24
+        },
+        {
+          "fare": 8,
+          "upTo": 28
+        },
+        {
+          "fare": 9,
+          "upTo": 34
+        },
+        {
+          "fare": 10,
+          "upTo": 40
+        },
+        {
+          "fare": 11,
+          "upTo": 46
+        },
+        {
+          "fare": 12,
+          "upTo": 52
+        },
+        {
+          "fare": 13,
+          "upTo": 58
+        },
+        {
+          "fare": 14,
+          "upTo": 64
+        }
+      ],
+      "stepKm": 8,
+      "scope": "温州仅有市域铁路 S1/S2（S3在建），无普通地铁；其「2元4公里、4–28公里每元4公里」的平缓递进使其同价可乘里程全国最短。",
+      "rule": "起步2元可乘4公里；4–28公里每1元可乘4公里；28–64公里每1元可乘6公里；64公里以上每1元可乘8公里。",
+      "note": "CSV 的“最高票价”不作为政策封顶；超出线网里程只作票制测算，不表示线路可达。 已列票档之后每 8 公里加1元，续程取自本行规则及阶梯跨度。",
+      "audit": {
+        "status": "csv",
+        "label": "按原表数据",
+        "note": "计价依据为目录内 CSV；来源说明按用户要求统一，不代表本次逐项完成官网复核。"
+      },
+      "sources": [
+        {
+          "type": "从发改委或地铁公司官网获取",
+          "title": "从发改委或地铁公司官网获取",
+          "url": "https://wzfgw.wenzhou.gov.cn/art/2018/12/17/art_1229125960_590033.html",
+          "checkedOn": "2026-10-07",
+          "access": "已读取原始CSV第36行；未重新访问网页",
+          "excerpt": "起步2元可乘4公里；4–28公里每1元可乘4公里；28–64公里每1元可乘6公里；64公里以上每1元可乘8公里。",
+          "sha256": "66686617dc30ac1142ca9d42ca6f9d72cc9dcbe58145a21c7b19ea828666300a",
+          "snapshot": "input/地铁票价对比.csv",
+          "row": 36
+        }
+      ],
+      "original": {
+        "row": 36,
+        "listedTiers": [
+          {
+            "fare": 2,
+            "upTo": 4
+          },
+          {
+            "fare": 3,
+            "upTo": 8
+          },
+          {
+            "fare": 4,
+            "upTo": 12
+          },
+          {
+            "fare": 5,
+            "upTo": 16
+          },
+          {
+            "fare": 6,
+            "upTo": 20
+          },
+          {
+            "fare": 7,
+            "upTo": 24
+          },
+          {
+            "fare": 8,
+            "upTo": 28
+          },
+          {
+            "fare": 9,
+            "upTo": 34
+          },
+          {
+            "fare": 10,
+            "upTo": 40
+          }
+        ],
+        "networkMaxFare": 15,
+        "policyCap": "",
+        "maxFareDistance": 80,
+        "maxStepKm": 8,
+        "effective": "2018 年批复，2024-2026 未见调整",
+        "confidence": "high"
+      }
+    },
+    {
+      "id": "city-36",
+      "name": "徐州",
+      "region": "华东",
+      "pricing": "distance",
+      "tiers": [
+        {
+          "fare": 2,
+          "upTo": 6
+        },
+        {
+          "fare": 3,
+          "upTo": 12
+        },
+        {
+          "fare": 4,
+          "upTo": 18
+        },
+        {
+          "fare": 5,
+          "upTo": 26
+        },
+        {
+          "fare": 6,
+          "upTo": 34
+        },
+        {
+          "fare": 7,
+          "upTo": 44
+        },
+        {
+          "fare": 8,
+          "upTo": 59
+        }
+      ],
+      "stepKm": 20,
+      "scope": "递进跨度逐级放大至 20 公里，属递减最明显的阶梯之一。",
+      "rule": "起步2元可乘6公里；6–18公里每1元乘6公里；18–34公里每1元乘8公里；34–44公里每1元乘10公里；44–59公里每1元乘15公里；59公里以上每1元乘20公里。",
+      "note": "CSV 的“最高票价”不作为政策封顶；超出线网里程只作票制测算，不表示线路可达。 已列票档之后每 20 公里加1元，续程取自本行规则及阶梯跨度。",
+      "audit": {
+        "status": "csv",
+        "label": "按原表数据",
+        "note": "计价依据为目录内 CSV；来源说明按用户要求统一，不代表本次逐项完成官网复核。"
+      },
+      "sources": [
+        {
+          "type": "从发改委或地铁公司官网获取",
+          "title": "从发改委或地铁公司官网获取",
+          "url": "https://xzdtyy.xzdtjt.com/article/42/pwgz/3861.html",
+          "checkedOn": "2026-10-07",
+          "access": "已读取原始CSV第37行；未重新访问网页",
+          "excerpt": "起步2元可乘6公里；6–18公里每1元乘6公里；18–34公里每1元乘8公里；34–44公里每1元乘10公里；44–59公里每1元乘15公里；59公里以上每1元乘20公里。",
+          "sha256": "66686617dc30ac1142ca9d42ca6f9d72cc9dcbe58145a21c7b19ea828666300a",
+          "snapshot": "input/地铁票价对比.csv",
+          "row": 37
+        }
+      ],
+      "original": {
+        "row": 37,
+        "listedTiers": [
+          {
+            "fare": 2,
+            "upTo": 6
+          },
+          {
+            "fare": 3,
+            "upTo": 12
+          },
+          {
+            "fare": 4,
+            "upTo": 18
+          },
+          {
+            "fare": 5,
+            "upTo": 26
+          },
+          {
+            "fare": 6,
+            "upTo": 34
+          }
+        ],
+        "networkMaxFare": 6,
+        "policyCap": "",
+        "maxFareDistance": 34,
+        "maxStepKm": 8,
+        "effective": "2022 年（徐发改规〔2022〕1号）",
+        "confidence": "high"
+      }
+    },
+    {
+      "id": "city-37",
+      "name": "常州",
+      "region": "华东",
+      "pricing": "distance",
+      "tiers": [
+        {
+          "fare": 2,
+          "upTo": 5
+        },
+        {
+          "fare": 3,
+          "upTo": 10
+        },
+        {
+          "fare": 4,
+          "upTo": 15
+        },
+        {
+          "fare": 5,
+          "upTo": 22
+        },
+        {
+          "fare": 6,
+          "upTo": 29
+        },
+        {
+          "fare": 7,
+          "upTo": 38
+        }
+      ],
+      "stepKm": 9,
+      "scope": "与公交有换乘优惠，但票价体系独立。",
+      "rule": "起步2元可乘5公里；晋级里程5、5、7、7、9公里；29公里以上每9公里加1元。",
+      "note": "CSV 的“最高票价”不作为政策封顶；超出线网里程只作票制测算，不表示线路可达。 已列票档之后每 9 公里加1元，续程取自本行规则及阶梯跨度。",
+      "audit": {
+        "status": "csv",
+        "label": "按原表数据",
+        "note": "计价依据为目录内 CSV；来源说明按用户要求统一，不代表本次逐项完成官网复核。"
+      },
+      "sources": [
+        {
+          "type": "从发改委或地铁公司官网获取",
+          "title": "从发改委或地铁公司官网获取",
+          "url": "https://www.changzhou.gov.cn/ns_news/494176837581243",
+          "checkedOn": "2026-10-07",
+          "access": "已读取原始CSV第38行；未重新访问网页",
+          "excerpt": "起步2元可乘5公里；晋级里程5、5、7、7、9公里；29公里以上每9公里加1元。",
+          "sha256": "66686617dc30ac1142ca9d42ca6f9d72cc9dcbe58145a21c7b19ea828666300a",
+          "snapshot": "input/地铁票价对比.csv",
+          "row": 38
+        }
+      ],
+      "original": {
+        "row": 38,
+        "listedTiers": [
+          {
+            "fare": 2,
+            "upTo": 5
+          },
+          {
+            "fare": 3,
+            "upTo": 10
+          },
+          {
+            "fare": 4,
+            "upTo": 15
+          },
+          {
+            "fare": 5,
+            "upTo": 22
+          },
+          {
+            "fare": 6,
+            "upTo": 29
+          },
+          {
+            "fare": 7,
+            "upTo": 38
+          }
+        ],
+        "networkMaxFare": 7,
+        "policyCap": "",
+        "maxFareDistance": 38,
+        "maxStepKm": 9,
+        "effective": "2019 年票制，2024-2026 未见调整",
+        "confidence": "high"
+      }
+    },
+    {
+      "id": "city-38",
+      "name": "南通",
+      "region": "华东",
+      "pricing": "distance",
+      "tiers": [
+        {
+          "fare": 2,
+          "upTo": 6
+        },
+        {
+          "fare": 3,
+          "upTo": 11
+        },
+        {
+          "fare": 4,
+          "upTo": 16
+        },
+        {
+          "fare": 5,
+          "upTo": 23
+        },
+        {
+          "fare": 6,
+          "upTo": 30
+        },
+        {
+          "fare": 7,
+          "upTo": 45
+        }
+      ],
+      "stepKm": 20,
+      "scope": "线网最高单程票价 7 元；本表 8 元及以上档位不适用。",
+      "rule": "起步2元可乘6公里；6–16公里每5公里加1元；16–30公里每7公里加1元；30–45公里每15公里加1元；45公里以上每20公里加1元。",
+      "note": "CSV 的“最高票价”不作为政策封顶；超出线网里程只作票制测算，不表示线路可达。 已列票档之后每 20 公里加1元，续程取自本行规则及阶梯跨度。",
+      "audit": {
+        "status": "csv",
+        "label": "按原表数据",
+        "note": "计价依据为目录内 CSV；来源说明按用户要求统一，不代表本次逐项完成官网复核。"
+      },
+      "sources": [
+        {
+          "type": "从发改委或地铁公司官网获取",
+          "title": "从发改委或地铁公司官网获取",
+          "url": "https://service.ntrailway.com/#/Ticketingrules",
+          "checkedOn": "2026-10-07",
+          "access": "已读取原始CSV第39行；未重新访问网页",
+          "excerpt": "起步2元可乘6公里；6–16公里每5公里加1元；16–30公里每7公里加1元；30–45公里每15公里加1元；45公里以上每20公里加1元。",
+          "sha256": "66686617dc30ac1142ca9d42ca6f9d72cc9dcbe58145a21c7b19ea828666300a",
+          "snapshot": "input/地铁票价对比.csv",
+          "row": 39
+        }
+      ],
+      "original": {
+        "row": 39,
+        "listedTiers": [
+          {
+            "fare": 2,
+            "upTo": 6
+          },
+          {
+            "fare": 3,
+            "upTo": 11
+          },
+          {
+            "fare": 4,
+            "upTo": 16
+          },
+          {
+            "fare": 5,
+            "upTo": 23
+          },
+          {
+            "fare": 6,
+            "upTo": 30
+          },
+          {
+            "fare": 7,
+            "upTo": 45
+          }
+        ],
+        "networkMaxFare": 7,
+        "policyCap": "",
+        "maxFareDistance": 45,
+        "maxStepKm": 15,
+        "effective": "2023-08-16 批复（1、2号线开通）",
+        "confidence": "high"
+      }
+    },
+    {
+      "id": "city-39",
+      "name": "呼和浩特",
+      "region": "华北",
+      "pricing": "distance",
+      "tiers": [
+        {
+          "fare": 2,
+          "upTo": 5
+        },
+        {
+          "fare": 3,
+          "upTo": 10
+        },
+        {
+          "fare": 4,
+          "upTo": 15
+        },
+        {
+          "fare": 5,
+          "upTo": 21
+        },
+        {
+          "fare": 6,
+          "upTo": 28
+        },
+        {
+          "fare": 7,
+          "upTo": 38
+        }
+      ],
+      "stepKm": 10,
+      "scope": "票价规则自 2019 年生效，2025 年发改委官网再次公示沿用。与公交非同价体系。",
+      "rule": "0–5公里2元；5–10公里3元；10–15公里4元；15–21公里5元；21–28公里6元；28公里以上每10公里加1元。",
+      "note": "CSV 的“最高票价”不作为政策封顶；超出线网里程只作票制测算，不表示线路可达。 已列票档之后每 10 公里加1元，续程取自本行规则及阶梯跨度。",
+      "audit": {
+        "status": "csv",
+        "label": "按原表数据",
+        "note": "计价依据为目录内 CSV；来源说明按用户要求统一，不代表本次逐项完成官网复核。"
+      },
+      "sources": [
+        {
+          "type": "从发改委或地铁公司官网获取",
+          "title": "从发改委或地铁公司官网获取",
+          "url": "https://www.hhhtmetro.com/hsdt/toBmfw?menuid=149062",
+          "checkedOn": "2026-10-07",
+          "access": "已读取原始CSV第40行；未重新访问网页",
+          "excerpt": "0–5公里2元；5–10公里3元；10–15公里4元；15–21公里5元；21–28公里6元；28公里以上每10公里加1元。",
+          "sha256": "66686617dc30ac1142ca9d42ca6f9d72cc9dcbe58145a21c7b19ea828666300a",
+          "snapshot": "input/地铁票价对比.csv",
+          "row": 40
+        }
+      ],
+      "original": {
+        "row": 40,
+        "listedTiers": [
+          {
+            "fare": 2,
+            "upTo": 5
+          },
+          {
+            "fare": 3,
+            "upTo": 10
+          },
+          {
+            "fare": 4,
+            "upTo": 15
+          },
+          {
+            "fare": 5,
+            "upTo": 21
+          },
+          {
+            "fare": 6,
+            "upTo": 28
+          },
+          {
+            "fare": 7,
+            "upTo": 38
+          }
+        ],
+        "networkMaxFare": 7,
+        "policyCap": "",
+        "maxFareDistance": 38,
+        "maxStepKm": 10,
+        "effective": "2019 年起（呼城轨发〔2019〕63号）",
+        "confidence": "high"
+      }
+    },
+    {
+      "id": "city-40",
+      "name": "洛阳",
+      "region": "华中",
+      "pricing": "distance",
+      "tiers": [
+        {
+          "fare": 2,
+          "upTo": 6
+        },
+        {
+          "fare": 3,
+          "upTo": 14
+        },
+        {
+          "fare": 4,
+          "upTo": 22
+        },
+        {
+          "fare": 5,
+          "upTo": 31
+        }
+      ],
+      "stepKm": 9,
+      "scope": "线网最高单程票价 5 元；本表 6 元及以上档位不适用。",
+      "rule": "起步2元可乘6公里；6–14公里3元；14–22公里4元；22公里以上每递增9公里加1元。",
+      "note": "CSV 的“最高票价”不作为政策封顶；超出线网里程只作票制测算，不表示线路可达。 已列票档之后每 9 公里加1元，续程取自本行规则及阶梯跨度。",
+      "audit": {
+        "status": "csv",
+        "label": "按原表数据",
+        "note": "计价依据为目录内 CSV；来源说明按用户要求统一，不代表本次逐项完成官网复核。"
+      },
+      "sources": [
+        {
+          "type": "从发改委或地铁公司官网获取",
+          "title": "从发改委或地铁公司官网获取",
+          "url": "https://www.lysubway.com.cn/Search/detail/2604",
+          "checkedOn": "2026-10-07",
+          "access": "已读取原始CSV第41行；未重新访问网页",
+          "excerpt": "起步2元可乘6公里；6–14公里3元；14–22公里4元；22公里以上每递增9公里加1元。",
+          "sha256": "66686617dc30ac1142ca9d42ca6f9d72cc9dcbe58145a21c7b19ea828666300a",
+          "snapshot": "input/地铁票价对比.csv",
+          "row": 41
+        }
+      ],
+      "original": {
+        "row": 41,
+        "listedTiers": [
+          {
+            "fare": 2,
+            "upTo": 6
+          },
+          {
+            "fare": 3,
+            "upTo": 14
+          },
+          {
+            "fare": 4,
+            "upTo": 22
+          },
+          {
+            "fare": 5,
+            "upTo": 31
+          }
+        ],
+        "networkMaxFare": 5,
+        "policyCap": "",
+        "maxFareDistance": 31,
+        "maxStepKm": 9,
+        "effective": "2021 年起（洛发改〔2021〕1号）",
+        "confidence": "high"
+      }
+    },
+    {
+      "id": "city-41",
+      "name": "绍兴",
+      "region": "华东",
+      "pricing": "distance",
+      "tiers": [
+        {
+          "fare": 2,
+          "upTo": 4
+        },
+        {
+          "fare": 3,
+          "upTo": 8
+        },
+        {
+          "fare": 4,
+          "upTo": 12
+        },
+        {
+          "fare": 5,
+          "upTo": 18
+        },
+        {
+          "fare": 6,
+          "upTo": 24
+        },
+        {
+          "fare": 7,
+          "upTo": 32
+        },
+        {
+          "fare": 8,
+          "upTo": 40
+        }
+      ],
+      "stepKm": 8,
+      "scope": "与杭州地铁采用联网分段计价，跨市在姑娘桥站由系统后台结账后重新计费。",
+      "rule": "起步2元可乘4公里；4–12公里每1元乘4公里；12–24公里每1元乘6公里；24公里以上每1元乘8公里。",
+      "note": "CSV 的“最高票价”不作为政策封顶；超出线网里程只作票制测算，不表示线路可达。 已列票档之后每 8 公里加1元，续程取自本行规则及阶梯跨度。",
+      "audit": {
+        "status": "csv",
+        "label": "按原表数据",
+        "note": "计价依据为目录内 CSV；来源说明按用户要求统一，不代表本次逐项完成官网复核。"
+      },
+      "sources": [
+        {
+          "type": "从发改委或地铁公司官网获取",
+          "title": "从发改委或地铁公司官网获取",
+          "url": "https://fgw.sx.gov.cn/art/2021/6/17/art_1478708_58919461.html",
+          "checkedOn": "2026-10-07",
+          "access": "已读取原始CSV第42行；未重新访问网页",
+          "excerpt": "起步2元可乘4公里；4–12公里每1元乘4公里；12–24公里每1元乘6公里；24公里以上每1元乘8公里。",
+          "sha256": "66686617dc30ac1142ca9d42ca6f9d72cc9dcbe58145a21c7b19ea828666300a",
+          "snapshot": "input/地铁票价对比.csv",
+          "row": 42
+        }
+      ],
+      "original": {
+        "row": 42,
+        "listedTiers": [
+          {
+            "fare": 2,
+            "upTo": 4
+          },
+          {
+            "fare": 3,
+            "upTo": 8
+          },
+          {
+            "fare": 4,
+            "upTo": 12
+          },
+          {
+            "fare": 5,
+            "upTo": 18
+          },
+          {
+            "fare": 6,
+            "upTo": 24
+          },
+          {
+            "fare": 7,
+            "upTo": 32
+          },
+          {
+            "fare": 8,
+            "upTo": 40
+          }
+        ],
+        "networkMaxFare": 8,
+        "policyCap": "",
+        "maxFareDistance": 40,
+        "maxStepKm": 8,
+        "effective": "2021 年起（绍市发改价〔2021〕4号），2023年2号线沿用",
+        "confidence": "high"
+      }
+    },
+    {
+      "id": "city-42",
+      "name": "东莞",
+      "region": "华南",
+      "pricing": "distance",
+      "tiers": [
+        {
+          "fare": 2,
+          "upTo": 4
+        },
+        {
+          "fare": 3,
+          "upTo": 8
+        },
+        {
+          "fare": 4,
+          "upTo": 12
+        },
+        {
+          "fare": 5,
+          "upTo": 18
+        },
+        {
+          "fare": 6,
+          "upTo": 24
+        },
+        {
+          "fare": 7,
+          "upTo": 32
+        },
+        {
+          "fare": 8,
+          "upTo": 40
+        }
+      ],
+      "stepKm": 8,
+      "scope": "2025-02 市发改局问政回复确认 1、2 号线同规则。",
+      "rule": "起步2元可乘4公里；4–12公里每递增4公里加1元；12–24公里每递增6公里加1元；24公里以上每递增8公里加1元。",
+      "note": "CSV 的“最高票价”不作为政策封顶；超出线网里程只作票制测算，不表示线路可达。 已列票档之后每 8 公里加1元，续程取自本行规则及阶梯跨度。",
+      "audit": {
+        "status": "csv",
+        "label": "按原表数据",
+        "note": "计价依据为目录内 CSV；来源说明按用户要求统一，不代表本次逐项完成官网复核。"
+      },
+      "sources": [
+        {
+          "type": "从发改委或地铁公司官网获取",
+          "title": "从发改委或地铁公司官网获取",
+          "url": "https://www.dg.gov.cn/12345/201801/page/notice/noticeDetailList.html?noticeId=202305491",
+          "checkedOn": "2026-10-07",
+          "access": "已读取原始CSV第43行；未重新访问网页",
+          "excerpt": "起步2元可乘4公里；4–12公里每递增4公里加1元；12–24公里每递增6公里加1元；24公里以上每递增8公里加1元。",
+          "sha256": "66686617dc30ac1142ca9d42ca6f9d72cc9dcbe58145a21c7b19ea828666300a",
+          "snapshot": "input/地铁票价对比.csv",
+          "row": 43
+        }
+      ],
+      "original": {
+        "row": 43,
+        "listedTiers": [
+          {
+            "fare": 2,
+            "upTo": 4
+          },
+          {
+            "fare": 3,
+            "upTo": 8
+          },
+          {
+            "fare": 4,
+            "upTo": 12
+          },
+          {
+            "fare": 5,
+            "upTo": 18
+          },
+          {
+            "fare": 6,
+            "upTo": 24
+          },
+          {
+            "fare": 7,
+            "upTo": 32
+          },
+          {
+            "fare": 8,
+            "upTo": 40
+          }
+        ],
+        "networkMaxFare": 8,
+        "policyCap": "",
+        "maxFareDistance": 40,
+        "maxStepKm": 8,
+        "effective": "2016-01-01 起（东发改〔2015〕597号）",
+        "confidence": "high"
+      }
+    },
+    {
+      "id": "city-43",
+      "name": "芜湖",
+      "region": "华东",
+      "pricing": "distance",
+      "tiers": [
+        {
+          "fare": 2,
+          "upTo": 8
+        },
+        {
+          "fare": 3,
+          "upTo": 14
+        },
+        {
+          "fare": 4,
+          "upTo": 21
+        },
+        {
+          "fare": 5,
+          "upTo": 29
+        },
+        {
+          "fare": 6,
+          "upTo": 38
+        }
+      ],
+      "stepKm": 9,
+      "scope": "跨座式单轨制式，起步里程 8 公里（与合肥并列最长）。",
+      "rule": "起步2元可乘8公里；此后每增加1元的晋级里程为6、7、8、9、9公里；38公里以上每9公里加1元。",
+      "note": "CSV 的“最高票价”不作为政策封顶；超出线网里程只作票制测算，不表示线路可达。 已列票档之后每 9 公里加1元，续程取自本行规则及阶梯跨度。",
+      "audit": {
+        "status": "csv",
+        "label": "按原表数据",
+        "note": "计价依据为目录内 CSV；来源说明按用户要求统一，不代表本次逐项完成官网复核。"
+      },
+      "sources": [
+        {
+          "type": "从发改委或地铁公司官网获取",
+          "title": "从发改委或地铁公司官网获取",
+          "url": "https://www.wuhurailtransit.com/cczn/info.aspx?itemid=293",
+          "checkedOn": "2026-10-07",
+          "access": "已读取原始CSV第44行；未重新访问网页",
+          "excerpt": "起步2元可乘8公里；此后每增加1元的晋级里程为6、7、8、9、9公里；38公里以上每9公里加1元。",
+          "sha256": "66686617dc30ac1142ca9d42ca6f9d72cc9dcbe58145a21c7b19ea828666300a",
+          "snapshot": "input/地铁票价对比.csv",
+          "row": 44
+        }
+      ],
+      "original": {
+        "row": 44,
+        "listedTiers": [
+          {
+            "fare": 2,
+            "upTo": 8
+          },
+          {
+            "fare": 3,
+            "upTo": 14
+          },
+          {
+            "fare": 4,
+            "upTo": 21
+          },
+          {
+            "fare": 5,
+            "upTo": 29
+          },
+          {
+            "fare": 6,
+            "upTo": 38
+          }
+        ],
+        "networkMaxFare": 6,
+        "policyCap": "",
+        "maxFareDistance": 38,
+        "maxStepKm": 9,
+        "effective": "2021-09 批复，有效期五年（至2026-09）",
+        "confidence": "high"
+      }
+    },
+    {
+      "id": "city-44",
+      "name": "金华",
+      "region": "华东",
+      "pricing": "distance",
+      "tiers": [
+        {
+          "fare": 2,
+          "upTo": 8
+        },
+        {
+          "fare": 3,
+          "upTo": 12
+        },
+        {
+          "fare": 4,
+          "upTo": 16
+        },
+        {
+          "fare": 5,
+          "upTo": 20
+        },
+        {
+          "fare": 6,
+          "upTo": 24
+        },
+        {
+          "fare": 7,
+          "upTo": 28
+        },
+        {
+          "fare": 8,
+          "upTo": 34
+        },
+        {
+          "fare": 9,
+          "upTo": 40
+        },
+        {
+          "fare": 10,
+          "upTo": 46
+        },
+        {
+          "fare": 11,
+          "upTo": 52
+        },
+        {
+          "fare": 12,
+          "upTo": 58
+        },
+        {
+          "fare": 13,
+          "upTo": 64
+        }
+      ],
+      "stepKm": 8,
+      "scope": "市域铁路制式，起步里程长（8公里）但后续递进平缓。",
+      "rule": "起步2元可乘8公里；8–28公里每1元乘4公里；28–64公里每1元乘6公里；64公里以上每1元乘8公里。",
+      "note": "CSV 的“最高票价”不作为政策封顶；超出线网里程只作票制测算，不表示线路可达。 已列票档之后每 8 公里加1元，续程取自本行规则及阶梯跨度。",
+      "audit": {
+        "status": "csv",
+        "label": "按原表数据",
+        "note": "计价依据为目录内 CSV；来源说明按用户要求统一，不代表本次逐项完成官网复核。"
+      },
+      "sources": [
+        {
+          "type": "从发改委或地铁公司官网获取",
+          "title": "从发改委或地铁公司官网获取",
+          "url": "http://fgw.jinhua.gov.cn/art/2022/1/4/art_1229169629_1771792.html",
+          "checkedOn": "2026-10-07",
+          "access": "已读取原始CSV第45行；未重新访问网页",
+          "excerpt": "起步2元可乘8公里；8–28公里每1元乘4公里；28–64公里每1元乘6公里；64公里以上每1元乘8公里。",
+          "sha256": "66686617dc30ac1142ca9d42ca6f9d72cc9dcbe58145a21c7b19ea828666300a",
+          "snapshot": "input/地铁票价对比.csv",
+          "row": 45
+        }
+      ],
+      "original": {
+        "row": 45,
+        "listedTiers": [
+          {
+            "fare": 2,
+            "upTo": 8
+          },
+          {
+            "fare": 3,
+            "upTo": 12
+          },
+          {
+            "fare": 4,
+            "upTo": 16
+          },
+          {
+            "fare": 5,
+            "upTo": 20
+          },
+          {
+            "fare": 6,
+            "upTo": 24
+          },
+          {
+            "fare": 7,
+            "upTo": 28
+          },
+          {
+            "fare": 8,
+            "upTo": 34
+          },
+          {
+            "fare": 9,
+            "upTo": 40
+          },
+          {
+            "fare": 10,
+            "upTo": 46
+          }
+        ],
+        "networkMaxFare": 16,
+        "policyCap": "",
+        "maxFareDistance": 94,
+        "maxStepKm": 8,
+        "effective": "2022 年（金发改价格〔2022〕1号）",
+        "confidence": "high"
+      }
+    },
+    {
+      "id": "city-45",
+      "name": "台州",
+      "region": "华东",
+      "pricing": "distance",
+      "tiers": [
+        {
+          "fare": 2,
+          "upTo": 8
+        },
+        {
+          "fare": 3,
+          "upTo": 12
+        },
+        {
+          "fare": 4,
+          "upTo": 16
+        },
+        {
+          "fare": 5,
+          "upTo": 20
+        },
+        {
+          "fare": 6,
+          "upTo": 24
+        },
+        {
+          "fare": 7,
+          "upTo": 28
+        },
+        {
+          "fare": 8,
+          "upTo": 34
+        },
+        {
+          "fare": 9,
+          "upTo": 40
+        },
+        {
+          "fare": 10,
+          "upTo": 46
+        },
+        {
+          "fare": 11,
+          "upTo": 52
+        },
+        {
+          "fare": 12,
+          "upTo": 58
+        },
+        {
+          "fare": 13,
+          "upTo": 64
+        }
+      ],
+      "stepKm": 8,
+      "scope": "市域铁路制式，运价结构与金华金义东线一致。",
+      "rule": "起步2元可乘8公里；8–28公里每1元乘4公里；28–64公里每1元乘6公里；64公里以上每1元乘8公里。",
+      "note": "CSV 的“最高票价”不作为政策封顶；超出线网里程只作票制测算，不表示线路可达。 已列票档之后每 8 公里加1元，续程取自本行规则及阶梯跨度。",
+      "audit": {
+        "status": "csv",
+        "label": "按原表数据",
+        "note": "计价依据为目录内 CSV；来源说明按用户要求统一，不代表本次逐项完成官网复核。"
+      },
+      "sources": [
+        {
+          "type": "从发改委或地铁公司官网获取",
+          "title": "从发改委或地铁公司官网获取",
+          "url": "https://tz.zjol.com.cn/tzxw/202212/t20221209_25165901.shtml",
+          "checkedOn": "2026-10-07",
+          "access": "已读取原始CSV第46行；未重新访问网页",
+          "excerpt": "起步2元可乘8公里；8–28公里每1元乘4公里；28–64公里每1元乘6公里；64公里以上每1元乘8公里。",
+          "sha256": "66686617dc30ac1142ca9d42ca6f9d72cc9dcbe58145a21c7b19ea828666300a",
+          "snapshot": "input/地铁票价对比.csv",
+          "row": 46
+        }
+      ],
+      "original": {
+        "row": 46,
+        "listedTiers": [
+          {
+            "fare": 2,
+            "upTo": 8
+          },
+          {
+            "fare": 3,
+            "upTo": 12
+          },
+          {
+            "fare": 4,
+            "upTo": 16
+          },
+          {
+            "fare": 5,
+            "upTo": 20
+          },
+          {
+            "fare": 6,
+            "upTo": 24
+          },
+          {
+            "fare": 7,
+            "upTo": 28
+          },
+          {
+            "fare": 8,
+            "upTo": 34
+          },
+          {
+            "fare": 9,
+            "upTo": 40
+          },
+          {
+            "fare": 10,
+            "upTo": 46
+          }
+        ],
+        "networkMaxFare": 11,
+        "policyCap": "",
+        "maxFareDistance": 54,
+        "maxStepKm": 8,
+        "effective": "2022-12-08 批复（随S1线开通执行）",
+        "confidence": "high"
+      }
+    }
+  ]
+}

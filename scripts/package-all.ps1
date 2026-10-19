@@ -3,8 +3,7 @@
   一键打包 Windows exe + Android APK。
 
 .DESCRIPTION
-  按顺序跑数据管线（build.py）→ 桌面端 → 安卓端，产物落 release/。
-  与 FxxkBox 的 package-all.ps1 同构，但去掉了授权/反逆向环节。
+  生成离线查询页，再按选择编译桌面端和安卓端，产物放在 release。
 
 .EXAMPLE
   powershell -ExecutionPolicy Bypass -File scripts\package-all.ps1
@@ -25,9 +24,9 @@ Set-Location $root
 
 function Step($text) { Write-Host "`n=== $text ===" -ForegroundColor Cyan }
 
-Step '数据管线 build.py（生成 HTML / CSV / XLSX）'
-& 'D:\Program Files\Python314\python.exe' build.py
-if ($LASTEXITCODE -ne 0) { throw "build.py 失败（退出码 $LASTEXITCODE）" }
+Step '生成离线票价查询页'
+& node scripts/web.mjs
+if ($LASTEXITCODE -ne 0) { throw "网页构建失败（退出码 $LASTEXITCODE）" }
 
 if ($DesktopOnly) { $SkipAndroid = $true }
 
